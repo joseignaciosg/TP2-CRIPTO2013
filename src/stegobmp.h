@@ -24,7 +24,7 @@ int lsb1_extract_decrypt(const FILE* in, const char* base_filename, const char* 
 
 
 /* Write a sequence of bytes into a file using lsb1 */
-int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out);
+int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset);
 
 int lsb4_write_bytes();
 
@@ -42,6 +42,8 @@ int lsbe_read_bytes(const struct bmp_type* in, void* in);
 int check_image_size(const int requested_size, const struct bmp_type* img);
 
 int check_compression(const struct bmp_type* img);
+
+int check_version(const struct bmp_type* img);
 
 #endif
 

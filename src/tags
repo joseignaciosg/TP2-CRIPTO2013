@@ -1,0 +1,62 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AES_128	crypt.h	/^    AES_128,$/;"	e	enum:encrypt_type
+AES_192	crypt.h	/^    AES_192,$/;"	e	enum:encrypt_type
+AES_256	crypt.h	/^    AES_256,$/;"	e	enum:encrypt_type
+BIT	stegobmp.c	8;"	d	file:
+BMP_TYPE_H_INCLUDED	bmp.h	2;"	d
+CBC	crypt.h	/^    CBC$/;"	e	enum:encrypt_blk_type
+CFB	crypt.h	/^    CFB,$/;"	e	enum:encrypt_blk_type
+CFLAGS	Makefile	/^CFLAGS= -W -Wall -pedantic$/;"	m
+COMPRESSED_ERR	stegobmp.c	11;"	d	file:
+CRYPT_H_INCLUDED	crypt.h	2;"	d
+DES	crypt.h	/^    DES$/;"	e	enum:encrypt_type
+ECB	crypt.h	/^    ECB,$/;"	e	enum:encrypt_blk_type
+EXEC	Makefile	/^EXEC=stegobmp$/;"	m
+OBJS	Makefile	/^OBJS=$(SRCS:.c=.o)$/;"	m
+OFB	crypt.h	/^    OFB,$/;"	e	enum:encrypt_blk_type
+SRCS	Makefile	/^SRCS=$(wildcard *.c)$/;"	m
+STEGOBMP_H_INCLUDED	stegobmp.h	2;"	d
+TOO_SMALL_ERR	stegobmp.c	12;"	d	file:
+WRONG_VERSION_ERR	stegobmp.c	10;"	d	file:
+bmp_checking	stegobmp.c	/^static int bmp_checking(const int required_size, const struct bmp_type* img)$/;"	f	file:	signature:(const int required_size, const struct bmp_type* img)
+bmp_type	bmp.h	/^typedef struct bmp_type$/;"	s
+bmp_type::compressed	bmp.h	/^    short compressed;$/;"	m	struct:bmp_type	access:public
+bmp_type::matrix	bmp.h	/^    uint8_t[] matrix;$/;"	m	struct:bmp_type	access:public
+bmp_type::usable_size	bmp.h	/^    short usable_size;$/;"	m	struct:bmp_type	access:public
+bmp_type::version	bmp.h	/^    short version;$/;"	m	struct:bmp_type	access:public
+check_compression	stegobmp.h	/^int check_compression(const struct bmp_type* img);$/;"	p	signature:(const struct bmp_type* img)
+check_image_size	stegobmp.h	/^int check_image_size(const int requested_size, const struct bmp_type* img);$/;"	p	signature:(const int requested_size, const struct bmp_type* img)
+check_version	stegobmp.h	/^int check_version(const struct bmp_type* img);$/;"	p	signature:(const struct bmp_type* img)
+compressed	bmp.h	/^    short compressed;$/;"	m	struct:bmp_type	access:public
+encrypt_blk_type	crypt.h	/^enum encrypt_blk_type$/;"	g
+encrypt_type	crypt.h	/^enum encrypt_type$/;"	g
+get_file_size	stegobmp.c	/^static int get_file_size(const FILE* file)$/;"	f	file:	signature:(const FILE* file)
+load_img_header	bmp.h	/^int load_img_header(FILE* in, bmp_type* img);$/;"	p	signature:(FILE* in, bmp_type* img)
+load_img_matrix	bmp.h	/^int load_img_matrix(FILE* in, bmp_type* img);$/;"	p	signature:(FILE* in, bmp_type* img)
+lsb1_embed	stegobmp.c	/^int lsb1_embed(const FILE* image, const FILE* in, FILE* out)$/;"	f	signature:(const FILE* image, const FILE* in, FILE* out)
+lsb1_embed	stegobmp.h	/^int lsb1_embed(const FILE* image, const FILE* in, FILE* out);$/;"	p	signature:(const FILE* image, const FILE* in, FILE* out)
+lsb1_embed_crypt	stegobmp.h	/^int lsb1_embed_crypt(const FILE* image, const FILE* in, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);$/;"	p	signature:(const FILE* image, const FILE* in, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+lsb1_extract	stegobmp.h	/^int lsb1_extract(const FILE* in, const char* base_filename);$/;"	p	signature:(const FILE* in, const char* base_filename)
+lsb1_extract_decrypt	stegobmp.h	/^int lsb1_extract_decrypt(const FILE* in, const char* base_filename, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);$/;"	p	signature:(const FILE* in, const char* base_filename, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+lsb1_read_bytes	stegobmp.h	/^int lsb1_read_bytes(const struct bmp_type* in, void* in);$/;"	p	signature:(const struct bmp_type* in, void* in)
+lsb1_write_bytes	stegobmp.c	/^int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset)$/;"	f	signature:(const void* in, const int size, struct bmp_type* out, int start_offset)
+lsb1_write_bytes	stegobmp.h	/^int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset);$/;"	p	signature:(const void* in, const int size, struct bmp_type* out, int start_offset)
+lsb4_embed	stegobmp.h	/^int lsb4_embed();$/;"	p	signature:()
+lsb4_embed_crypt	stegobmp.h	/^int lsb4_embed_crypt();$/;"	p	signature:()
+lsb4_extract	stegobmp.h	/^int lsb4_extract(const FILE* in, const char* base_filename);$/;"	p	signature:(const FILE* in, const char* base_filename)
+lsb4_read_bytes	stegobmp.h	/^int lsb4_read_bytes(const struct bmp_type* in, void* in);$/;"	p	signature:(const struct bmp_type* in, void* in)
+lsb4_write_bytes	stegobmp.c	/^int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset)$/;"	f	signature:(const void* in, const int size, struct bmp_type* out, int start_offset)
+lsb4_write_bytes	stegobmp.h	/^int lsb4_write_bytes();$/;"	p	signature:()
+lsbe_embed	stegobmp.h	/^int lsbe_embed();$/;"	p	signature:()
+lsbe_embed_crypt	stegobmp.h	/^int lsbe_embed_crypt();$/;"	p	signature:()
+lsbe_extract	stegobmp.h	/^int lsbe_extract(const FILE* in, const char* base_filename);$/;"	p	signature:(const FILE* in, const char* base_filename)
+lsbe_read_bytes	stegobmp.h	/^int lsbe_read_bytes(const struct bmp_type* in, void* in);$/;"	p	signature:(const struct bmp_type* in, void* in)
+lsbe_write_bytes	stegobmp.h	/^int lsbe_write_bytes();$/;"	p	signature:()
+matrix	bmp.h	/^    uint8_t[] matrix;$/;"	m	struct:bmp_type	access:public
+usable_size	bmp.h	/^    short usable_size;$/;"	m	struct:bmp_type	access:public
+version	bmp.h	/^    short version;$/;"	m	struct:bmp_type	access:public
