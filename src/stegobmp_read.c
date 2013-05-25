@@ -6,6 +6,39 @@
 #include "util.h"
 
 
+
+
+/*********************************************************************************/
+/*              LSB Generic                  */
+/*********************************************************************************/
+// static int lsbX_extract(FILE* image, const char* extension, FILE* secret_msg, required_size_calculator_type calc, lsbX_reading_bytes_function_type reader_delegate)
+// {
+//     struct bmp_type img;
+//     uint8_t buffer[BUFFER_SIZE];
+//     int offset = 0;
+//     size_t read_size;
+//     int in_file_size;
+
+//     load_img_header(image, &img);
+
+//     img.matrix = (uint8_t*) malloc(sizeof(img.usable_size));
+//     load_img_matrix(image, &img);
+
+//     (writer_delegate)(&in_file_size, sizeof(int), &img, &offset);
+
+//     while ((read_size = fread(buffer, sizeof(uint8_t), BUFFER_SIZE, in)) > 0)
+//     (writer_delegate)(buffer, read_size, &img, &offset);
+
+//     /* writing the extension, including the \0 at the end (so strlen(extension) + 1 byte for \0) */
+//     (reader_delegate)(extension, strlen(extension)+1, &img, &offset);
+
+//     /* write to FILE* out */
+
+//     free(img.matrix);
+//     return 0;
+// }
+
+
 /*********************************************************************************/
 /*              LSB1                         */
 /*********************************************************************************/
