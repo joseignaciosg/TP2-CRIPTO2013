@@ -95,14 +95,14 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
 
     for (i=0 ; i<size ; i++)
     {
-	for(j=0 ; j<8 ; j++)
-	{
-	    if (BIT(to_be_written[i],j))
-		out->matrix[*start_offset] |= (uint8_t) 1;
-	    else
-		out->matrix[*start_offset] &= (uint8_t) ~1;
-	    (*start_offset)++;
-	}
+    	for(j=0 ; j<8 ; j++)
+    	{
+    	    if (BIT(to_be_written[i],j))
+    		out->matrix[*start_offset] |= (uint8_t) 1;
+    	    else
+    		out->matrix[*start_offset] &= (uint8_t) ~1;
+    	    (*start_offset)++;
+    	}
     }
 
     return 0;
@@ -123,6 +123,7 @@ int lsb4_required_size_calculator(int raw_file_size, const char* extension)
     return raw_file_size*2 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
 }
 
+
 int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int* start_offset)
 {
     int i,j,k;
@@ -130,17 +131,18 @@ int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
 
     for (i=0 ; i<size ; i++)
     {
-	for(j=0 ; j<2 ; j++)
-	{
-	    for (k=0 ; k<4 ; k++)
-	    {
-		if (BIT(to_be_written[i],j*4+k))
-		    out->matrix[*start_offset] |= (uint8_t) (1 << (k));
-		else
-		    out->matrix[*start_offset] &= (uint8_t) ~(1 << (k));
-	    }
-	    (*start_offset)++;
-	}
+    	for(j=0 ; j<2 ; j++)
+    	{
+    	    for (k=0 ; k<4 ; k++)
+    	    {
+    		if (BIT(to_be_written[i],j*4+k))
+    		    out->matrix[*start_offset] |= (uint8_t) (1 << (k));
+    		else
+    		    out->matrix[*start_offset] &= (uint8_t) ~(1 << (k));
+    	    }
+
+    	    (*start_offset)++;
+    	}
     }
 
     return 0;

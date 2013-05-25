@@ -52,11 +52,19 @@ int lsb4_required_size_calculator(int raw_file_size, const char* extension);
 int lsbe_required_size_calculator(int raw_file_size, const char* extension);
 
 /* Read a sequence of bytes from a file */
+<<<<<<< HEAD
+int lsb1_read_bytes(const struct bmp_type* in, void* out);
+
+int lsb4_read_bytes(const struct bmp_type* in, void* out);
+
+int lsbe_read_bytes(const struct bmp_type* in, void* out);
+=======
 int lsb1_read_bytes(const struct bmp_type* in, void* buffer);
 
 int lsb4_read_bytes(const struct bmp_type* in, void* buffer);
 
 int lsbe_read_bytes(const struct bmp_type* in, void* buffer);
+>>>>>>> 9a74f0b6faa177faf923d492dad9e93e7df737a7
 
 /* Verification functions */
 int check_image_size(const int requested_size, const struct bmp_type* img);
