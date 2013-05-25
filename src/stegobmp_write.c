@@ -8,6 +8,7 @@
 
 typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
 typedef int (required_size_calculator_type)(int raw_file_size, const char* extension);
+typedef int (maximum_size_calculator_type)(int raw_file_size, const char* extension);
 
 /*********************************************************************************/
 /*				    HELPERS					 */
@@ -22,19 +23,17 @@ static int get_file_size(FILE* file)
     return size;
 }
 
-static int bmp_checking(const int required_size, const struct bmp_type* img)
+static int bmp_checking(const struct bmp_type* img, const int required_size, const int max_size)
 {
-    int size;
-
     if (!check_version(img))
     {
 	fprintf(stderr,"Wrong BMP version (stegobmp only supports BMPv3\n");
 	return WRONG_VERSION_ERR;
     }
 
-    if ((size = check_image_size(required_size,img)) != 0)
+    if (required_size < max_size)
     {
-	fprintf(stderr,"The chosen image is too small to contain the message (maximum size usable with this image: %i)\n",size);
+	fprintf(stderr,"The chosen image is too small to contain the message (maximum size usable with this image: %i)\n",max_size);
 	return TOO_SMALL_ERR;
     }
 
@@ -51,7 +50,7 @@ static int bmp_checking(const int required_size, const struct bmp_type* img)
 /*********************************************************************************/
 /*				LSB Generic					 */
 /*********************************************************************************/
-static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, required_size_calculator_type *calc, lsbX_writing_bytes_function_type *writer_delegate)
+static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, required_size_calculator_type *actual_size_calc, maximum_size_calculator_type *max_size_calc, lsbX_writing_bytes_function_type *writer_delegate)
 {
     struct bmp_type img;
     uint8_t buffer[BUFFER_SIZE];
@@ -62,7 +61,7 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, r
     load_img_header(image, &img);
     
     in_file_size = get_file_size(in);
-    if (!bmp_checking((*calc)(in_file_size,extension),&img))
+    if (!bmp_checking(&img,(*actual_size_calc)(in_file_size,extension),(*max_size_calc)(img.usable_size,extension)))
 	return -1;
 
     img.matrix = (uint8_t*) malloc(sizeof(img.usable_size));
@@ -86,6 +85,11 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, r
 /*********************************************************************************/
 /*				LSB1						 */
 /*********************************************************************************/
+int lsb1_maximum_size_calculator(int raw_file_size, const char* extension)
+{
+    return (raw_file_size - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 8;
+}
+
 int lsb1_required_size_calculator(int raw_file_size, const char* extension)
 {
     return raw_file_size*8 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
@@ -113,7 +117,7 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
 
 int lsb1_embed(FILE* image, FILE* in, const char* extension, FILE* out)
 {
-    return lsbX_embed(image, in, extension, out, lsb1_required_size_calculator, lsb1_write_bytes);
+    return lsbX_embed(image, in, extension, out, lsb1_required_size_calculator, lsb1_maximum_size_calculator, lsb1_write_bytes);
 }
 
 
@@ -121,6 +125,11 @@ int lsb1_embed(FILE* image, FILE* in, const char* extension, FILE* out)
 /*********************************************************************************/
 /*				LSB4						 */
 /*********************************************************************************/
+int lsb4_maximum_size_calculator(int raw_file_size, const char* extension)
+{
+    return (raw_file_size - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 2;
+}
+
 int lsb4_required_size_calculator(int raw_file_size, const char* extension)
 {
     return raw_file_size*2 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
@@ -153,7 +162,7 @@ int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
 
 int lsb4_embed(FILE* image, FILE* in, const char* extension, FILE* out)
 {
-    return lsbX_embed(image, in, extension, out, lsb4_required_size_calculator, lsb4_write_bytes);
+    return lsbX_embed(image, in, extension, out, lsb4_required_size_calculator, lsb4_maximum_size_calculator, lsb4_write_bytes);
 }
 
 
