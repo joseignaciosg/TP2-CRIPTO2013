@@ -15,9 +15,10 @@ typedef int (required_size_calculator_type)(int raw_file_size, const char* exten
 static int get_file_size(FILE* file)
 {
     int size;
+    int current_position = ftell(file);
     fseek(file, 0, SEEK_END);
     size = ftell(file);
-    rewind(file);
+    fseek(file, current_position, SEEK_SET);
     return size;
 }
 
