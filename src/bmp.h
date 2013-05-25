@@ -5,10 +5,10 @@
 
 struct bmp_type
 {
-    short compressed;
-    short version;
-    short usable_size;
-    uint8_t* matrix;
+    uint32_t compressed; /* at 0x001e */
+    uint32_t version;    /* check for magic header and header size */
+    uint32_t usable_size; /* at 0x0022 */
+    uint8_t* matrix;  /* from [0x000a] */
 };
 
 

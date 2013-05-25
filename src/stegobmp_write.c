@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include "bmp.h"
 #include "stegobmp.h"
+#include "stegobmp_write.h"
 
-typedef int (*lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
-typedef int (*required_size_calculator_type)(int raw_file_size, const char* extension);
+typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
+typedef int (required_size_calculator_type)(int raw_file_size, const char* extension);
 
 /*********************************************************************************/
 /*				    HELPERS					 */
@@ -13,9 +15,10 @@ typedef int (*required_size_calculator_type)(int raw_file_size, const char* exte
 static int get_file_size(FILE* file)
 {
     int size;
+    int current_position = ftell(file);
     fseek(file, 0, SEEK_END);
     size = ftell(file);
-    rewind(file);
+    fseek(file, current_position, SEEK_SET);
     return size;
 }
 
@@ -48,7 +51,7 @@ static int bmp_checking(const int required_size, const struct bmp_type* img)
 /*********************************************************************************/
 /*				LSB Generic					 */
 /*********************************************************************************/
-static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, required_size_calculator_type calc, lsbX_writing_bytes_function_type writer_delegate)
+static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, required_size_calculator_type *calc, lsbX_writing_bytes_function_type *writer_delegate)
 {
     struct bmp_type img;
     uint8_t buffer[BUFFER_SIZE];
@@ -59,19 +62,19 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, r
     load_img_header(image, &img);
     
     in_file_size = get_file_size(in);
-    if (!bmp_checking((calc)(in_file_size,extension),&img))
+    if (!bmp_checking((*calc)(in_file_size,extension),&img))
 	return -1;
 
     img.matrix = (uint8_t*) malloc(sizeof(img.usable_size));
     load_img_matrix(image, &img);
 
-    (writer_delegate)(&in_file_size, sizeof(int), &img, &offset);
+    (*writer_delegate)(&in_file_size, sizeof(int), &img, &offset);
 
     while ((read_size = fread(buffer, sizeof(uint8_t), BUFFER_SIZE, in)) > 0)
-	(writer_delegate)(buffer, read_size, &img, &offset);
+	(*writer_delegate)(buffer, read_size, &img, &offset);
 
     /* writing the extension, including the \0 at the end (so strlen(extension) + 1 byte for \0) */
-    (writer_delegate)(extension, strlen(extension)+1, &img, &offset);
+    (*writer_delegate)(extension, strlen(extension)+1, &img, &offset);
 
     /* write to FILE* out */
 
