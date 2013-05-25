@@ -1,6 +1,7 @@
 #ifndef BMP_TYPE_H_INCLUDED
 #define BMP_TYPE_H_INCLUDED
 
+#include <stdio.h>
 #include <stdint.h>
 
 struct bmp_type

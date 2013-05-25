@@ -7,7 +7,8 @@
 
 const char *get_filename_ext(const char *filename) {
     const char *dot = strrchr(filename, '.');
-    if(!dot || dot == filename) return "";
+    if (!dot || dot == filename) 
+	return (filename + strlen(filename)); /* return a pointer to the \0 */
     return dot + 1;
 }
 
