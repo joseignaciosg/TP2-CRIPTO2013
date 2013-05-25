@@ -9,7 +9,7 @@ enum encrypt_type
     DES
 };
 
-enum encrypt_blk_type
+enum encrypt_block_type
 {
     ECB,
     CFB,

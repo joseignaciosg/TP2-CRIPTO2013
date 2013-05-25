@@ -4,15 +4,6 @@
 #include <file.h>
 #include "stegobmp.h"
 
-/* extract the n-th bit from number x */
-#define BIT(x,n) ((x >> n) & 0x01)
-
-#define BUFFER_SIZE 256
-
-#define WRONG_VERSION_ERR -1
-#define COMPRESSED_ERR -2
-#define TOO_SMALL_ERR -3
-
 static int get_file_size(const FILE* file)
 {
     int size;
@@ -46,21 +37,20 @@ static int bmp_checking(const int required_size, const struct bmp_type* img)
 }
 
 
-int lsb1_embed(const FILE* image, const FILE* in, FILE* out)
+int lsb1_embed(const FILE* image, const FILE* in, const char* extension, FILE* out)
 {
     struct bmp_type img;
     uint8_t buffer[BUFFER_SIZE];
-    int offset = 4;
+    int offset = SIZE_MARKER_LENGTH;
     load_img_header(image, &img);
     
     int in_file_size = get_file_size(&in);
-    if (!bmp_checking(in_file_size,&img))
+    if (!bmp_checking(in_file_size*8 + SIZE_MARKER_LENGTH + strlen(extension) + 1,&img))
 	return -1;
 
     img.matrix = (uint8_t) malloc(sizeof(img.usable_size));
     load_img_matrix(image, &img);
 
-    /* cool stuff */
     lsb1_write_bytes(&in_file_size, sizeof(int), &img, 0);
 
     while (size_t read_size = fread(buffer, sizeof(uint8_t), BUFFER_SIZE, in))
@@ -68,7 +58,9 @@ int lsb1_embed(const FILE* image, const FILE* in, FILE* out)
 	lsb1_write_bytes(buffer, read_size, &img, offset);
 	offset += read_size;
     }
-    /* escribir extensión */
+
+    /* writing the extension, including the \0 at the end (so strlen(extension) + 1 byte for \0) */
+    lsb1_write_bytes(extension, strlen(extension)+1, &img, offset);
 
     free(img.matrix);
     return 0;
@@ -77,39 +69,43 @@ int lsb1_embed(const FILE* image, const FILE* in, FILE* out)
 int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset)
 {
     int i,j;
+    uint8_t* to_be_written = (uint8_t*) in;
 
     for (i=0 ; i<size ; i++)
     {
 	for(j=0 ; j<8 ; j++)
 	{
-	    if (BIT(in[i],j))
-		out[start_offset] |= (uint_8) 1;
+	    if (BIT(to_be_written[i],j))
+		out->matrix[start_offset] |= (uint8_t) 1;
 	    else
-		out[start_offset] &= (uint_8) ~1;
+		out->matrix[start_offset] &= (uint8_t) ~1;
 	    start_offset++;
 	}
     }
-}
 
+    return 0;
+}
 
 int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset)
 {
     int i,j,k;
-    int index_out=0;
+    uint8_t* to_be_written = (uint8_t*) in;
 
     for (i=0 ; i<size ; i++)
     {
-	for(j=0 ; j<8 ; j++)
+	for(j=0 ; j<2 ; j++)
 	{
 	    for (k=0 ; k<4 ; k++)
 	    {
-		if (BIT(in[i],j))
-		    out[index_out] |= (uint_8) (1 << k);
+		if (BIT(to_be_written[i],j*4+k))
+		    out->matrix[start_offset] |= (uint8_t) (1 << (k));
 		else
-		    out[index_out] &= (uint_8) ~(1 << k);
+		    out->matrix[start_offset] &= (uint8_t) ~(1 << (k));
 	    }
-	    index_out++;
+	    start_offset++;
 	}
     }
+
+    return 0;
 }
 
