@@ -80,25 +80,22 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int s
 
     for (i=0 ; i<size ; i++)
     {
-	for(j=0 ; j<8 ; j++)
-	{
-	    if (BIT(in[i],j))
-		out[start_offset] |= (uint_8) 1;
-	    else
-		out[start_offset] &= (uint_8) ~1;
-	    start_offset++;
-	}
+		for(j=0 ; j<8 ; j++)
+		{
+		    if (BIT(in[i],j))
+				out[index_out] |= (uint_8) 1;
+		    else
+				out[index_out] &= (uint_8) ~1;
+		    index_out++;
+		}
     }
 }
 
 
-int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int start_offset)
-{
-    int i,j,k;
-    int index_out=0;
 
-    for (i=0 ; i<size ; i++)
-    {
+int lsb1_read_bytes(const struct bmp_type* in, void* out, int start_offset)
+{	
+	int i,j;
 	for(j=0 ; j<8 ; j++)
 	{
 	    for (k=0 ; k<4 ; k++)
@@ -109,7 +106,6 @@ int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int s
 		    out[index_out] &= (uint_8) ~(1 << k);
 	    }
 	    index_out++;
-	}
     }
 }
 

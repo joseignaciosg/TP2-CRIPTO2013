@@ -32,11 +32,11 @@ int lsbe_write_bytes();
 
 
 /* Read a sequence of bytes from a file */
-int lsb1_read_bytes(const struct bmp_type* in, void* in);
+int lsb1_read_bytes(const struct bmp_type* in, void* out);
 
-int lsb4_read_bytes(const struct bmp_type* in, void* in);
+int lsb4_read_bytes(const struct bmp_type* in, void* out);
 
-int lsbe_read_bytes(const struct bmp_type* in, void* in);
+int lsbe_read_bytes(const struct bmp_type* in, void* out);
 
 /* Verification functions */
 int check_image_size(const int requested_size, const struct bmp_type* img);
