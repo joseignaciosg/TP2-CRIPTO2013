@@ -1,5 +1,5 @@
-#ifndef STEGOBMP_WRITE_H_INCLUDED
-#define STEGOBMP_WRITE_H_INCLUDED
+#ifndef STEGOBMP_READ_H_INCLUDED
+#define STEGOBMP_READ_H_INCLUDED
 
 #include "crypt.h"
 #include "bmp.h"
