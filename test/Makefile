@@ -1,9 +1,12 @@
-CFLAGS=-W -Wall -pedantic
+CFLAGS=-W -Wall -pedantic -Wextra
 
-TEST_EXEC=testbmp test
+all: testbmp test testutil
 
-testbmp: testbmp.o ../src/bmp.o
+testbmp: testbmp.o ../src/bmp.o ../src/stegobmp_write.o ../src/util.o
 
+test: test.o ../src/stegobmp_write.o ../src/bmp.o ../src/util.o
+
+testutil: testutil.c ../src/util.o
 
 .PHONY: clean mr-proper
 

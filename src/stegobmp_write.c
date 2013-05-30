@@ -5,6 +5,7 @@
 #include "bmp.h"
 #include "stegobmp.h"
 #include "stegobmp_write.h"
+#include "util.h"
 
 typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
 typedef int (required_size_calculator_type)(int raw_file_size, const char* extension);
@@ -13,16 +14,6 @@ typedef int (maximum_size_calculator_type)(int raw_file_size, const char* extens
 /*********************************************************************************/
 /*				    HELPERS					 */
 /*********************************************************************************/
-static int get_file_size(FILE* file)
-{
-    int size;
-    int current_position = ftell(file);
-    fseek(file, 0, SEEK_END);
-    size = ftell(file);
-    fseek(file, current_position, SEEK_SET);
-    return size;
-}
-
 static int bmp_checking(const struct bmp_type* img, const int required_size, const int max_size)
 {
     if (!check_version(img))
@@ -76,6 +67,8 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, r
     (*writer_delegate)(extension, strlen(extension)+1, &img, &offset);
 
     /* write to FILE* out */
+    write_img(image, &img);
+
 
     free(img.matrix);
     return 0;
@@ -99,18 +92,21 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
 {
     int i,j;
     uint8_t* to_be_written = (uint8_t*) in;
+    int offset = start_offset ? *start_offset : 0;
 
     for (i=0 ; i<size ; i++)
     {
     	for(j=0 ; j<8 ; j++)
     	{
     	    if (BIT(to_be_written[i],j))
-    		out->matrix[*start_offset] |= (uint8_t) 1;
+    		out->matrix[offset] |= (uint8_t) 1;
     	    else
-    		out->matrix[*start_offset] &= (uint8_t) ~1;
-    	    (*start_offset)++;
+    		out->matrix[offset] &= (uint8_t) ~1;
+    	    offset++;
     	}
     }
+    if (start_offset)
+	*start_offset = offset;
 
     return 0;
 }
