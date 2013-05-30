@@ -13,7 +13,7 @@ int load_img_header(FILE* in, struct bmp_type* img)
     uint32_t header_size;
     
     rewind(in);
-    if (fread(&(img->header), sizeof(uint8_t), BMP_FILE_HEADER_SIZE, in) != BMP_FILE_HEADER_SIZE) {
+    if (fread(img->header, sizeof(uint8_t), BMP_FILE_HEADER_SIZE, in) != BMP_FILE_HEADER_SIZE) {
 	perror("IO error when retrieving the header");
 	return -1;
     }
@@ -55,8 +55,11 @@ int load_img_matrix(FILE* in, struct bmp_type* img)
 
 int write_img(FILE* out, struct bmp_type* img)
 {
+    /* not really useful but, well... let's do it defensively, right? */
+    ftruncate(fileno(out),BMP_FILE_HEADER_SIZE+img->usable_size);
+    rewind(out);
+
     /* we've got the header, we've got the pixels matrix, pretty easy, uh? */
-    
     if (fwrite(img->header,sizeof(uint8_t),BMP_FILE_HEADER_SIZE,out) != BMP_FILE_HEADER_SIZE)
 	return -1;
     if (fwrite(img->matrix,sizeof(uint8_t),img->usable_size,out) != img->usable_size)

@@ -22,7 +22,7 @@ static int bmp_checking(const struct bmp_type* img, const int required_size, con
 	return WRONG_VERSION_ERR;
     }
 
-    if (required_size < max_size)
+    if (required_size > max_size)
     {
 	fprintf(stderr,"The chosen image is too small to contain the message (maximum size usable with this image: %i)\n",max_size);
 	return TOO_SMALL_ERR;
@@ -52,23 +52,20 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, r
     load_img_header(image, &img);
     
     in_file_size = get_file_size(in);
-    if (!bmp_checking(&img,(*actual_size_calc)(in_file_size,extension),(*max_size_calc)(img.usable_size,extension)))
+    if (bmp_checking(&img,(*actual_size_calc)(in_file_size,extension),(*max_size_calc)(img.usable_size,extension)) != 0)
 	return -1;
 
-    img.matrix = (uint8_t*) malloc(sizeof(img.usable_size));
+    img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
     load_img_matrix(image, &img);
 
     (*writer_delegate)(&in_file_size, sizeof(int), &img, &offset);
-
     while ((read_size = fread(buffer, sizeof(uint8_t), BUFFER_SIZE, in)) > 0)
 	(*writer_delegate)(buffer, read_size, &img, &offset);
-
     /* writing the extension, including the \0 at the end (so strlen(extension) + 1 byte for \0) */
     (*writer_delegate)(extension, strlen(extension)+1, &img, &offset);
 
     /* write to FILE* out */
-    write_img(image, &img);
-
+    write_img(out, &img);
 
     free(img.matrix);
     return 0;
@@ -94,6 +91,7 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
     uint8_t* to_be_written = (uint8_t*) in;
     int offset = start_offset ? *start_offset : 0;
 
+    printf("offset: %i\n",offset);
     for (i=0 ; i<size ; i++)
     {
     	for(j=0 ; j<8 ; j++)

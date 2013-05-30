@@ -3,7 +3,29 @@
 #include "../src/bmp.h"
 #include "../src/stegobmp_write.h"
 
+int testsimplewrite();
+void testcompletewrite();
+
 int main(void)
+{
+    testcompletewrite();
+    return 0;
+}
+
+void testcompletewrite()
+{
+    FILE* img = fopen("test.bmp","r");
+    FILE* out = fopen("test2.bmp","w");
+    FILE* in = fopen("test.txt","r");
+
+    lsb1_embed(img,in,".txt",out);
+
+    fclose(in);
+    fclose(out);
+    fclose(img);
+}
+
+int testsimplewrite()
 {
     struct bmp_type img;
     FILE* in = fopen("test.bmp","r");

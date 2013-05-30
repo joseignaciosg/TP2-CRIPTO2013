@@ -10,9 +10,9 @@
 #define BUFFER_SIZE 256
 #define SIZE_MARKER_LENGTH sizeof(int)
 
-#define WRONG_VERSION_ERR -1
-#define COMPRESSED_ERR -2
-#define TOO_SMALL_ERR -3
+#define WRONG_VERSION_ERR 1
+#define COMPRESSED_ERR 2
+#define TOO_SMALL_ERR 3
 
 #endif
 
