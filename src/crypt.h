@@ -3,6 +3,8 @@
 
 #define SALT_LENGTH 8
 #define ITER_NB 21
+#define OP_DECRYPT 0
+#define OP_CRYPT 1
 
 enum encrypt_type
 {
@@ -23,5 +25,6 @@ enum encrypt_block_type
 
 int crypt(const unsigned char* in, const int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, int* encrypted_size);
 
+int decrypt(const unsigned char* in, const int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, int* encrypted_size);
 #endif
 

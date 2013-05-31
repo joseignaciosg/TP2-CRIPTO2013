@@ -1,8 +1,11 @@
 CFLAGS=-W -Wall -pedantic -Wextra
+LDFLAGS=-lssl
 
 all: testbmp test testutil
 
 testbmp: testbmp.o ../src/bmp.o ../src/stegobmp_write.o ../src/util.o
+
+testcrypt: testcrypt.o ../src/crypt.o
 
 test: test.o ../src/stegobmp_write.o ../src/bmp.o ../src/util.o
 
