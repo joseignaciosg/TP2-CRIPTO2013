@@ -4,6 +4,7 @@
 #include <error.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include "bmp.h"
 #include "stegobmp_write.h"
 

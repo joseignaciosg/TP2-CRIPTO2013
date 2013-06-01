@@ -6,6 +6,7 @@
 #include <fcntl.h>
 
 #include "../src/stegobmp_write.h"
+#include "../src/crypt.h"
 
 
 int main(void)
@@ -36,7 +37,7 @@ int main(void)
     FILE* in = fopen("1","rb");
     FILE* out = fopen("out.bmp","wb");
 
-    lsb1_embed(img, in, ".txt",out);
+    lsb1_crypt_embed(img, in, ".txt",out,"passwd",AES_128,CBC);
 
     fclose(img);
     fclose(in);

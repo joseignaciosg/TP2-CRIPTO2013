@@ -97,7 +97,10 @@ static int crypt_decrypt(const unsigned char* in, const int in_length, const uns
     return 0;
 }
 
-
+int get_block_size_for_cipher(enum encrypt_type enc, enum encrypt_block_type blk)
+{
+    return EVP_CIPHER_block_size(derive_cipher(enc, blk));
+}
 
 int decrypt(const unsigned char* in, const int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, int* out_length)
 {

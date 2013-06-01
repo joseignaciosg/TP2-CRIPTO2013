@@ -7,13 +7,13 @@
 
 /* Embed a file into .bmp image using LSB1 */
 int lsb1_embed(FILE* image, FILE* in, const char* extension, FILE* out);
-int lsb1_embed_crypt(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+int lsb1_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
 
 int lsb4_embed(FILE* image, FILE* in, const char* extension, FILE* out);
-int lsb4_embed_crypt(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+int lsb4_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
 
 int lsbe_embed(FILE* image, FILE* in, const char* extension, FILE* out);
-int lsbe_embed_crypt(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+int lsbe_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
 
 
 /* Write a sequence of bytes into a file using lsb1 */
