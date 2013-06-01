@@ -9,13 +9,13 @@
 #include "stegobmp_write.h"
 
 typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
-typedef int (size_calculator_type)(int raw_file_size, const char* extension);
-typedef int (size_calculator_crypt_type)(int raw_file_size, int block_size, const char* extension);
+typedef unsigned int (size_calculator_type)(int raw_file_size, const char* extension);
+typedef unsigned int (size_calculator_crypt_type)(int raw_file_size, int block_size, const char* extension);
 
 /*********************************************************************************/
 /*				    HELPERS					 */
 /*********************************************************************************/
-static int bmp_checking(const struct bmp_type* img, const int required_size, const int max_size)
+static int bmp_checking(const struct bmp_type* img, const unsigned int required_size, const unsigned int max_size)
 {
     if (!check_version(img))
     {
@@ -23,9 +23,9 @@ static int bmp_checking(const struct bmp_type* img, const int required_size, con
 	return WRONG_VERSION_ERR;
     }
 
-    if (required_size > max_size)
+    if (required_size > img->usable_size)
     {
-	fprintf(stderr,"The chosen image is too small to contain the message (maximum size usable with this image: %i)\n",max_size);
+	fprintf(stderr,"The chosen image is too small to contain the message (maximum file size usable with this image: %i bytes)\n",max_size);
 	return TOO_SMALL_ERR;
     }
 
@@ -102,8 +102,6 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
     out_buf = malloc(sizeof(char)*required_size);
     crypt((unsigned char*) in_buf, in_file_size, (unsigned char*) passwd, enc, blk, (unsigned char*) out_buf, &out_length);
 
-    printf("out length: %i\n",out_length);
-
     (*writer_delegate)(&out_length, sizeof(int), &img, &offset);
     (*writer_delegate)(out_buf, sizeof(char), &img, &offset);
 
@@ -119,24 +117,24 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
 /*********************************************************************************/
 /*				LSB1						 */
 /*********************************************************************************/
-int lsb1_maximum_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb1_maximum_size_calculator(int raw_file_size, const char* extension)
 {
     return (raw_file_size - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 8;
 }
 
-int lsb1_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb1_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension)
 {
-    return (((raw_file_size - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 8) % block_size) * block_size;
+    return (((raw_file_size - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 8) / block_size) * block_size;
 }
 
-int lsb1_required_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb1_required_size_calculator(int raw_file_size, const char* extension)
 {
     return raw_file_size*8 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
 }
 
-int lsb1_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb1_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension)
 {
-    return ((raw_file_size*8 + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) % block_size + 1) * block_size;
+    return ((raw_file_size*8 + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) / block_size + 1) * block_size;
 }
 
 int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* start_offset)
@@ -145,7 +143,6 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
     uint8_t* to_be_written = (uint8_t*) in;
     int offset = start_offset ? *start_offset : 0;
 
-    printf("offset: %i\n",offset);
     for (i=0 ; i<size ; i++)
     {
     	for(j=0 ; j<8 ; j++)
@@ -179,24 +176,24 @@ int lsb1_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out,
 /*********************************************************************************/
 /*				LSB4						 */
 /*********************************************************************************/
-int lsb4_maximum_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb4_maximum_size_calculator(int raw_file_size, const char* extension)
 {
     return (raw_file_size - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 2;
 }
 
-int lsb4_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb4_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension)
 {
-    return (((raw_file_size - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 2) % block_size) * block_size;
+    return (((raw_file_size - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 2) / block_size) * block_size;
 }
 
-int lsb4_required_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb4_required_size_calculator(int raw_file_size, const char* extension)
 {
     return raw_file_size*2 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
 }
 
-int lsb4_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb4_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension)
 {
-    return ((raw_file_size*2 + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) % block_size + 1) * block_size;
+    return ((raw_file_size*2 + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) / block_size + 1) * block_size;
 }
 
 

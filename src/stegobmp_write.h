@@ -25,17 +25,21 @@ int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, int *
 
 
 /* Calculate the maximum length that can be embedded in a file */
-int lsb1_maximum_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb1_maximum_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb1_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension);
 
-int lsb4_maximum_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb4_maximum_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb4_maximum_size_calculator(int raw_file_size, const char* extension);
 
 int lsbe_maximum_size_calculator(int raw_file_size, const char* extension);
 
 
 /* Calculate the number of bytes required to embed a file of given size */
-int lsb1_required_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb1_required_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb1_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension);
 
-int lsb4_required_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb4_required_size_calculator(int raw_file_size, const char* extension);
+unsigned int lsb4_required_size_calculator(int raw_file_size, const char* extension);
 
 int lsbe_required_size_calculator(int raw_file_size, const char* extension);
 
