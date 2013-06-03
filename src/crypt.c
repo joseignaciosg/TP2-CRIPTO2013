@@ -62,7 +62,7 @@ static int init_key_iv_salt(unsigned char* k, unsigned char* iv, unsigned char* 
     return !EVP_BytesToKey(cipher, EVP_sha1(), salt, passwd, strlen((char*)passwd), ITER_NB, k, iv);
 }
 
-static int crypt_decrypt(const unsigned char* in, const int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, int* encrypted_size, int mode)
+static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* encrypted_size, int mode)
 {
     unsigned char* k;
     unsigned char* iv;
@@ -102,12 +102,12 @@ int get_block_size_for_cipher(enum encrypt_type enc, enum encrypt_block_type blk
     return EVP_CIPHER_block_size(derive_cipher(enc, blk));
 }
 
-int decrypt(const unsigned char* in, const int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, int* out_length)
+int decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* out_length)
 {
     return crypt_decrypt(in, in_length, passwd, enc, blk, out, out_length, 0);
 }
 	
-int crypt(const unsigned char* in, const int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, int* encrypted_size)
+int crypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* encrypted_size)
 {
     return crypt_decrypt(in, in_length, passwd, enc, blk, out, encrypted_size, OP_CRYPT);
 }

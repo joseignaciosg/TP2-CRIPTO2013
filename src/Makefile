@@ -1,4 +1,5 @@
 CFLAGS= -W -Wall -pedantic
+LFLAGS=-lssl
 
 SRCS=$(wildcard *.c)
 OBJS=$(SRCS:.c=.o)

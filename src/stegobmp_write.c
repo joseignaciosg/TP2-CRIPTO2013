@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <netinet/in.h>
 #include "bmp.h"
 #include "util.h"
 #include "crypt.h"
@@ -9,8 +10,8 @@
 #include "stegobmp_write.h"
 
 typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
-typedef unsigned int (size_calculator_type)(int raw_file_size, const char* extension);
-typedef unsigned int (size_calculator_crypt_type)(int raw_file_size, int block_size, const char* extension);
+typedef unsigned int (size_calculator_type)(unsigned int raw_file_size, const char* extension);
+typedef unsigned int (size_calculator_crypt_type)(unsigned int raw_file_size, unsigned int block_size, const char* extension);
 
 /*********************************************************************************/
 /*				    HELPERS					 */
@@ -48,7 +49,7 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, s
     uint8_t buffer[BUFFER_SIZE];
     int offset = 0;
     size_t read_size;
-    int in_file_size;
+    uint32_t in_file_size;
 
     load_img_header(image, &img);
     
@@ -59,7 +60,9 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out, s
     img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
     load_img_matrix(image, &img);
 
-    (*writer_delegate)(&in_file_size, sizeof(int), &img, &offset);
+    /* size must be written in big endian order */
+    in_file_size = htonl(in_file_size);
+    (*writer_delegate)(&in_file_size, sizeof(uint32_t), &img, &offset);
     while ((read_size = fread(buffer, sizeof(uint8_t), BUFFER_SIZE, in)) > 0)
 	(*writer_delegate)(buffer, read_size, &img, &offset);
     /* writing the extension, including the \0 at the end (so strlen(extension) + 1 byte for \0) */
@@ -79,8 +82,9 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
 {
     struct bmp_type img;
     int offset = 0;
-    int in_file_size, out_length;
-    int block_size, required_size;
+    uint32_t in_file_size, in_file_size_big_endian;
+    uint32_t out_length, out_length_big_endian;
+    unsigned int block_size, required_size;
     char* in_buf;
     char* out_buf;
 
@@ -96,13 +100,15 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
     load_img_matrix(image, &img);
 
     in_buf = malloc(sizeof(char)*required_size);
-    memcpy(in_buf, &in_file_size, SIZE_MARKER_LENGTH);
+    in_file_size_big_endian = htonl(in_file_size);
+    memcpy(in_buf, &in_file_size_big_endian, SIZE_MARKER_LENGTH);
     fread(in_buf+SIZE_MARKER_LENGTH, sizeof(char), in_file_size, in);
     strcpy(in_buf+SIZE_MARKER_LENGTH+in_file_size, extension);
     out_buf = malloc(sizeof(char)*required_size);
     crypt((unsigned char*) in_buf, in_file_size, (unsigned char*) passwd, enc, blk, (unsigned char*) out_buf, &out_length);
+    out_length_big_endian = htonl(out_length);
 
-    (*writer_delegate)(&out_length, sizeof(int), &img, &offset);
+    (*writer_delegate)(&out_length_big_endian, sizeof(uint32_t), &img, &offset);
     (*writer_delegate)(out_buf, sizeof(char), &img, &offset);
 
     /* write to FILE* out */
@@ -117,22 +123,22 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
 /*********************************************************************************/
 /*				LSB1						 */
 /*********************************************************************************/
-unsigned int lsb1_maximum_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb1_maximum_size_calculator(unsigned int raw_file_size, const char* extension)
 {
     return (raw_file_size - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 8;
 }
 
-unsigned int lsb1_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb1_crypt_maximum_size_calculator(unsigned int raw_file_size, unsigned int block_size, const char* extension)
 {
     return (((raw_file_size - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 8) / block_size) * block_size;
 }
 
-unsigned int lsb1_required_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb1_required_size_calculator(unsigned int raw_file_size, const char* extension)
 {
     return raw_file_size*8 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
 }
 
-unsigned int lsb1_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb1_crypt_required_size_calculator(unsigned int raw_file_size, unsigned int block_size, const char* extension)
 {
     return ((raw_file_size*8 + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) / block_size + 1) * block_size;
 }
@@ -176,22 +182,22 @@ int lsb1_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out,
 /*********************************************************************************/
 /*				LSB4						 */
 /*********************************************************************************/
-unsigned int lsb4_maximum_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb4_maximum_size_calculator(unsigned int raw_file_size, const char* extension)
 {
     return (raw_file_size - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 2;
 }
 
-unsigned int lsb4_crypt_maximum_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb4_crypt_maximum_size_calculator(unsigned int raw_file_size, unsigned int block_size, const char* extension)
 {
     return (((raw_file_size - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 2) / block_size) * block_size;
 }
 
-unsigned int lsb4_required_size_calculator(int raw_file_size, const char* extension)
+unsigned int lsb4_required_size_calculator(unsigned int raw_file_size, const char* extension)
 {
     return raw_file_size*2 + SIZE_MARKER_LENGTH + strlen(extension) + 1;
 }
 
-unsigned int lsb4_crypt_required_size_calculator(int raw_file_size, int block_size, const char* extension)
+unsigned int lsb4_crypt_required_size_calculator(unsigned int raw_file_size, unsigned int block_size, const char* extension)
 {
     return ((raw_file_size*2 + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) / block_size + 1) * block_size;
 }
