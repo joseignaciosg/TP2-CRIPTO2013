@@ -9,7 +9,7 @@
 #include "stegobmp.h"
 #include "stegobmp_write.h"
 
-typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, int *start_offset);
+typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 typedef unsigned int (size_calculator_type)(FILE* f, const char* extension);
 typedef unsigned int (size_calculator_crypt_type)(FILE* f, unsigned int block_size, const char* extension);
 
@@ -36,7 +36,7 @@ static int bmp_checking(const struct bmp_type* img, const unsigned int in_size, 
 
     if (in_size > max_size)
     {
-	fprintf(stderr,"The chosen image is too small to contain the message (maximum file size usable with this image: %i bytes)\n",max_size);
+	fprintf(stderr,"The chosen image is too small to contain the message (of size %i bytes whereas maximum file size usable with this image is %i bytes)\n",in_size,max_size);
 	return TOO_SMALL_ERR;
     }
 
@@ -58,7 +58,7 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out,
 {
     struct bmp_type img;
     uint8_t buffer[BUFFER_SIZE];
-    int offset = 0;
+    unsigned int offset = 0;
     size_t read_size;
     uint32_t in_file_size;
 
@@ -69,7 +69,7 @@ static int lsbX_embed(FILE* image, FILE* in, const char* extension, FILE* out,
     in_file_size = get_file_size(in);
 
     /* checking and image loading */
-    if (bmp_checking(&img, lsbX_packet_size(in_file_size,extension), (*max_size_calc)(image,extension)) != 0)
+    if (bmp_checking(&img, in_file_size, (*max_size_calc)(image,extension)) != 0)
 	return -1;
     img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
     load_img_matrix(image, &img);
@@ -96,7 +96,7 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
 			    const char* passwd, enum encrypt_type enc, enum encrypt_block_type blk)
 {
     struct bmp_type img;
-    int offset = 0;
+    unsigned int offset = 0;
     uint32_t in_file_size, in_file_size_big_endian;
     uint32_t out_length, out_length_big_endian;
     unsigned int block_size, crypt_expected_packet_size, packet_size;
@@ -150,19 +150,19 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
 /*********************************************************************************/
 inline unsigned int lsb1_maximum_size_calculator(FILE* img, const char* extension)
 {
-    return (get_file_size(img) - BMP_FILE_HEADER_SIZE  - SIZE_MARKER_LENGTH - strlen(extension) - 1) / 8;
+    return get_file_size(img)/8 - BMP_FILE_HEADER_SIZE  - SIZE_MARKER_LENGTH - strlen(extension) - 1;
 }
 
 inline unsigned int lsb1_crypt_maximum_size_calculator(FILE* img, unsigned int block_size, const char* extension)
 {
-    return (((get_file_size(img) - BMP_FILE_HEADER_SIZE  - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / 8) / block_size) * block_size;
+    return ((get_file_size(img)/8 - BMP_FILE_HEADER_SIZE  - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / block_size) * block_size;
 }
 
-int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int* start_offset)
+int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
 {
     int i,j;
     uint8_t* to_be_written = (uint8_t*) in;
-    int offset = start_offset ? *start_offset : 0;
+    unsigned int offset = start_offset ? *start_offset : 0;
 
     for (i=0 ; i<size ; i++)
     {
@@ -208,10 +208,11 @@ inline unsigned int lsb4_crypt_maximum_size_calculator(FILE* img, unsigned int b
 }
 
 
-int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int* start_offset)
+int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
 {
     int i,j,k;
     uint8_t* to_be_written = (uint8_t*) in;
+    unsigned int offset = start_offset ? *start_offset : 0;
 
     for (i=0 ; i<size ; i++)
     {
@@ -220,14 +221,16 @@ int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int* 
     	    for (k=0 ; k<4 ; k++)
     	    {
     		if (BIT(to_be_written[i],j*4+k))
-    		    out->matrix[*start_offset] |= (uint8_t) (1 << (k));
+    		    out->matrix[offset] |= (uint8_t) (1 << (k));
     		else
-    		    out->matrix[*start_offset] &= (uint8_t) ~(1 << (k));
+    		    out->matrix[offset] &= (uint8_t) ~(1 << (k));
     	    }
-
-    	    (*start_offset)++;
+    	    offset++;
     	}
     }
+
+    if (start_offset)
+	*start_offset = offset;
 
     return 0;
 }
@@ -261,7 +264,7 @@ unsigned int lsbe_maximum_size_calculator(FILE* img, const char* extension)
 	    usable_bytes++;
     }
 
-    return usable_bytes - SIZE_MARKER_LENGTH - strlen(extension) - 1;
+    return usable_bytes/8 - SIZE_MARKER_LENGTH - strlen(extension) - 1;
 }
 
 inline unsigned int lsbe_crypt_maximum_size_calculator(FILE* img, unsigned int block_size, const char* extension)
@@ -270,5 +273,38 @@ inline unsigned int lsbe_crypt_maximum_size_calculator(FILE* img, unsigned int b
     return ((usable_bytes_stripped - SIZE_MARKER_LENGTH) / block_size) * block_size;
 }
 
+int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
+{
+    int i,j;
+    uint8_t* to_be_written = (uint8_t*) in;
+    unsigned int offset = start_offset ? *start_offset : 0;
 
+    for (i=0 ; i<size ; i++)
+    {
+    	for(j=0 ; j<8 ; j++)
+    	{
+	    if (BIT(to_be_written[i],j))
+		out->matrix[offset] |= (uint8_t) 1;
+	    else
+		out->matrix[offset] &= (uint8_t) ~1;
+    	    offset++;
+    	}
+    }
+    if (start_offset)
+	*start_offset = offset;
 
+    return 0;
+}
+
+int lsbe_embed(FILE* image, FILE* in, const char* extension, FILE* out)
+{
+    return lsbX_embed(image, in, extension, out, lsbe_maximum_size_calculator, lsbe_write_bytes);
+}
+
+int lsbe_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, 
+			    const char* passwd, const enum encrypt_type enc, const enum encrypt_block_type blk) 
+{
+    return lsbX_crypt_embed(image, in, extension, out, 
+	    lsbe_crypt_maximum_size_calculator, lsbe_write_bytes,
+	    passwd, enc, blk);
+}

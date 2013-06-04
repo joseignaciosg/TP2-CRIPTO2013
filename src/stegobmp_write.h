@@ -17,11 +17,11 @@ int lsbe_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, co
 
 
 /* Write a sequence of bytes into a file using lsb1 */
-int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, int *start_offset);
+int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 
-int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, int *start_offset);
+int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 
-int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, int *start_offset);
+int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 
 
 /* Calculate the maximum length that can be embedded in a file */

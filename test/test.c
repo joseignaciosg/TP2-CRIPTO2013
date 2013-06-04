@@ -37,7 +37,7 @@ int main(void)
     FILE* in = fopen("1","rb");
     FILE* out = fopen("out.bmp","wb");
 
-    lsb1_crypt_embed(img, in, ".txt",out,"passwd",AES_128,CBC);
+    lsbe_embed(img, in, ".txt",out); /*,"passwd",AES_128,CBC);*/
 
     fclose(img);
     fclose(in);
