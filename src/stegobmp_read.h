@@ -5,32 +5,50 @@
 #include "bmp.h"
 #include "stegobmp.h"
 
+/* Extract a file from a .bmp image using LSB1 */
+int lsb1_extract(FILE* image, FILE* in, const char* extension, FILE* out);
+/*
+int lsb1_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+
+int lsb4_embed(FILE* image, FILE* in, const char* extension, FILE* out);
+int lsb4_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+
+int lsbe_embed(FILE* image, FILE* in, const char* extension, FILE* out);
+int lsbe_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+*/
+
+/* Read a sequence of bytes from a file using lsb1 */
+int lsb1_read_bytes(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 
 /*
-returns the hidden message in a file
+int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
+
+int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 */
-int extract(const char* bmp_file_name);
 
-/* 
-Extract a file from a .bmp 
+
+/* Calculate the maximum length that can be embedded in a file */
+unsigned int lsb1_maximum_size_calculator(FILE* in, const char* extension);
+/*
+unsigned int lsb1_crypt_maximum_size_calculator(FILE* in, unsigned int block_size, const char* extension);
+
+unsigned int lsb4_maximum_size_calculator(FILE* in, const char* extension);
+unsigned int lsb4_crypt_maximum_size_calculator(FILE* in, unsigned int block_size, const char* extension);
+
+unsigned int lsbe_maximum_size_calculator(FILE* in, const char* extension);
+unsigned int lsbe_crypt_maximum_size_calculator(FILE* in, unsigned int block_size, const char* extension);
 */
-int lsb1_extract(FILE* image, const char* extension, FILE *secret_msg);
 
 
-/*int lsb1_extract_decrypt(FILE* in, const char* base_filename, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+/* Verification functions */
+int check_image_size(const int requested_size, const struct bmp_type* img);
 
-int lsb4_extract(FILE* in, const char* base_filename);
-int lsb4_extract_decrypt(FILE* in, const char* base_filename, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);
+int check_compression(const struct bmp_type* img);
 
-int lsbe_extract(FILE* in, const char* base_filename);
-int lsbe_extract_decrypt(FILE* in, const char* base_filename, const char* passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo);*/
+int check_version(const struct bmp_type* img);
 
-/* Read a sequence of bytes from a file */
-/*int lsb1_read_bytes(const struct bmp_type* in, void* out);
+#endif
 
-int lsb4_read_bytes(const struct bmp_type* in, void* out);
-
-int lsbe_read_bytes(const struct bmp_type* in, void* out);*/
 
 #endif
 

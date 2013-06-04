@@ -1,8 +1,11 @@
 #include "stegobmp.h"
 #include "stegobmp_write.h"
 
-int main(void)
-{
-    return 0;
-}
+
+
+/*parsear los parametros getopt*/
+// int main(void)
+// {
+//     return 0;
+// }
 
