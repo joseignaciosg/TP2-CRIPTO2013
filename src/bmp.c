@@ -70,4 +70,3 @@ int write_img(FILE* out, struct bmp_type* img)
 }
 
 
-
