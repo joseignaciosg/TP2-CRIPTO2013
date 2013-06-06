@@ -9,7 +9,7 @@
 #include "../src/crypt.h"
 
 
-int main(void)
+int main(int argc, char** argv)
 {
 /*     char in = 0x0F;
  *     struct bmp_type out;
@@ -33,7 +33,7 @@ int main(void)
  *     free(out.matrix);                            */
 
 
-    FILE* img = fopen("sherlock4.bmp","rb");
+    FILE* img = fopen(argv[1],"rb");
 /*     FILE* in = fopen("1","rb");
  *     FILE* out = fopen("out.bmp","wb"); */
     FILE* recovered_msg = NULL;
@@ -41,7 +41,7 @@ int main(void)
 /*     lsb1_embed(img, in, ".txt",out); |+,"passwd",AES_128,CBC);+| */
 
 /*     out = freopen("out.bmp","rb",out); */
-    lsb4_extract(img, &recovered_msg, "out");
+    lsb1_extract(img, &recovered_msg, "out");
 
 
     fclose(img);
