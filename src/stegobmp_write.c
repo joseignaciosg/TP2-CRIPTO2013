@@ -125,16 +125,16 @@ static int lsbX_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* 
     /* packet building */
     memcpy(in_buf, &in_file_size_big_endian, SIZE_MARKER_LENGTH);
     fread(in_buf+SIZE_MARKER_LENGTH, sizeof(char), in_file_size, in);
-    strcpy(in_buf+SIZE_MARKER_LENGTH+in_file_size, extension);
+    memcpy(in_buf+SIZE_MARKER_LENGTH+in_file_size, extension, strlen(extension)+1);
     
     /* encryption of packet */
     out_buf = malloc(sizeof(char)*crypt_expected_packet_size);
-    crypt((unsigned char*) in_buf, in_file_size, (unsigned char*) passwd, enc, blk, (unsigned char*) out_buf, &out_length);
+    crypt((unsigned char*) in_buf, packet_size, (unsigned char*) passwd, enc, blk, (unsigned char*) out_buf, &out_length);
     out_length_big_endian = htonl(out_length);
 
     /* bit manipulation on image content */
     (*writer_delegate)(&out_length_big_endian, sizeof(uint32_t), &img, &offset);
-    (*writer_delegate)(out_buf, sizeof(char), &img, &offset);
+    (*writer_delegate)(out_buf, sizeof(char)*out_length, &img, &offset);
 
     /* write to FILE* out */
     write_img(out, &img);

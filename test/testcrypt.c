@@ -21,7 +21,7 @@ int main(void)
     crypt((unsigned char*) in, in_length, (unsigned char*) passwd, enc, blk, (unsigned char*) out, &out_length);
     decrypt((unsigned char*) out, out_length, (unsigned char*) passwd, enc, blk, (unsigned char*) rep, &rep_length);
 
-    printf("rep: %s (%i)\n",rep,rep_length);
+    printf("rep: %s (%i/%i)\n",rep,rep_length,in_length);
 
     return 0;
 }
