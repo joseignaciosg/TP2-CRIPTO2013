@@ -40,7 +40,8 @@ int main(void)
 
     lsb1_embed(img, in, ".txt",out); /*,"passwd",AES_128,CBC);*/
 
-	lsb1_extract(img, recovered_msg);
+    out = freopen("out.bmp","rb",out);
+    lsb1_extract(out, &recovered_msg, "out");
 
 
     fclose(img);

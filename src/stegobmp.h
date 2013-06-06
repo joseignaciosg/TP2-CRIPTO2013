@@ -5,7 +5,7 @@
 #include "bmp.h"
 
 /* extract the n-th bit from number x */
-#define BIT(x,n) (((x) >> (n)) & (0x01))
+#define BIT(x,n) (((x) >> (n)) & 1)
 
 #define BUFFER_SIZE 256
 #define SIZE_MARKER_LENGTH sizeof(int)

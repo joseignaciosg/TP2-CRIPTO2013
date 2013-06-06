@@ -9,44 +9,93 @@
 #include "stegobmp.h"
 #include "stegobmp_read.h"
 
-
-int lsb1_extract(FILE* image, FILE* msg_f)
+int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
-    char* msg;
+    unsigned int i,j;
+    unsigned int offset = start_offset ? *start_offset : 0;
+
+    for(i=0 ; i<size ; i++){
+	for (j=0 ; j<8 ; j++) {
+	    if (BIT(in->matrix[offset],0)) 
+		*(((uint8_t*)out)+i) |= (1 << j);
+	    else
+		*(((uint8_t*)out)+i) &= ~(1 << j);
+	    offset++;
+	}
+    }
+
+    if (start_offset)
+	*start_offset = offset;
+
+    return 0;
+}
+
+unsigned int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+{
+    unsigned int j;
+    unsigned int count = 0;
+    uint8_t test = -1;
+
+    while(test != '\0') {
+	for (j=0 ; j<8 ; j++) {
+	    if (BIT(in->matrix[start_offset],0)) 
+		test |= (1 << j);
+	    else
+		test &= ~(1 << j);
+	    start_offset++;
+	}
+	count++;
+    }
+
+    return count;
+}
+
+
+int lsb1_extract(FILE* image, FILE** msg_f, const char* name)
+{
+    char *msg, *extension;
     struct bmp_type img;
-    unsigned int offset = 0,i=0,size;
-    char hidden;
-    uint32_t msg_size;
+    unsigned int offset = 0;
+    uint32_t msg_size, extension_size;
+    char* filename;
 
     /* header loading */
     load_img_header(image, &img);
-       
+
     /* content loading */
     img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
     load_img_matrix(image, &img);
 
     /*reading size*/
-    for(i=0; i<4*8; i++){
-        hidden = img.matrix[offset];
-        offset++;
-        *(((char*)&msg_size)+i/8) = BIT(hidden,0);
-    }
+    lsb1_read_bytes(&msg_size, sizeof(uint32_t), &img, &offset);
+    msg_size = ntohl(msg_size);
+    printf("size: %i\n",msg_size);
 
     /*reading content*/
-    msg = calloc(msg_size, sizeof(char));
-    for(i=0; i<msg_size*8; i++){
-        hidden = img.matrix[offset];
-        *(msg+i/8) = BIT(hidden,0);
-        offset++;
-    }
-    msg[i/8]=0;
+    msg = calloc(msg_size, sizeof(uint8_t));
+    lsb1_read_bytes(msg, msg_size, &img, &offset);
     printf("hidden message: %s \n", msg);
 
     /*reading extension*/
+    extension_size = lsb1_count_bytes(&img, offset);
+    extension = malloc(sizeof(char)*extension_size);
+    lsb1_read_bytes(extension, extension_size, &img, &offset);
+    printf("extension: %s \n", extension);
+
+    /* extension_size includes '\0' */
+    filename = malloc(sizeof(char)*(extension_size+strlen(name)));
+    strncpy(filename, name, strlen(name)+1);
+    strncat(filename,extension,extension_size);
+   
+    *msg_f = fopen(filename, "wb");
+    fwrite(msg, sizeof(uint8_t), msg_size, *msg_f);
+
+    free(msg);
+    free(filename);
+    free(img.matrix);
+    free(extension);
+
     return 0;
-
-
-
 }
 
 

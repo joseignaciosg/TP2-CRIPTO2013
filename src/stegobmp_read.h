@@ -6,7 +6,7 @@
 #include "stegobmp.h"
 
 /* Extract a file from a .bmp image using LSB1 */
-int lsb1_extract(FILE* image, FILE* msg);
+int lsb1_extract(FILE* image, FILE** msg, const char* name);
 
 
 

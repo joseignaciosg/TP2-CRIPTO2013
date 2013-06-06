@@ -16,12 +16,12 @@ typedef unsigned int (size_calculator_crypt_type)(FILE* f, unsigned int block_si
 /*********************************************************************************/
 /*				    HELPERS					 */
 /*********************************************************************************/
-inline unsigned int lsbX_packet_size(unsigned int raw_file_size, const char* extension)
+inline static unsigned int lsbX_packet_size(unsigned int raw_file_size, const char* extension)
 {
     return raw_file_size + SIZE_MARKER_LENGTH + strlen(extension) + 1;
 }
 
-inline unsigned int lsbX_crypt_packet_size(unsigned int raw_file_size, unsigned int block_size, const char* extension)
+inline static unsigned int lsbX_crypt_packet_size(unsigned int raw_file_size, unsigned int block_size, const char* extension)
 {
     return ((raw_file_size + SIZE_MARKER_LENGTH*2 + strlen(extension) + 1) / block_size + 1) * block_size;
 }
