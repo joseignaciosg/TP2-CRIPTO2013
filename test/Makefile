@@ -1,6 +1,6 @@
 CC=gcc
 LD=gcc
-CFLAGS=-g -W -Wall -pedantic -Wextra --std=c99 -lssl -lm -largtable2 -lcrypto
+CFLAGS=-g -W -Wall -pedantic -Wextra -lssl -lm -largtable2 -lcrypto
 LDFLAGS=-g -lssl -lm -largtable2 -lcrypto
 
 all: testbmp test testutil
