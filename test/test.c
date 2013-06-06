@@ -9,12 +9,8 @@
 #include "../src/crypt.h"
 
 
-<<<<<<< HEAD
 
 int main(int argc, char **argv)
-=======
-int main(int argc, char** argv)
->>>>>>> 0e11b0666ae4d52acb4d83c53fe484a98625e04a
 {
 /*     char in = 0x0F;
  *     struct bmp_type out;
