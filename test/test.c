@@ -33,20 +33,21 @@ int main(void)
  *     free(out.matrix);                            */
 
 
-    FILE* img = fopen("test.bmp","rb");
-    FILE* in = fopen("1","rb");
-    FILE* out = fopen("out.bmp","wb");
+    FILE* img = fopen("sherlock4.bmp","rb");
+/*     FILE* in = fopen("1","rb");
+ *     FILE* out = fopen("out.bmp","wb"); */
     FILE* recovered_msg = NULL;
 
-    lsb1_embed(img, in, ".txt",out); /*,"passwd",AES_128,CBC);*/
+/*     lsb1_embed(img, in, ".txt",out); |+,"passwd",AES_128,CBC);+| */
 
-    out = freopen("out.bmp","rb",out);
-    lsb1_extract(out, &recovered_msg, "out");
+/*     out = freopen("out.bmp","rb",out); */
+    lsb4_extract(img, &recovered_msg, "out");
 
 
     fclose(img);
-    fclose(in);
-    fclose(out);
+/*     fclose(in);
+ *     fclose(out); */
+    fclose(recovered_msg);
 
     return 0;
 }

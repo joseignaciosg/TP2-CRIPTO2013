@@ -14,11 +14,12 @@ typedef unsigned int (byte_counter)(const struct bmp_type *img, unsigned int sta
 
 int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
-    unsigned int i,j;
+    unsigned int i;
+    int j;
     unsigned int offset = start_offset ? *start_offset : 0;
 
     for(i=0 ; i<size ; i++){
-	for (j=0 ; j<8 ; j++) {
+	for (j=7 ; j>=0 ; j--) {
 	    if (BIT(in->matrix[offset],0)) 
 		*(((uint8_t*)out)+i) |= (1 << j);
 	    else
@@ -35,16 +36,18 @@ int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
 
 int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
-    unsigned int i,j,k;
+    unsigned int i;
+    int j,k;
     unsigned int offset = start_offset ? *start_offset : 0;
+    uint8_t* o = (uint8_t*) out;
 
     for(i=0 ; i<size ; i++){
-	for (j=0 ; j<8 ; j++) {
-	    for (k=0 ; k<4 ; k++) {
+	for (j=7 ; j>=0 ; j--) {
+	    for (k=3 ; k>=0 ; k--) {
 		if (BIT(in->matrix[offset],k)) 
-		    *(((uint8_t*)out)+i) |= (1 << j);
+		    o[i] |= (1 << j);
 		else
-		    *(((uint8_t*)out)+i) &= ~(1 << j);
+		    o[i] &= ~(1 << j);
 	    }
 	    offset++;
 	}
@@ -58,17 +61,20 @@ int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
 
 int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
-    unsigned int i,j;
+    unsigned int i;
+    int j;
     unsigned int offset = start_offset ? *start_offset : 0;
+    uint8_t* o = (uint8_t*) out;
 
     for(i=0 ; i<size ; i++){
-	for (j=0 ; j<8 ; j++) {
-	    while (in->matrix[offset] != 254 && in->matrix[offset] != 255);
+	for (j=7 ; j>=0 ; j--) {
+	    while (in->matrix[offset] != 254 || in->matrix[offset] != 255)
+		offset++;
 
 	    if (BIT(in->matrix[offset],0)) 
-		*(((uint8_t*)out)+i) |= (1 << j);
+		o[i] |= (1 << j);
 	    else
-		*(((uint8_t*)out)+i) &= ~(1 << j);
+		o[i] &= ~(1 << j);
 	    offset++;
 	}
     }
@@ -81,12 +87,12 @@ int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
 
 unsigned int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
-    unsigned int j;
+    int j;
     unsigned int count = 0;
     uint8_t test = -1;
 
     while(test != '\0') {
-	for (j=0 ; j<8 ; j++) {
+	for (j=7 ; j>=0 ; j--) {
 	    if (BIT(in->matrix[start_offset],0)) 
 		test |= (1 << j);
 	    else
@@ -101,14 +107,14 @@ unsigned int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offs
 
 unsigned int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
-    unsigned int j,k;
+    int j,k;
     unsigned int count = 0;
     uint8_t test = -1;
 
     while(test != '\0') {
-	for (j=0 ; j<8 ; j++) {
-	    for (k=0 ; k<4 ; k++) {
-		if (BIT(in->matrix[start_offset],0)) 
+	for (j=7 ; j>=0 ; j--) {
+	    for (k=3 ; k>=0 ; k--) {
+		if (BIT(in->matrix[start_offset],k)) 
 		    test |= (1 << j);
 		else
 		    test &= ~(1 << j);
@@ -123,13 +129,14 @@ unsigned int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offs
 
 unsigned int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
-    unsigned int j;
+    int j;
     unsigned int count = 0;
     uint8_t test = -1;
 
     while(test != '\0') {
-	for (j=0 ; j<8 ; j++) {
-	    while (in->matrix[start_offset] != 254 && in->matrix[start_offset] != 255);
+	for (j=7 ; j>=0 ; j--) {
+	    while (in->matrix[start_offset] != 254 || in->matrix[start_offset] != 255)
+		start_offset++;
 
 	    if (BIT(in->matrix[start_offset],0)) 
 		test |= (1 << j);
@@ -147,7 +154,7 @@ int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reade
 {
     char *msg, *extension;
     struct bmp_type img;
-    unsigned int offset = 0;
+    uint32_t offset = 0;
     uint32_t msg_size, extension_size;
     char* filename;
 
