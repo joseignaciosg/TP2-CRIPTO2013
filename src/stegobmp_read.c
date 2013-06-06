@@ -42,12 +42,12 @@ int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     uint8_t* o = (uint8_t*) out;
 
     for(i=0 ; i<size ; i++){
-	for (j=7 ; j>=0 ; j--) {
+	for (j=1 ; j>=0 ; j--) {
 	    for (k=3 ; k>=0 ; k--) {
 		if (BIT(in->matrix[offset],k)) 
-		    o[i] |= (1 << j);
+		    o[i] |= (1 << (k+j*4));
 		else
-		    o[i] &= ~(1 << j);
+		    o[i] &= ~(1 << (k+j*4));
 	    }
 	    offset++;
 	}
@@ -112,12 +112,12 @@ unsigned int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offs
     uint8_t test = -1;
 
     while(test != '\0') {
-	for (j=7 ; j>=0 ; j--) {
+	for (j=1 ; j>=0 ; j--) {
 	    for (k=3 ; k>=0 ; k--) {
 		if (BIT(in->matrix[start_offset],k)) 
-		    test |= (1 << j);
+		    test |= (1 << (k+j*4));
 		else
-		    test &= ~(1 << j);
+		    test &= ~(1 << (k+j*4));
 	    }
 	    start_offset++;
 	}
