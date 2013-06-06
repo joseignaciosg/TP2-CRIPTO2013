@@ -36,8 +36,12 @@ int main(void)
     FILE* img = fopen("test.bmp","rb");
     FILE* in = fopen("1","rb");
     FILE* out = fopen("out.bmp","wb");
+    FILE* recovered_msg = NULL;
 
-    lsbe_embed(img, in, ".txt",out); /*,"passwd",AES_128,CBC);*/
+    lsb1_embed(img, in, ".txt",out); /*,"passwd",AES_128,CBC);*/
+
+	lsb1_extract(img, recovered_msg);
+
 
     fclose(img);
     fclose(in);

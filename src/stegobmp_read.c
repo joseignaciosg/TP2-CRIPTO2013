@@ -2,104 +2,98 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "stegobmp_read.h"
+#include <netinet/in.h>
+#include "bmp.h"
 #include "util.h"
+#include "crypt.h"
+#include "stegobmp.h"
+#include "stegobmp_read.h"
+
+
+int lsb1_extract(FILE* image, FILE* msg_f)
+{
+    char* msg;
+    struct bmp_type img;
+    unsigned int offset = 0,i=0,size;
+    char hidden;
+    uint32_t msg_size;
+
+    /* header loading */
+    load_img_header(image, &img);
+       
+    /* content loading */
+    img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
+    load_img_matrix(image, &img);
+
+    /*reading size*/
+    for(i=0; i<4*8; i++){
+        hidden = img.matrix[offset];
+        offset++;
+        *(((char*)&msg_size)+i/8) = BIT(hidden,0);
+    }
+
+    /*reading content*/
+    msg = calloc(msg_size, sizeof(char));
+    for(i=0; i<msg_size*8; i++){
+        hidden = img.matrix[offset];
+        *(msg+i/8) = BIT(hidden,0);
+        offset++;
+    }
+    msg[i/8]=0;
+    printf("hidden message: %s \n", msg);
+
+    /*reading extension*/
+    return 0;
 
 
 
+}
 
-/*********************************************************************************/
-/*              LSB Generic                  */
-/*********************************************************************************/
-// static int lsbX_extract(FILE* image, const char* extension, FILE* secret_msg, required_size_calculator_type calc, lsbX_reading_bytes_function_type reader_delegate)
+
+// int lsb1_read_bytes( void* msg, struct bmp_type* img, unsigned int* start_offset)
 // {
-//     struct bmp_type img;
-//     uint8_t buffer[BUFFER_SIZE];
-//     int offset = 0;
-//     size_t read_size;
-//     int in_file_size;
 
-//     load_img_header(image, &img);
+//     int i,j,size=0;
+//     uint8_t* to_be_written = (uint8_t*) in;
+//     unsigned int offset = start_offset ? *start_offset : 0;
+//     char c, hidden, *msg;
 
-//     img.matrix = (uint8_t*) malloc(sizeof(img.usable_size));
-//     load_img_matrix(image, &img);
+//     /*levanto el size*/
+//     for(i=0; i<4*8; i++){
+//         hidden = fgetc(img->matrix[offset]);
+//         offset++;
+//         *(((char*)&size)+i/8)|=((hidden&1)<<7-(i%8));
+//     }
 
-//     (writer_delegate)(&in_file_size, sizeof(int), &img, &offset);
+//     /*lavanto el contenido*/
+//     msg = calloc(size+4, sizeof(char));
+//     memcpy(msg, &size, 4);
+//     msg+=4;
+//     for(i=0; i<(size-4)*8; i++){
+//         hidden = fgetc(img->matrix[offset]);
+//         *(msg+i/8)|=((hidden&1)<<7-(i%8));
+//         offset++;
+//     }
+//     msg[i/8]=0;
+//     msg-4;
 
-//     while ((read_size = fread(buffer, sizeof(uint8_t), BUFFER_SIZE, in)) > 0)
-//     (writer_delegate)(buffer, read_size, &img, &offset);
+//     int i,j;
+//     uint8_t* to_be_read = (uint8_t*) img->matrix[offset];
+//     unsigned int offset = start_offset ? *start_offset : 0;
 
-//     /* writing the extension, including the \0 at the end (so strlen(extension) + 1 byte for \0) */
-//     (reader_delegate)(extension, strlen(extension)+1, &img, &offset);
+//     for (i=0 ; i<size ; i++)
+//     {
+//         if (BIT(to_be_read[i],j))
+//             msg |= (uint8_t) 1;
+//         else
+//             msg &= (uint8_t) ~1;
+//         offset++;
 
-//     /* write to FILE* out */
+//     }
+//     if (start_offset)
+//     *start_offset = offset;
 
-//     free(img.matrix);
 //     return 0;
 // }
 
 
-/*********************************************************************************/
-/*              LSB1                         */
-/*********************************************************************************/
-int lsb1_extract(FILE* image, const char* extension, FILE *secret_msg)
-{
-    
-    /*just for testing*/
-    char ch;
-    while( ( ch = fgetc(image) ) != EOF ){
-        fputc(ch, secret_msg);   
-    }
-    fclose(secret_msg);
-    printf("File copied successfully.\n");
-    /*printf("The extension is... %s\n", get_filename_ext(image));*/
-    return 0;
-    /*return lsbX_embed(image, in, extension, out, lsb4_required_size_calculator, lsb4_write_bytes);*/
-}
-
-int extract(const char* bmp_file_name)
-{
-    FILE *image,*secret_msg;
-    image = fopen(bmp_file_name, "r");
-    if( image == NULL )
-    {
-       printf("The file specified does not exist\n");
-       return 1;
-    }
-    secret_msg = fopen("secret_msg", "w");
-    if( secret_msg == NULL )
-    {
-      fclose(secret_msg);
-      return 1;
-    }
-
-    //char * extension = get_filename_ext(bmp_file_name);
-    /*TODO: acá hay que ver a que función llamar*/
-    if (lsb1_extract(image, NULL, secret_msg)){
-       printf("Error extracting secret message  \n");
-       return 1;
-    }
- 
-    printf("Secret message extracted successfully.\n");
-    fclose(image);
-    return 0;
-}
-
-int main(int argc, char *argv[])
-{
-    if ( argc != 2 ) /* argc should be 2 for correct execution */
-    {
-        printf( "usage: %s image_file_name", argv[0] );
-        return 1;
-    }
-    else 
-    {
-        return extract(argv[1]);;
-    }
-    
-}
-
-
-/*********************************************************************************/
-/*				LSBE						 */
-/*********************************************************************************/
