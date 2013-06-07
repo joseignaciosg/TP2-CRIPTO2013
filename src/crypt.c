@@ -6,7 +6,7 @@
 
 static const EVP_CIPHER* derive_cipher(enum encrypt_type enc, enum encrypt_block_type blk)
 {
-    char cipher_name[12];
+    char cipher_name[13];
     OpenSSL_add_all_ciphers();
 
     switch (enc) {
@@ -14,10 +14,10 @@ static const EVP_CIPHER* derive_cipher(enum encrypt_type enc, enum encrypt_block
 	strncpy(cipher_name,"aes-128-",9);
 	break;
     case AES_192:
-	strncpy(cipher_name,"aes-128-",9);
+	strncpy(cipher_name,"aes-192-",9);
 	break;
     case AES_256:
-	strncpy(cipher_name,"aes-128-",9);
+	strncpy(cipher_name,"aes-256-",9);
 	break;
     case DES:
 	strncpy(cipher_name,"des-",5);
@@ -31,10 +31,10 @@ static const EVP_CIPHER* derive_cipher(enum encrypt_type enc, enum encrypt_block
 	strncat(cipher_name,"ecb",3);
 	break;
     case CFB:
-	strncat(cipher_name,"cfb",3);
+	strncat(cipher_name,"cfb8",3);
 	break;
     case OFB:
-	strncat(cipher_name,"ofb",3);
+	strncat(cipher_name,"ofb8",3);
 	break;
     case CBC:
 	strncat(cipher_name,"cbc",3);
@@ -43,7 +43,7 @@ static const EVP_CIPHER* derive_cipher(enum encrypt_type enc, enum encrypt_block
 	return NULL;
     }
 
-    return EVP_get_cipherbyname(cipher_name);
+    return EVP_get_cipherbyname(cipher_name) ;
 }
 
 static int allocate_key_iv(unsigned char** k, unsigned char** iv, const EVP_CIPHER* cipher)
@@ -56,7 +56,7 @@ static int allocate_key_iv(unsigned char** k, unsigned char** iv, const EVP_CIPH
 static int init_key_iv(unsigned char* k, unsigned char* iv, const unsigned char* passwd, const EVP_CIPHER* cipher)
 {
     /* doesn't count the final \0 in passwd buffer */
-    return !EVP_BytesToKey(cipher, EVP_md5(), NULL, passwd, strlen((char*)passwd), ITER_NB, k, iv);
+    return !EVP_BytesToKey(cipher, EVP_md5(), NULL, passwd, strlen((char*)passwd), 1, k, iv);
 }
 
 static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* encrypted_size, int mode)

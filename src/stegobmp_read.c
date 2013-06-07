@@ -288,7 +288,7 @@ int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *
     memcpy(&msg_size, decrypted_content, sizeof(uint32_t));
     msg_size = ntohl(msg_size);
     if (msg_size > decrypted_size - sizeof(uint32_t) - 1) { /* -1 because the extension must be at least a '\0' at the end */
-	fprintf(stderr, "Message to be decrypted bigger than encrypted chunk (%i <-> %i)! Exiting.\n", msg_size, decrypted_size);
+	fprintf(stderr, "Message to be read bigger than decrypted chunk (%i <-> %i)! Exiting.\n", msg_size, decrypted_size);
 	free(encrypted_content);
 	free(decrypted_content);
 	return -1;
@@ -347,50 +347,4 @@ int lsbe_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* 
 {
     return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsbe_read_bytes);
 }
-// int lsb1_read_bytes( void* msg, struct bmp_type* img, unsigned int* start_offset)
-// {
-
-//     int i,j,size=0;
-//     uint8_t* to_be_written = (uint8_t*) in;
-//     unsigned int offset = start_offset ? *start_offset : 0;
-//     char c, hidden, *msg;
-
-//     /*levanto el size*/
-//     for(i=0; i<4*8; i++){
-//         hidden = fgetc(img->matrix[offset]);
-//         offset++;
-//         *(((char*)&size)+i/8)|=((hidden&1)<<7-(i%8));
-//     }
-
-//     /*lavanto el contenido*/
-//     msg = calloc(size+4, sizeof(char));
-//     memcpy(msg, &size, 4);
-//     msg+=4;
-//     for(i=0; i<(size-4)*8; i++){
-//         hidden = fgetc(img->matrix[offset]);
-//         *(msg+i/8)|=((hidden&1)<<7-(i%8));
-//         offset++;
-//     }
-//     msg[i/8]=0;
-//     msg-4;
-
-//     int i,j;
-//     uint8_t* to_be_read = (uint8_t*) img->matrix[offset];
-//     unsigned int offset = start_offset ? *start_offset : 0;
-
-//     for (i=0 ; i<size ; i++)
-//     {
-//         if (BIT(to_be_read[i],j))
-//             msg |= (uint8_t) 1;
-//         else
-//             msg &= (uint8_t) ~1;
-//         offset++;
-
-//     }
-//     if (start_offset)
-//     *start_offset = offset;
-
-//     return 0;
-// }
-
 
