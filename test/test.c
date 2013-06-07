@@ -21,8 +21,20 @@
 #define LSBE    9
 
 void print_usage() {
-    printf("Usage: \n");
+    printf("Estraction Usage: \n");
+    printf("\t --extract                : to extract hidden message\n");
+    printf("\t -p bitmapfile            : root of the image with the hidden messahe\n");
+    printf("\t --out outfile            : name of the extracted hidden message\n");
+    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of estraction\n");
+    printf("\n");
+    printf("Embed Usage: \n");
+    printf("\t --embed                  : to embed hidden message\n");
+    printf("\t -p bitmapfile            : root of the image whehe the message should be embedded\n");
+    printf("\t --out outfile            : name of the resulting image\n");
+    printf("\t --in outfile            : name of the resulting image\n");
+    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of estraction\n");
 }
+
 
 
 int main(int argc, char **argv)
