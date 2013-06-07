@@ -68,7 +68,7 @@ int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
 
     for(i=0 ; i<size ; i++){
 	for (j=7 ; j>=0 ; j--) {
-	    while (in->matrix[offset] != 254 || in->matrix[offset] != 255)
+	    while (in->matrix[offset] != 254 && in->matrix[offset] != 255)
 		offset++;
 
 	    if (BIT(in->matrix[offset],0)) 
@@ -135,7 +135,7 @@ unsigned int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offs
 
     while(test != '\0') {
 	for (j=7 ; j>=0 ; j--) {
-	    while (in->matrix[start_offset] != 254 || in->matrix[start_offset] != 255)
+	    while (in->matrix[start_offset] != 254 && in->matrix[start_offset] != 255)
 		start_offset++;
 
 	    if (BIT(in->matrix[start_offset],0)) 
