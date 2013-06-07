@@ -46,27 +46,23 @@ static const EVP_CIPHER* derive_cipher(enum encrypt_type enc, enum encrypt_block
     return EVP_get_cipherbyname(cipher_name);
 }
 
-static int allocate_key_iv_salt(unsigned char** k, unsigned char** iv, unsigned char** salt, const EVP_CIPHER* cipher)
+static int allocate_key_iv(unsigned char** k, unsigned char** iv, const EVP_CIPHER* cipher)
 {
     *k = malloc(sizeof(unsigned char)*EVP_CIPHER_key_length(cipher));
     *iv = malloc(sizeof(unsigned char)*EVP_CIPHER_iv_length(cipher));
-    *salt = malloc(sizeof(unsigned char)*SALT_LENGTH);
     return 0;
 }
 
-static int init_key_iv_salt(unsigned char* k, unsigned char* iv, unsigned char* salt, const unsigned char* passwd, const EVP_CIPHER* cipher)
+static int init_key_iv(unsigned char* k, unsigned char* iv, const unsigned char* passwd, const EVP_CIPHER* cipher)
 {
-    /* For now, don't use a real randomized salt */
-    memcpy(salt,"gJxe@b4Z",8);
     /* doesn't count the final \0 in passwd buffer */
-    return !EVP_BytesToKey(cipher, EVP_sha1(), salt, passwd, strlen((char*)passwd), ITER_NB, k, iv);
+    return !EVP_BytesToKey(cipher, EVP_md5(), NULL, passwd, strlen((char*)passwd), ITER_NB, k, iv);
 }
 
 static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* encrypted_size, int mode)
 {
     unsigned char* k;
     unsigned char* iv;
-    unsigned char* salt;
     int out_length, out_final_length;
     const EVP_CIPHER* cipher =  derive_cipher(enc, blk);
     EVP_CIPHER_CTX ctx;
@@ -76,8 +72,8 @@ static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, 
 	return -1;
     }
 
-    allocate_key_iv_salt(&k,&iv,&salt,cipher);
-    init_key_iv_salt(k,iv,salt,passwd,cipher);
+    allocate_key_iv(&k,&iv,cipher);
+    init_key_iv(k,iv,passwd,cipher);
 
     /*encrypt*/
     EVP_CIPHER_CTX_init(&ctx);
@@ -90,7 +86,6 @@ static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, 
     memset(k,0,EVP_CIPHER_key_length(cipher));
     free(k);
     free(iv);
-    free(salt);
 
     EVP_CIPHER_CTX_cleanup(&ctx);
 
