@@ -166,7 +166,7 @@ int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, unsig
 
     for (i=0 ; i<size ; i++)
     {
-    	for(j=0 ; j<8 ; j++)
+    	for(j=7 ; j>=0 ; j--)
     	{
     	    if (BIT(to_be_written[i],j))
     		out->matrix[offset] |= (uint8_t) 1;
@@ -216,9 +216,9 @@ int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, unsig
 
     for (i=0 ; i<size ; i++)
     {
-    	for(j=0 ; j<2 ; j++)
+    	for(j=1 ; j>=0 ; j--)
     	{
-    	    for (k=0 ; k<4 ; k++)
+    	    for (k=3 ; k>=0 ; k--)
     	    {
     		if (BIT(to_be_written[i],j*4+k))
     		    out->matrix[offset] |= (uint8_t) (1 << (k));
@@ -281,7 +281,7 @@ int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsig
 
     for (i=0 ; i<size ; i++)
     {
-    	for(j=0 ; j<8 ; j++)
+    	for(j=7 ; j>=0 ; j--)
     	{
 	    if (BIT(to_be_written[i],j))
 		out->matrix[offset] |= (uint8_t) 1;
