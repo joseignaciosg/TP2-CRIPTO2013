@@ -27,40 +27,19 @@ void print_usage() {
     printf("\t --out outfile            : name of the extracted hidden message\n");
     printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of estraction\n");
     printf("\n");
-    printf("Embed Usage: \n");
+    printf("Embedding Usage: \n");
     printf("\t --embed                  : to embed hidden message\n");
     printf("\t -p bitmapfile            : root of the image whehe the message should be embedded\n");
     printf("\t --out outfile            : name of the resulting image\n");
-    printf("\t --in outfile            : name of the resulting image\n");
-    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of estraction\n");
+    printf("\t --in outfile             : message to hide\n");
+    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of embedding\n");
 }
 
 
 
 int main(int argc, char **argv)
 {
-/*     char in = 0x0F;
- *     struct bmp_type out;
 
- *     out.matrix = malloc(sizeof(char)*8);
- *     memset(out.matrix,'h',8);
-
- *     printf("out.matrix: %s\n",out.matrix);
- *     lsb1_write_bytes(&in, sizeof(in), &out, 0);
- *     printf("out.matrix: %s\n",out.matrix);
-
-
- *     memset(out.matrix,'d',8);
-
- *     printf("out.matrix: %s\n",out.matrix);
- *     lsb4_write_bytes(&in, sizeof(in), &out, 0);
- *     FILE* file = fopen("1","wb");
- *     fprintf(file,"out.matrix: %s\n",out.matrix);
- *     fclose(file);
- *     
- *     free(out.matrix);  
-
-*/
  	struct option {
     const char *name;
     int         has_arg;
@@ -75,7 +54,7 @@ int main(int argc, char **argv)
     
     static struct option long_options[] = {
         {"extract", 0, 0, EXTRACT},
-        {"extract", 0, 0, EMBED},
+        {"embed", 0, 0, EMBED},
         {"out"    , 1, 0, OUT},
         {"steg"   , 1, 0, STEG},
         {"pass"   , 1, 0, PASS},
@@ -107,16 +86,24 @@ int main(int argc, char **argv)
 			if (optarg){
 				in = malloc(strlen(optarg) * sizeof(char));
 				strcpy(in,optarg);
+			}else{
+				if (mode != EMBED){
+					print_usage(); 
+					exit(EXIT_FAILURE);
+				}
 			}
 			break;
 		case OUT: 
 			if (optarg){
 				out = malloc(strlen(optarg) * sizeof(char));
 				strcpy(out,optarg);
+			}else{
+				print_usage(); 
+				exit(EXIT_FAILURE);
 			}
 			break;
         case STEG:
-			if (optarg)
+			if (optarg){
 				if (strcmp("LSB1",optarg) == 0){
 					steg = LSB1;
 				}else if (strcmp("LSB4",optarg) == 0){
@@ -127,6 +114,12 @@ int main(int argc, char **argv)
 					print_usage(); 
 					exit(EXIT_FAILURE);
 				}
+			}
+			else{
+				printf("You must specify and steganography method \n");
+				print_usage(); 
+				exit(EXIT_FAILURE);
+			}
 			break;
 		case PASS:
 			if (optarg)
@@ -148,7 +141,7 @@ int main(int argc, char **argv)
             break;
         case 'm':
          	//<ecb|cfb|ofb|cbc>
-            if (optarg)
+            if (optarg){
 				if (strcmp("ecb",optarg) == 0){
 					printf("ecb\n");
 				}else if (strcmp("cfb",optarg) == 0){
@@ -161,6 +154,7 @@ int main(int argc, char **argv)
 					print_usage(); 
 					exit(EXIT_FAILURE);
 				}
+			}
             break;
         case 'p':
         	if (optarg){
@@ -187,8 +181,25 @@ int main(int argc, char **argv)
     FILE* msg_f;
     FILE* in_f;
     FILE* bitmap_f;
+    /*----- Embedding -------*/
     if (mode == EMBED){
-    	//llamada a funcion
+    	bitmap_f = fopen(bitmap,"rb");
+    	in_f = fopen(in,"rb");
+		msg_f = fopen("out.bmp","wb");
+    	if (steg == LSB1){
+    		lsb1_embed(bitmap_f, in_f, ".txt",msg_f); 
+    	}else if (steg == LSB4){
+    		lsb4_embed(bitmap_f, in_f, ".txt",msg_f); 
+    	}else if (steg == LSBE){
+    		lsbe_embed(bitmap_f, in_f, ".txt",msg_f); 
+    	}else{
+    		print_usage(); 
+			exit(EXIT_FAILURE);
+    	}
+    	fclose(msg_f);
+    	fclose(bitmap_f);
+    	fclose(in_f);
+   	/*----- Extraction -------*/
     }else if (mode == EXTRACT){
     	msg_f = NULL;
     	bitmap_f = fopen(bitmap,"rb");
