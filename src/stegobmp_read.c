@@ -10,26 +10,30 @@
 #include "stegobmp_read.h"
 
 typedef int (byte_reader)(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset);
-typedef unsigned int (byte_counter)(const struct bmp_type *img, unsigned int start_offset);
+typedef int (byte_counter)(const struct bmp_type *img, unsigned int start_offset);
 
 int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
     unsigned int i;
     int j;
     unsigned int offset = start_offset ? *start_offset : 0;
+    uint8_t* o = (uint8_t*) out;
 
-    for(i=0 ; i<size ; i++){
-	for (j=7 ; j>=0 ; j--) {
+    for(i=0 ; i<size && offset < in->usable_size; i++){
+	for (j=7 ; j>=0 && offset < in->usable_size ; j--) {
 	    if (BIT(in->matrix[offset],0)) 
-		*(((uint8_t*)out)+i) |= (1 << j);
+		o[i] |= (1 << j);
 	    else
-		*(((uint8_t*)out)+i) &= ~(1 << j);
+		o[i] &= ~(1 << j);
 	    offset++;
 	}
     }
 
     if (start_offset)
 	*start_offset = offset;
+
+    if (i != size-1) /* i.e. not all the desired bytes could be read */
+	return -1;
 
     return 0;
 }
@@ -41,8 +45,8 @@ int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     unsigned int offset = start_offset ? *start_offset : 0;
     uint8_t* o = (uint8_t*) out;
 
-    for(i=0 ; i<size ; i++){
-	for (j=1 ; j>=0 ; j--) {
+    for(i=0 ; i<size && offset < in->usable_size ; i++){
+	for (j=1 ; j>=0 && offset < in->usable_size ; j--) {
 	    for (k=3 ; k>=0 ; k--) {
 		if (BIT(in->matrix[offset],k)) 
 		    o[i] |= (1 << (k+j*4));
@@ -56,6 +60,9 @@ int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     if (start_offset)
 	*start_offset = offset;
 
+    if (i != size-1)
+	return -1;
+
     return 0;
 }
 
@@ -66,8 +73,8 @@ int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     unsigned int offset = start_offset ? *start_offset : 0;
     uint8_t* o = (uint8_t*) out;
 
-    for(i=0 ; i<size ; i++){
-	for (j=7 ; j>=0 ; j--) {
+    for(i=0 ; i<size && offset < in->usable_size ; i++){
+	for (j=7 ; j>=0 && offset < in->usable_size ; j--) {
 	    while (in->matrix[offset] != 254 && in->matrix[offset] != 255)
 		offset++;
 
@@ -82,17 +89,20 @@ int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     if (start_offset)
 	*start_offset = offset;
 
+    if (i != size-1)
+	return -1;
+
     return 0;
 }
 
-unsigned int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
     int j;
     unsigned int count = 0;
     uint8_t test = -1;
 
-    while(test != '\0') {
-	for (j=7 ; j>=0 ; j--) {
+    while (test != '\0' && start_offset < in->usable_size) {
+	for (j=7 ; j>=0 && start_offset < in->usable_size ; j--) {
 	    if (BIT(in->matrix[start_offset],0)) 
 		test |= (1 << j);
 	    else
@@ -102,17 +112,20 @@ unsigned int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offs
 	count++;
     }
 
+    if (test != '\0') /* EOF was reached before a '\0' could be read */
+	return -1;
+
     return count;
 }
 
-unsigned int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
     int j,k;
     unsigned int count = 0;
     uint8_t test = -1;
 
-    while(test != '\0') {
-	for (j=1 ; j>=0 ; j--) {
+    while (test != '\0' && start_offset < in->usable_size) {
+	for (j=1 ; j>=0 && start_offset < in->usable_size ; j--) {
 	    for (k=3 ; k>=0 ; k--) {
 		if (BIT(in->matrix[start_offset],k)) 
 		    test |= (1 << (k+j*4));
@@ -124,17 +137,20 @@ unsigned int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offs
 	count++;
     }
 
+    if (test != '\0')
+	return -1;
+
     return count;
 }
 
-unsigned int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
     int j;
     unsigned int count = 0;
     uint8_t test = -1;
 
-    while(test != '\0') {
-	for (j=7 ; j>=0 ; j--) {
+    while (test != '\0' && start_offset < in->usable_size) {
+	for (j=7 ; j>=0 && start_offset < in->usable_size ; j--) {
 	    while (in->matrix[start_offset] != 254 && in->matrix[start_offset] != 255)
 		start_offset++;
 
@@ -147,6 +163,9 @@ unsigned int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offs
 	count++;
     }
 
+    if (test != '\0')
+	return -1;
+
     return count;
 }
 
@@ -155,7 +174,8 @@ int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reade
     char *msg, *extension;
     struct bmp_type img;
     uint32_t offset = 0;
-    uint32_t msg_size, extension_size;
+    uint32_t msg_size;
+    int extension_size;
     char* filename;
 
     /* header loading */
@@ -166,25 +186,43 @@ int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reade
     load_img_matrix(image, &img);
 
     /*reading size*/
-    (*reader)(&msg_size, sizeof(uint32_t), &img, &offset);
+    if ((*reader)(&msg_size, sizeof(uint32_t), &img, &offset) != 0) {
+	fprintf(stderr, "EOF was reached prematurely while attempting to read the embedded file's size\n");
+	free(img.matrix);
+	return -1;
+    }
     msg_size = ntohl(msg_size);
-    printf("size: %i\n",msg_size);
+    if (msg_size > img.usable_size) {
+	fprintf(stderr, "Fetched message size is bigger than carrier (%i <-> %i bytes)! Exiting.\n",msg_size,img.usable_size);
+	free(img.matrix);
+	return -1;
+    }
 
     /*reading content*/
     msg = calloc(msg_size, sizeof(uint8_t));
-    (*reader)(msg, msg_size, &img, &offset);
-    printf("hidden message: %s \n", msg);
+    if ((*reader)(msg, msg_size, &img, &offset) != 0) {
+	fprintf(stderr, "EOF was reached prematurely while attempting to read the embedded file's content\n");
+	free(img.matrix);
+	free(msg);
+	return -1;
+    }
 
     /*reading extension*/
-    extension_size = (*counter)(&img, offset);
-    extension = malloc(sizeof(char)*extension_size);
-    (*reader)(extension, extension_size, &img, &offset);
-    printf("extension: %s \n", extension);
+    if ((extension_size = (*counter)(&img, offset)) == -1) {
+	fprintf(stderr, "EOF was reached prematurely while attempting to read the embedded file's extension.\n"
+			"Continuing anyway but the result is likely to be unusable.\n");
+	extension_size = 1;
+	extension = malloc(sizeof(char));
+	*extension = '\0';
+    } else {
+	extension = malloc(sizeof(char)*extension_size);
+	(*reader)(extension, extension_size, &img, &offset); /* safe as we already checked the existence of the extension */
+    }
 
     /* extension_size includes '\0' */
     filename = malloc(sizeof(char)*(extension_size+strlen(name)));
     strncpy(filename, name, strlen(name)+1);
-    strncat(filename,extension,extension_size);
+    strncat(filename, extension, extension_size);
    
     *msg_f = fopen(filename, "wb");
     fwrite(msg, sizeof(uint8_t), msg_size, *msg_f);
@@ -216,20 +254,46 @@ int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *
     load_img_matrix(image, &img);
 
     /*reading size*/
-    (*reader)(&encrypted_size, sizeof(uint32_t), &img, &offset);
+    if ((*reader)(&encrypted_size, sizeof(uint32_t), &img, &offset) != 0) {
+	fprintf(stderr, "EOF was reached prematurely while attempting to read the embedded crypted file's size\n");
+	free(img.matrix);
+	return -1;
+    }
     encrypted_size = ntohl(encrypted_size);
-    printf("size: %i\n",encrypted_size);
-    
+    if (encrypted_size > img.usable_size) {
+	fprintf(stderr, "Fetched encrypted message size is bigger than carrier (%i <-> %i bytes)! Exiting.\n",encrypted_size,img.usable_size);
+	free(img.matrix);
+	return -1;
+    }
+
     /*reading encrypted content*/
     encrypted_content = malloc(sizeof(uint8_t)*encrypted_size);
     decrypted_content = malloc(sizeof(uint8_t)*encrypted_size);
     
-    (*reader)(encrypted_content, encrypted_size, &img, &offset);
+    if ((*reader)(encrypted_content, encrypted_size, &img, &offset) != 0) {
+	fprintf(stderr, "EOF was reached prematurely while attempting to read the embedded crypted file's content\n");
+	free(img.matrix);
+	free(encrypted_content);
+	free(decrypted_content);
+	return -1;
+    }
+
+    /* freeing the matrix we won't need anymore */
+    free(img.matrix);
+
+    /* decrypting */
     decrypt(encrypted_content, encrypted_size, (unsigned char*) passwd, algo, blk_algo, decrypted_content, &decrypted_size);
 
-    printf("decrypted: %s\n",decrypted_content+sizeof(uint32_t));
+    /* reading the actual data size */
     memcpy(&msg_size, decrypted_content, sizeof(uint32_t));
     msg_size = ntohl(msg_size);
+    if (msg_size > decrypted_size - sizeof(uint32_t) - 1) { /* -1 because the extension must be at least a '\0' at the end */
+	fprintf(stderr, "Message to be decrypted bigger than encrypted chunk (%i <-> %i)! Exiting.\n", msg_size, decrypted_size);
+	free(encrypted_content);
+	free(decrypted_content);
+	return -1;
+    }
+
 
     /* reading extension */
     extension_size = decrypted_size - msg_size - sizeof(uint32_t);
@@ -246,7 +310,6 @@ int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *
     free(encrypted_content);
     free(decrypted_content);
     free(filename);
-    free(img.matrix);
 
     return 0;
 }
