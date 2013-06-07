@@ -266,6 +266,24 @@ int lsbe_extract(FILE* image, FILE** msg_f, const char* name)
     return lsbX_extract(image, msg_f, name, lsbe_read_bytes, lsbe_count_bytes);
 }
 
+
+int lsb1_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* passwd,
+	const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+{
+    return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsb1_read_bytes);
+}
+
+int lsb4_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* passwd,
+	const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+{
+    return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsb4_read_bytes);
+}
+
+int lsbe_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* passwd,
+	const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+{
+    return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsbe_read_bytes);
+}
 // int lsb1_read_bytes( void* msg, struct bmp_type* img, unsigned int* start_offset)
 // {
 

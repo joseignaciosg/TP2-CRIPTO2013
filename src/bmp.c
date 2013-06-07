@@ -1,10 +1,10 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <error.h>
 #include <errno.h>
 #include <sys/types.h>
-#include <unistd.h>
 #include "bmp.h"
 #include "stegobmp_write.h"
 
@@ -56,8 +56,6 @@ int load_img_matrix(FILE* in, struct bmp_type* img)
 
 int write_img(FILE* out, struct bmp_type* img)
 {
-    /* not really useful but, well... let's do it defensively, right? */
-    ftruncate(fileno(out),BMP_FILE_HEADER_SIZE+img->usable_size);
     rewind(out);
 
     /* we've got the header, we've got the pixels matrix, pretty easy, uh? */

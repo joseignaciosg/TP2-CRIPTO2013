@@ -283,7 +283,7 @@ int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsig
     {
     	for(j=7 ; j>=0 ; j--)
     	{
-	    while (matrix[offset] != 254 && matrix[offset] != 255)
+	    while (out->matrix[offset] != 254 && out->matrix[offset] != 255)
 		offset++;
 
 	    if (BIT(to_be_written[i],j))
