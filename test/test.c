@@ -11,9 +11,11 @@
 
 /*values*/
 #define EXTRACT 1
-#define OUT     2
+#define EMBED   2
 #define STEG    3
-#define STEG    3
+#define OUT     4
+#define PASS    5
+#define IN      6
 
 void print_usage() {
     printf("Usage: \n");
@@ -58,25 +60,46 @@ int main(int argc, char **argv)
     
     static struct option long_options[] = {
         {"extract", 0, 0, EXTRACT},
+        {"extract", 0, 0, EMBED},
         {"out"    , 1, 0, OUT},
         {"steg"   , 1, 0, STEG},
         {"pass"   , 1, 0, PASS},
+        {"in"     , 1, 0, IN},
+        {"out"    , 1, 0, OUT},
         {NULL     , 0, NULL, 0}
     };
+
     int option_index = 0;
+
+    /*MODE*/
+    int mode = -1;
+    char * in;
+    char * out;
+    char * bitmap;
+
     while ((c = getopt_long(argc, argv, "p:a:m:",
                  long_options, &option_index)) != -1) {
         int this_option_optind = optind ? optind : 1;
         switch (c) {
-        case 1:
-    		printf("extract!\n");
-    		break;	
-        case 2:
-       		printf("out!\n");
-			if (optarg)
-				printf (" with arg %s", optarg);
+        case EXTRACT:
+    		mode = EXTRACT;
+    		break;
+    	case EMBED:
+    		mode = EMBED;
+    		break;		
+		case IN: 
+			if (optarg){
+				in = malloc(strlen(optarg) * sizeof(char));
+				strcpy(in,optarg);
+			}
 			break;
-        case 3:
+		case OUT: 
+			if (optarg){
+				out = malloc(strlen(optarg) * sizeof(char));
+				strcpy(out,optarg);
+			}
+			break;
+        case STEG:
        		printf("steg!\n");
 			if (optarg)
 				if (strcmp("LSB1",optarg) == 0){
@@ -88,7 +111,11 @@ int main(int argc, char **argv)
 				}else{
 					error("error");
 				}
-			break
+			break;
+		case PASS:
+			if (optarg)
+				printf (" with arg %s", optarg);
+			break;
         case 'a':
         	//<aes128|aes192|aes256|des>
             if (optarg)
@@ -104,7 +131,7 @@ int main(int argc, char **argv)
             break;
         case 'm':
          	//<ecb|cfb|ofb|cbc>
-            pif (optarg)
+            if (optarg)
 				if (strcmp("ecb",optarg) == 0){
 					printf("ecb\n");
 				}else if (strcmp("cfb",optarg) == 0){
@@ -118,10 +145,11 @@ int main(int argc, char **argv)
 				}
             break;
         case 'p':
-        	//- pbitmapfile
-            printf ("option p with value '%s'\n", optarg);
-            copt = optarg;
-            break;
+        	if (optarg){
+				bitmap = malloc(strlen(optarg) * sizeof(char));
+				strcpy(bitmap,optarg);
+			}
+			break;
         case '?':
             break;
        	default: print_usage(); 
@@ -135,6 +163,20 @@ int main(int argc, char **argv)
         printf ("\n");
     }
 
+    if (mode == EMBED){
+    	//llamada a funcion
+    }else if (mode == EXTRACT){
+    	//llamda a funcion
+    	printf("%s --- %s \n", in, out);
+    }else{
+    	perror("no mode especified");
+        exit(1);
+    }
+
+
+    free(in);
+    free(out);
+    free(bitmap);
     return 0;
 
 
