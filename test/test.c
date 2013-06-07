@@ -87,10 +87,10 @@ int main(int argc, char **argv)
 				in = malloc(strlen(optarg) * sizeof(char));
 				strcpy(in,optarg);
 			}else{
-				// if (mode != EMBED){
-				// 	print_usage(); 
-				// 	exit(EXIT_FAILURE);
-				// }
+				if (mode != EMBED){
+					print_usage(); 
+					exit(EXIT_FAILURE);
+				}
 			}
 			break;
 		case OUT: 
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
             break;
         case 'm':
          	//<ecb|cfb|ofb|cbc>
-            if (optarg)
+            if (optarg){
 				if (strcmp("ecb",optarg) == 0){
 					printf("ecb\n");
 				}else if (strcmp("cfb",optarg) == 0){
@@ -154,6 +154,7 @@ int main(int argc, char **argv)
 					print_usage(); 
 					exit(EXIT_FAILURE);
 				}
+			}
             break;
         case 'p':
         	if (optarg){
@@ -180,6 +181,7 @@ int main(int argc, char **argv)
     FILE* msg_f;
     FILE* in_f;
     FILE* bitmap_f;
+    /*----- Embedding -------*/
     if (mode == EMBED){
     	bitmap_f = fopen(bitmap,"rb");
     	in_f = fopen(in,"rb");
@@ -197,6 +199,7 @@ int main(int argc, char **argv)
     	fclose(msg_f);
     	fclose(bitmap_f);
     	fclose(in_f);
+   	/*----- Extraction -------*/
     }else if (mode == EXTRACT){
     	msg_f = NULL;
     	bitmap_f = fopen(bitmap,"rb");
