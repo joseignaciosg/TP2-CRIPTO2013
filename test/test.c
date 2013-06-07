@@ -65,7 +65,6 @@ int main(int argc, char **argv)
         {"steg"   , 1, 0, STEG},
         {"pass"   , 1, 0, PASS},
         {"in"     , 1, 0, IN},
-        {"out"    , 1, 0, OUT},
         {NULL     , 0, NULL, 0}
     };
 
@@ -109,7 +108,8 @@ int main(int argc, char **argv)
 				}else if (strcmp("LSBE",optarg) == 0){
 					printf("LSBE");
 				}else{
-					error("error");
+					print_usage(); 
+					exit(EXIT_FAILURE);
 				}
 			break;
 		case PASS:
@@ -126,7 +126,8 @@ int main(int argc, char **argv)
 				}else if (strcmp("aes256",optarg) == 0){
 					printf("aes256");
 				}else{
-					error("error");
+					print_usage(); 
+					exit(EXIT_FAILURE);
 				}
             break;
         case 'm':
@@ -141,13 +142,17 @@ int main(int argc, char **argv)
 				}else if (strcmp("cbc",optarg) == 0){
 					printf("cbc");
 				}else{
-					error("error");
+					print_usage(); 
+					exit(EXIT_FAILURE);
 				}
             break;
         case 'p':
         	if (optarg){
 				bitmap = malloc(strlen(optarg) * sizeof(char));
 				strcpy(bitmap,optarg);
+			}else{
+				print_usage(); 
+				exit(EXIT_FAILURE);
 			}
 			break;
         case '?':
@@ -167,10 +172,10 @@ int main(int argc, char **argv)
     	//llamada a funcion
     }else if (mode == EXTRACT){
     	//llamda a funcion
-    	printf("%s --- %s \n", in, out);
+    	printf("%s --- %s --- %s \n", in, out, bitmap);
     }else{
-    	perror("no mode especified");
-        exit(1);
+    	print_usage(); 
+		exit(EXIT_FAILURE);
     }
 
 
