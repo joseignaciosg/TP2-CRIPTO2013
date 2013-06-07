@@ -16,6 +16,9 @@
 #define OUT     4
 #define PASS    5
 #define IN      6
+#define LSB1    7
+#define LSB4    8
+#define LSBE    9
 
 void print_usage() {
     printf("Usage: \n");
@@ -72,9 +75,11 @@ int main(int argc, char **argv)
 
     /*MODE*/
     int mode = -1;
+    int steg = -1;
     char * in;
     char * out;
     char * bitmap;
+
 
     while ((c = getopt_long(argc, argv, "p:a:m:",
                  long_options, &option_index)) != -1) {
@@ -99,14 +104,13 @@ int main(int argc, char **argv)
 			}
 			break;
         case STEG:
-       		printf("steg!\n");
 			if (optarg)
 				if (strcmp("LSB1",optarg) == 0){
-					printf("LSB1\n");
+					steg = LSB1;
 				}else if (strcmp("LSB4",optarg) == 0){
-					printf("LSB4");
+					steg = LSB4;
 				}else if (strcmp("LSBE",optarg) == 0){
-					printf("LSBE");
+					steg = LSBE;
 				}else{
 					print_usage(); 
 					exit(EXIT_FAILURE);
@@ -167,12 +171,25 @@ int main(int argc, char **argv)
             printf ("%s ", argv[optind++]);
         printf ("\n");
     }
-
+    
+    FILE* msg_f;
+    FILE* in_f;
+    FILE* bitmap_f;
     if (mode == EMBED){
     	//llamada a funcion
     }else if (mode == EXTRACT){
-    	//llamda a funcion
-    	printf("%s --- %s --- %s \n", in, out, bitmap);
+    	msg_f = NULL;
+    	bitmap_f = fopen(bitmap,"rb");
+    	if (steg == LSB1){
+    		lsb1_extract(bitmap_f, &msg_f, out);
+    	}else if (steg == LSB4){
+    		lsb4_extract(bitmap_f, &msg_f, out);
+    	}else if (steg == LSBE){
+    		lsbe_extract(bitmap_f, &msg_f, out);
+    	}else{
+    		print_usage(); 
+			exit(EXIT_FAILURE);
+    	}
     }else{
     	print_usage(); 
 		exit(EXIT_FAILURE);

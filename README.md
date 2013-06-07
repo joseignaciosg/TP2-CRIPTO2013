@@ -3,6 +3,8 @@ TP2-CRIPTO2013
 
 ESTEGANOGRAFÍA
 
-to test de read part
-gcc stegobmp_read.c -o read
-read filname
+Forma de invocación
+
+Ejemplo de extracción
+
+./test --extract -p ../files/example/sherlock1.bmp --out out --steg LSB1

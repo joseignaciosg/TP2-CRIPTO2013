@@ -8,6 +8,10 @@
 /* Extract a file from a .bmp image using LSB1 */
 int lsb1_extract(FILE* image, FILE** msg, const char* name);
 
+int lsb4_extract(FILE* image, FILE** msg, const char* name);
+
+int lsbe_extract(FILE* image, FILE** msg, const char* name);
+
 
 
 #endif
