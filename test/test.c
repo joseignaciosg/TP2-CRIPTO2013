@@ -9,6 +9,16 @@
 #include "../src/crypt.h"
 
 
+/*values*/
+#define EXTRACT 1
+#define OUT     2
+#define STEG    3
+#define STEG    3
+
+void print_usage() {
+    printf("Usage: \n");
+}
+
 
 int main(int argc, char **argv)
 {
@@ -45,54 +55,77 @@ int main(int argc, char **argv)
     int digit_optind = 0;
     int aopt = 0, bopt = 0;
     char *copt = 0, *dopt = 0;
+    
     static struct option long_options[] = {
-        {"add", 1, 0, 0},
-        {"append", 0, 0, 0},
-        {"delete", 1, 0, 0},
-        {"verbose", 0, 0, 0},
-        {"create", 1, 0, 'c'},
-        {"file", 1, 0, 0},
-        {NULL, 0, NULL, 0}
+        {"extract", 0, 0, EXTRACT},
+        {"out"    , 1, 0, OUT},
+        {"steg"   , 1, 0, STEG},
+        {"pass"   , 1, 0, PASS},
+        {NULL     , 0, NULL, 0}
     };
     int option_index = 0;
-    while ((c = getopt_long(argc, argv, "abc:d:012",
+    while ((c = getopt_long(argc, argv, "p:a:m:",
                  long_options, &option_index)) != -1) {
         int this_option_optind = optind ? optind : 1;
         switch (c) {
-        case 0:
-            printf ("option %s", long_options[option_index].name);
-            if (optarg)
-                printf (" with arg %s", optarg);
-            printf ("\n");
-            break;
-        case '0':
-        case '1':
-        case '2':
-            if (digit_optind != 0 && digit_optind != this_option_optind)
-              printf ("digits occur in two different argv-elements.\n");
-            digit_optind = this_option_optind;
-            printf ("option %c\n", c);
-            break;
+        case 1:
+    		printf("extract!\n");
+    		break;	
+        case 2:
+       		printf("out!\n");
+			if (optarg)
+				printf (" with arg %s", optarg);
+			break;
+        case 3:
+       		printf("steg!\n");
+			if (optarg)
+				if (strcmp("LSB1",optarg) == 0){
+					printf("LSB1\n");
+				}else if (strcmp("LSB4",optarg) == 0){
+					printf("LSB4");
+				}else if (strcmp("LSBE",optarg) == 0){
+					printf("LSBE");
+				}else{
+					error("error");
+				}
+			break
         case 'a':
-            printf ("option a\n");
-            aopt = 1;
+        	//<aes128|aes192|aes256|des>
+            if (optarg)
+				if (strcmp("aes128",optarg) == 0){
+					printf("aes128\n");
+				}else if (strcmp("aes192",optarg) == 0){
+					printf("aes192");
+				}else if (strcmp("aes256",optarg) == 0){
+					printf("aes256");
+				}else{
+					error("error");
+				}
             break;
-        case 'b':
-            printf ("option b\n");
-            bopt = 1;
+        case 'm':
+         	//<ecb|cfb|ofb|cbc>
+            pif (optarg)
+				if (strcmp("ecb",optarg) == 0){
+					printf("ecb\n");
+				}else if (strcmp("cfb",optarg) == 0){
+					printf("cfb");
+				}else if (strcmp("ofb",optarg) == 0){
+					printf("ofb");
+				}else if (strcmp("cbc",optarg) == 0){
+					printf("cbc");
+				}else{
+					error("error");
+				}
             break;
-        case 'c':
-            printf ("option c with value '%s'\n", optarg);
+        case 'p':
+        	//- pbitmapfile
+            printf ("option p with value '%s'\n", optarg);
             copt = optarg;
-            break;
-        case 'd':
-            printf ("option d with value '%s'\n", optarg);
-            dopt = optarg;
             break;
         case '?':
             break;
-        default:
-            printf ("?? getopt returned character code 0%o ??\n", c);
+       	default: print_usage(); 
+                 exit(EXIT_FAILURE);
         }
     }
     if (optind < argc) {
