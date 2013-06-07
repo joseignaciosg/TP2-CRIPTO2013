@@ -32,7 +32,7 @@ int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     if (start_offset)
 	*start_offset = offset;
 
-    if (i != size-1) /* i.e. not all the desired bytes could be read */
+    if (i != size) /* i.e. not all the desired bytes could be read */
 	return -1;
 
     return 0;
@@ -60,7 +60,7 @@ int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     if (start_offset)
 	*start_offset = offset;
 
-    if (i != size-1)
+    if (i != size)
 	return -1;
 
     return 0;
@@ -89,7 +89,7 @@ int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     if (start_offset)
 	*start_offset = offset;
 
-    if (i != size-1)
+    if (i != size)
 	return -1;
 
     return 0;
