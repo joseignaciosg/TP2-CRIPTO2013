@@ -1,17 +1,14 @@
 CFLAGS= -W -Wall -pedantic -Wextra --std=c99
-LDFLAGS=-lssl -lcrypto -lm
+LDFLAGS=-lcrypto -lssl
 
-SRCS=$(wildcard *.c)
-OBJS=$(SRCS:.c=.o)
 EXEC=stegobmp
 
-$(EXEC): $(OBJS)
+all: $(EXEC) clean
 
 .PHONY: clean mr-proper
 
-stegobmp: 
-	gcc stegobmp.c stegobmp_write.c stegobmp_read.c bmp.c util.c crypt.c  -lm -lssl -lcrypto -o stegobmp
-
+$(EXEC): 
+	cc $(CFLAGS) stegobmp.c stegobmp_write.c stegobmp_read.c bmp.c util.c crypt.c $(LDFLAGS) -o $(EXEC)
 
 clean:
 	rm -rf *.o
