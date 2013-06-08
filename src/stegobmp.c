@@ -32,8 +32,6 @@ void print_usage() {
     
 }
 
-
-
 int main(int argc, char **argv)
 {
 
@@ -76,8 +74,7 @@ int main(int argc, char **argv)
     int crypt_flag = 0;
 
 
-    while ((c = getopt_long(argc, argv, "p:a:m:",
-                 long_options, &option_index)) != -1) {
+    while ((c = getopt_long(argc, argv, "p:a:m:", long_options, &option_index)) != -1) {
         int this_option_optind = optind ? optind : 1;
         switch (c) {
         case EXTRACT:
@@ -118,7 +115,7 @@ int main(int argc, char **argv)
 			}
 			break;
         case 'a':
-        	//encrypt_type <aes128|aes192|aes256|des>
+        	/*encrypt_type <aes128|aes192|aes256|des>*/
             if (optarg){
                 crypt_flag = 1;
 				if (strcmp("aes128",optarg) == 0){
@@ -134,7 +131,7 @@ int main(int argc, char **argv)
             }
             break;
         case 'm':
-         	//encrypt_block_type <ecb|cfb|ofb|cbc>
+         	/*encrypt_block_type <ecb|cfb|ofb|cbc>*/
             if (optarg){
                 crypt_flag = 1;
 				if (strcmp("ecb",optarg) == 0){
