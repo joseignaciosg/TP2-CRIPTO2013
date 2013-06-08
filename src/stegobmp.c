@@ -128,6 +128,8 @@ int main(int argc, char **argv)
 					encrypt_t = AES_192;
 				}else if (strcmp("aes256",optarg) == 0){
 					encrypt_t = AES_256;
+				}else if (strcmp("des",optarg) == 0){
+					encrypt_t = DES;
 				}else{
 					print_usage(); 
 					exit(EXIT_FAILURE);
