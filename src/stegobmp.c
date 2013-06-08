@@ -149,6 +149,7 @@ int main(int argc, char **argv)
 				}else if (strcmp("cbc",optarg) == 0){
 					encrypt_block_t = CBC;
 				}else{
+					printf("ERROR: Invalid encryption block algorithm\n");
 					print_usage(); 
 					exit(EXIT_FAILURE);
 				}
