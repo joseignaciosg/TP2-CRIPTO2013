@@ -1,8 +1,6 @@
 TP2-CRIPTO2013
 ==============
 
-#ESTEGANOGRAFÍA
-
 #Para compilar, situarse en el directorio src y hacer make stegobmp.
 
 Extraction Usage:<br>
