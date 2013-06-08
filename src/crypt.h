@@ -47,6 +47,7 @@ enum encrypt_block_type
  * \param passwd the password from which the key and the IV must be derived
  * \param enc the cipher algorithm to be used
  * \param blk the cipher mode of operation to be used
+ * \param out the buffer to which the encrypted data must be written
  * \param encrypted_size a pointer in which the encrypted size is written
  *
  * \return 0 if \a in could be successfully encrypted and -1 if an error occured
@@ -64,6 +65,7 @@ int crypt(const unsigned char* in, const unsigned int in_length, const unsigned 
  * \param passwd the password from which the key and the IV must be derived
  * \param enc the cipher algorithm to be used
  * \param blk the cipher mode of operation to be used
+ * \param out the buffer to which the decrypted data must be written
  * \param decrypted_size a pointer in which the decrypted size is written
  *
  * \return 0 if \a in could be successfully decrypted and -1 if an error occured

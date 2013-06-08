@@ -89,7 +89,7 @@ int lsbe_crypt_embed(FILE* image, FILE* in, const char* extension, FILE* out, co
  * \brief Calculate the maximum number of bytes that can be embedded into an image,
  *  without encryption, with algorithm LSB1
  *
- * \param in a file stream to the file to embed
+ * \param img a file stream to the file to embed
  * \param extension the extension of the file which would be embedded
  *
  * \return the maximum length of the embeddable file content
@@ -99,7 +99,7 @@ unsigned int lsb1_maximum_size_calculator(FILE* img, const char* extension);
  * \brief Calculate the maximum number of bytes that can be embedded into an image,
  *  using encryption, with algorithm LSB1
  *
- * \param in a file stream to the file to embed
+ * \param img a file stream to the file to embed
  * \param block_size the size of a crypted block
  * \param extension the extension of the file which would be embedded
  *
@@ -111,7 +111,7 @@ unsigned int lsb1_crypt_maximum_size_calculator(FILE* img, unsigned int block_si
  * \brief Calculate the maximum number of bytes that can be embedded into an image,
  *  without encryption, with algorithm LSB4
  *
- * \param in a file stream to the file to embed
+ * \param img a file stream to the file to embed
  * \param extension the extension of the file which would be embedded
  *
  * \return the maximum length of the embeddable file content
@@ -121,7 +121,7 @@ unsigned int lsb4_maximum_size_calculator(FILE* img, const char* extension);
  * \brief Calculate the maximum number of bytes that can be embedded into an image,
  *  using encryption, with algorithm LSB4
  *
- * \param in a file stream to the file to embed
+ * \param img a file stream to the file to embed
  * \param block_size the size of a crypted block
  * \param extension the extension of the file which would be embedded
  *
@@ -133,7 +133,7 @@ unsigned int lsb4_crypt_maximum_size_calculator(FILE* img, unsigned int block_si
  * \brief Calculate the maximum number of bytes that can be embedded into an image,
  *  without encryption, with algorithm LSB Enhanced
  *
- * \param in a file stream to the file to embed
+ * \param img a file stream to the file to embed
  * \param extension the extension of the file which would be embedded
  *
  * \return the maximum length of the embeddable file content
@@ -143,7 +143,7 @@ unsigned int lsbe_maximum_size_calculator(FILE* img, const char* extension);
  * \brief Calculate the maximum number of bytes that can be embedded into an image,
  *  using encryption, with algorithm LSB Enhanced
  *
- * \param in a file stream to the file to embed
+ * \param img a file stream to the file to embed
  * \param block_size the size of a crypted block
  * \param extension the extension of the file which would be embedded
  *

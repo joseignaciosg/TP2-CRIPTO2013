@@ -1,7 +1,7 @@
 /**
  * \file stegobmp_read.c
  *
- * Provide functions to read occulted files from BMP images
+ * \brief Provide functions to read occulted files from BMP images
  */
 
 #include <stdio.h>
@@ -15,8 +15,10 @@
 #include "stegobmp.h"
 #include "stegobmp_read.h"
 
+/*! @cond Doxygen_Suppress */
 typedef int (byte_reader)(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset);
 typedef int (byte_counter)(const struct bmp_type *img, unsigned int start_offset);
+/*! @endcond */
 
 /*******************************************************************************/
 /*                           Reading functions                                 */

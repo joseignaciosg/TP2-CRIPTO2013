@@ -1,7 +1,7 @@
 /**
  * \file stegobmp_write.c
  *
- * Provide functions to embed plain or encrypted files to BMP images
+ * \brief Provide functions to embed plain or encrypted files to BMP images
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,9 +14,12 @@
 #include "stegobmp.h"
 #include "stegobmp_write.h"
 
+/*! @cond Doxygen_Suppress */
 typedef int (lsbX_writing_bytes_function_type)(const void* in, const int size, struct bmp_type* out, unsigned int *start_offset);
 typedef unsigned int (size_calculator_type)(FILE* f, const char* extension);
 typedef unsigned int (size_calculator_crypt_type)(FILE* f, unsigned int block_size, const char* extension);
+/*! @endcond */
+
 
 /*********************************************************************************/
 /*				    HELPERS					 */
@@ -163,7 +166,7 @@ inline unsigned int lsb1_crypt_maximum_size_calculator(FILE* img, unsigned int b
     return ((get_file_size(img)/8 - BMP_FILE_HEADER_SIZE  - SIZE_MARKER_LENGTH*2 - strlen(extension) - 1) / block_size) * block_size;
 }
 
-int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
+static int lsb1_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
 {
     int i,j;
     uint8_t* to_be_written = (uint8_t*) in;
@@ -213,7 +216,7 @@ inline unsigned int lsb4_crypt_maximum_size_calculator(FILE* img, unsigned int b
 }
 
 
-int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
+static int lsb4_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
 {
     int i,j,k;
     uint8_t* to_be_written = (uint8_t*) in;
@@ -278,7 +281,7 @@ inline unsigned int lsbe_crypt_maximum_size_calculator(FILE* img, unsigned int b
     return ((usable_bytes_stripped - SIZE_MARKER_LENGTH) / block_size) * block_size;
 }
 
-int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
+static int lsbe_write_bytes(const void* in, const int size, struct bmp_type* out, unsigned int* start_offset)
 {
     int i,j;
     uint8_t* to_be_written = (uint8_t*) in;

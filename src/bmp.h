@@ -49,8 +49,8 @@ int load_img_header(FILE* in, struct bmp_type* img);
  * \param in the file stream corresponding to an open BMPv3 file 
  * \param img an allocated \a bmp_type structure with an allocated matrix field
  *
- * \warning This function doesn't make any checking on \a in. It's the respon-
- * sability of the programmer to load first the header in \a img and performs
+ * \warning This function doesn't make any checking on \a in. It's the responsability 
+ * of the programmer to load first the header in \a img and performs
  * the appropriate checking.
  */
 int load_img_matrix(FILE* in, struct bmp_type* img);

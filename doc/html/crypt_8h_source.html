@@ -87,30 +87,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define OP_DECRYPT 0</span>
 <a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define OP_CRYPT 1</span>
 <a name="l00008"></a>00008 <span class="preprocessor"></span>
-<a name="l00009"></a>00009 <span class="keyword">enum</span> encrypt_type
-<a name="l00010"></a>00010 {
-<a name="l00011"></a>00011     AES_128=0,
-<a name="l00012"></a>00012     AES_192,
-<a name="l00013"></a>00013     AES_256,
-<a name="l00014"></a>00014     DES
-<a name="l00015"></a>00015 };
-<a name="l00016"></a>00016 
-<a name="l00017"></a>00017 <span class="keyword">enum</span> encrypt_block_type
-<a name="l00018"></a>00018 {
-<a name="l00019"></a>00019     ECB=0,
-<a name="l00020"></a>00020     CFB,
-<a name="l00021"></a>00021     OFB,
-<a name="l00022"></a>00022     CBC
-<a name="l00023"></a>00023 };
-<a name="l00024"></a>00024 
-<a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="keywordtype">int</span> crypt(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* in, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> in_length, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">enum</span> encrypt_type enc, <span class="keyword">enum</span> encrypt_block_type blk, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* encrypted_size);
-<a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <span class="keywordtype">int</span> decrypt(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* in, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> in_length, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">enum</span> encrypt_type enc, <span class="keyword">enum</span> encrypt_block_type blk, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* encrypted_size);
-<a name="l00029"></a>00029 
-<a name="l00030"></a>00030 <span class="keywordtype">int</span> get_block_size_for_cipher(<span class="keyword">enum</span> encrypt_type enc, <span class="keyword">enum</span> encrypt_block_type blk);
-<a name="l00031"></a>00031 <span class="preprocessor">#endif</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span>
+<a name="l00016"></a>00016 <span class="keyword">enum</span> encrypt_type
+<a name="l00017"></a>00017 {
+<a name="l00018"></a>00018     AES_128=0, 
+<a name="l00019"></a>00019     AES_192,   
+<a name="l00020"></a>00020     AES_256,   
+<a name="l00021"></a>00021     DES        
+<a name="l00022"></a>00022 };
+<a name="l00023"></a>00023 
+<a name="l00031"></a>00031 <span class="keyword">enum</span> encrypt_block_type
+<a name="l00032"></a>00032 {
+<a name="l00033"></a>00033     ECB=0,   
+<a name="l00034"></a>00034     CFB,     
+<a name="l00035"></a>00035     OFB,     
+<a name="l00036"></a>00036     CBC      
+<a name="l00037"></a>00037 };
+<a name="l00038"></a>00038 
+<a name="l00055"></a>00055 <span class="keywordtype">int</span> <a class="code" href="crypt_8c.html#aa622ed5abdde2541cb8285ccae818fb1" title="Encrypts a chunk of data.">crypt</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* in, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> in_length, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">enum</span> encrypt_type enc, <span class="keyword">enum</span> encrypt_block_type blk, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* encrypted_size);
+<a name="l00056"></a>00056 
+<a name="l00073"></a>00073 <span class="keywordtype">int</span> <a class="code" href="crypt_8c.html#a11a1b4e398acc316c178cb11ca75a515" title="Decrypts a chunk of data.">decrypt</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* in, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> in_length, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">enum</span> encrypt_type enc, <span class="keyword">enum</span> encrypt_block_type blk, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* decrypted_size);
+<a name="l00074"></a>00074 
+<a name="l00083"></a>00083 <span class="keywordtype">int</span> <a class="code" href="crypt_8c.html#a03c535841d2e072e3c8fe03b59a7461b" title="Give the block size (in bytes) used for a given cipher.">get_block_size_for_cipher</a>(<span class="keyword">enum</span> encrypt_type enc, <span class="keyword">enum</span> encrypt_block_type blk);
+<a name="l00084"></a>00084 <span class="preprocessor">#endif</span>
+<a name="l00085"></a>00085 <span class="preprocessor"></span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -129,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 8 2013 17:47:39 for Esteganografía by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 8 2013 19:29:17 for Esteganografía by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

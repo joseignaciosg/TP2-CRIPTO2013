@@ -1,0 +1,69 @@
+.TH "src/stegobmp.c" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/stegobmp.c \- 
+.PP
+Entry point of the Stegobmp program\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <getopt\&.h>\fP
+.br
+\fC#include 'stegobmp\&.h'\fP
+.br
+\fC#include 'stegobmp_write\&.h'\fP
+.br
+\fC#include 'stegobmp_read\&.h'\fP
+.br
+\fC#include 'crypt\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBprint_usage\fP ()"
+.br
+.RI "\fIPrint a quick help to use the program\&. \fP"
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.RI "\fIentry point \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Entry point of the Stegobmp program\&. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int \fBmain\fP (intargc, char **argv)"
+.PP
+entry point Parses the arguments and calls the appropriate high-level function\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargc\fP the number of arguments 
+.br
+\fIargv\fP the arguments
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the high-level called function returned value, i\&.e\&. 0 if ut was successfull, !=0 if an error occured 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

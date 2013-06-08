@@ -1,0 +1,387 @@
+\hypertarget{stegobmp__write_8c}{\section{src/stegobmp\-\_\-write.c \-File \-Reference}
+\label{stegobmp__write_8c}\index{src/stegobmp\-\_\-write.\-c@{src/stegobmp\-\_\-write.\-c}}
+}
+
+
+\-Provide functions to embed plain or encrypted files to \-B\-M\-P images.  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$stdint.\-h$>$}\*
+{\ttfamily \#include $<$string.\-h$>$}\*
+{\ttfamily \#include $<$netinet/in.\-h$>$}\*
+{\ttfamily \#include \char`\"{}bmp.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}util.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}crypt.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}stegobmp.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}stegobmp\-\_\-write.\-h\char`\"{}}\*
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \hyperlink{stegobmp__write_8c_a7f07ccc56908052840872853ab48fc31}{lsb1\-\_\-maximum\-\_\-size\-\_\-calculator} (\-F\-I\-L\-E $\ast$img, const char $\ast$extension)
+\begin{DoxyCompactList}\small\item\em \-Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm \-L\-S\-B1. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{stegobmp__write_8c_a954f81c761811a130e8e895f68055543}{lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator} (\-F\-I\-L\-E $\ast$img, unsigned int block\-\_\-size, const char $\ast$extension)
+\begin{DoxyCompactList}\small\item\em \-Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm \-L\-S\-B1. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__write_8c_a5689bceac06d36b5427ef4c7948b5c81}{lsb1\-\_\-embed} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$in, const char $\ast$extension, \-F\-I\-L\-E $\ast$out)
+\begin{DoxyCompactList}\small\item\em \-Embed a file in a \-B\-M\-Pv3 image without encryption, with algorithm \-L\-S\-B1. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__write_8c_a44d1c895be5287ac82ee532a15d0c04a}{lsb1\-\_\-crypt\-\_\-embed} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$in, const char $\ast$extension, \-F\-I\-L\-E $\ast$out, const char $\ast$passwd, const enum encrypt\-\_\-type enc, const enum encrypt\-\_\-block\-\_\-type blk)
+\begin{DoxyCompactList}\small\item\em \-Embed a file in a \-B\-M\-Pv3 image, encrypting it first, with algorithm \-L\-S\-B1. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{stegobmp__write_8c_a567feef22a2d0bc6033e3c0e21e5e0f5}{lsb4\-\_\-maximum\-\_\-size\-\_\-calculator} (\-F\-I\-L\-E $\ast$img, const char $\ast$extension)
+\begin{DoxyCompactList}\small\item\em \-Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm \-L\-S\-B4. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{stegobmp__write_8c_a13a3e6a7c4c770f2d1bc87a88de43590}{lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator} (\-F\-I\-L\-E $\ast$img, unsigned int block\-\_\-size, const char $\ast$extension)
+\begin{DoxyCompactList}\small\item\em \-Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm \-L\-S\-B4. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__write_8c_a347ff4187f7497728fe450d5661509cd}{lsb4\-\_\-embed} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$in, const char $\ast$extension, \-F\-I\-L\-E $\ast$out)
+\begin{DoxyCompactList}\small\item\em \-Embed a file in a \-B\-M\-Pv3 image without encryption, with algorithm \-L\-S\-B4. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__write_8c_a795e197b3e264159b11b8fb9b24c07ce}{lsb4\-\_\-crypt\-\_\-embed} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$in, const char $\ast$extension, \-F\-I\-L\-E $\ast$out, const char $\ast$passwd, const enum encrypt\-\_\-type enc, const enum encrypt\-\_\-block\-\_\-type blk)
+\begin{DoxyCompactList}\small\item\em \-Embed a file in a \-B\-M\-Pv3 image, encrypting it first, with algorithm \-L\-S\-B4. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{stegobmp__write_8c_a8da52d1fe41bb0fca9a48ad16a59fbe4}{lsbe\-\_\-maximum\-\_\-size\-\_\-calculator} (\-F\-I\-L\-E $\ast$img, const char $\ast$extension)
+\begin{DoxyCompactList}\small\item\em \-Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm \-L\-S\-B \-Enhanced. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{stegobmp__write_8c_a50a764882ea7620acfe4ec86691d7f45}{lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator} (\-F\-I\-L\-E $\ast$img, unsigned int block\-\_\-size, const char $\ast$extension)
+\begin{DoxyCompactList}\small\item\em \-Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm \-L\-S\-B \-Enhanced. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__write_8c_a04a55d1385f23bd94d2b282c24fcc88f}{lsbe\-\_\-embed} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$in, const char $\ast$extension, \-F\-I\-L\-E $\ast$out)
+\begin{DoxyCompactList}\small\item\em \-Embed a file in a \-B\-M\-Pv3 image without encryption, with algorithm \-L\-S\-B \-Enhanced. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__write_8c_aacb3a7c5a5265560eba7d7aa327cade8}{lsbe\-\_\-crypt\-\_\-embed} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$in, const char $\ast$extension, \-F\-I\-L\-E $\ast$out, const char $\ast$passwd, const enum encrypt\-\_\-type enc, const enum encrypt\-\_\-block\-\_\-type blk)
+\begin{DoxyCompactList}\small\item\em \-Embed a file in a \-B\-M\-Pv3 image, encrypting it first, with algorithm \-L\-S\-B \-Enhanced. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provide functions to embed plain or encrypted files to \-B\-M\-P images. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{stegobmp__write_8c_a44d1c895be5287ac82ee532a15d0c04a}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb1\-\_\-crypt\-\_\-embed@{lsb1\-\_\-crypt\-\_\-embed}}
+\index{lsb1\-\_\-crypt\-\_\-embed@{lsb1\-\_\-crypt\-\_\-embed}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb1\-\_\-crypt\-\_\-embed}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb1\-\_\-crypt\-\_\-embed} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{const char $\ast$}]{extension, }
+\item[{\-F\-I\-L\-E $\ast$}]{out, }
+\item[{const char $\ast$}]{passwd, }
+\item[{const enum encrypt\-\_\-type}]{algo, }
+\item[{const enum encrypt\-\_\-block\-\_\-type}]{blk\-\_\-algo}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_a44d1c895be5287ac82ee532a15d0c04a}
+
+
+\-Embed a file in a \-B\-M\-Pv3 image, encrypting it first, with algorithm \-L\-S\-B1. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em in} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file to embed \\
+\hline
+{\em out} & a file stream to the output image \\
+\hline
+{\em passwd} & the password used for encryption \\
+\hline
+{\em algo} & the cipher algorithm used for encryption \\
+\hline
+{\em blk\-\_\-algo} & the cipher chaining mode of operation used for encryption\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file could be successfully embedded, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a954f81c761811a130e8e895f68055543}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}}
+\index{lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf lsb1\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{img, }
+\item[{unsigned int}]{block\-\_\-size, }
+\item[{const char $\ast$}]{extension}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{stegobmp__write_8c_a954f81c761811a130e8e895f68055543}
+
+
+\-Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm \-L\-S\-B1. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a file stream to the file to embed \\
+\hline
+{\em block\-\_\-size} & the size of a crypted block \\
+\hline
+{\em extension} & the extension of the file which would be embedded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the maximum length of the embeddable file content 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a5689bceac06d36b5427ef4c7948b5c81}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb1\-\_\-embed@{lsb1\-\_\-embed}}
+\index{lsb1\-\_\-embed@{lsb1\-\_\-embed}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb1\-\_\-embed}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb1\-\_\-embed} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{const char $\ast$}]{extension, }
+\item[{\-F\-I\-L\-E $\ast$}]{out}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_a5689bceac06d36b5427ef4c7948b5c81}
+
+
+\-Embed a file in a \-B\-M\-Pv3 image without encryption, with algorithm \-L\-S\-B1. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em in} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file to embed \\
+\hline
+{\em out} & a file stream to the output image\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file could be successfully embedded, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a7f07ccc56908052840872853ab48fc31}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb1\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb1\-\_\-maximum\-\_\-size\-\_\-calculator}}
+\index{lsb1\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb1\-\_\-maximum\-\_\-size\-\_\-calculator}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb1\-\_\-maximum\-\_\-size\-\_\-calculator}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf lsb1\-\_\-maximum\-\_\-size\-\_\-calculator} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{img, }
+\item[{const char $\ast$}]{extension}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{stegobmp__write_8c_a7f07ccc56908052840872853ab48fc31}
+
+
+\-Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm \-L\-S\-B1. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file which would be embedded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the maximum length of the embeddable file content 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a795e197b3e264159b11b8fb9b24c07ce}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb4\-\_\-crypt\-\_\-embed@{lsb4\-\_\-crypt\-\_\-embed}}
+\index{lsb4\-\_\-crypt\-\_\-embed@{lsb4\-\_\-crypt\-\_\-embed}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb4\-\_\-crypt\-\_\-embed}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb4\-\_\-crypt\-\_\-embed} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{const char $\ast$}]{extension, }
+\item[{\-F\-I\-L\-E $\ast$}]{out, }
+\item[{const char $\ast$}]{passwd, }
+\item[{const enum encrypt\-\_\-type}]{algo, }
+\item[{const enum encrypt\-\_\-block\-\_\-type}]{blk\-\_\-algo}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_a795e197b3e264159b11b8fb9b24c07ce}
+
+
+\-Embed a file in a \-B\-M\-Pv3 image, encrypting it first, with algorithm \-L\-S\-B4. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em in} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file to embed \\
+\hline
+{\em out} & a file stream to the output image \\
+\hline
+{\em passwd} & the password used for encryption \\
+\hline
+{\em algo} & the cipher algorithm used for encryption \\
+\hline
+{\em blk\-\_\-algo} & the cipher chaining mode of operation used for encryption\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file could be successfully embedded, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a13a3e6a7c4c770f2d1bc87a88de43590}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}}
+\index{lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf lsb4\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{img, }
+\item[{unsigned int}]{block\-\_\-size, }
+\item[{const char $\ast$}]{extension}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{stegobmp__write_8c_a13a3e6a7c4c770f2d1bc87a88de43590}
+
+
+\-Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm \-L\-S\-B4. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a file stream to the file to embed \\
+\hline
+{\em block\-\_\-size} & the size of a crypted block \\
+\hline
+{\em extension} & the extension of the file which would be embedded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the maximum length of the embeddable file content 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a347ff4187f7497728fe450d5661509cd}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb4\-\_\-embed@{lsb4\-\_\-embed}}
+\index{lsb4\-\_\-embed@{lsb4\-\_\-embed}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb4\-\_\-embed}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb4\-\_\-embed} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{const char $\ast$}]{extension, }
+\item[{\-F\-I\-L\-E $\ast$}]{out}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_a347ff4187f7497728fe450d5661509cd}
+
+
+\-Embed a file in a \-B\-M\-Pv3 image without encryption, with algorithm \-L\-S\-B4. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em in} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file to embed \\
+\hline
+{\em out} & a file stream to the output image\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file could be successfully embedded, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a567feef22a2d0bc6033e3c0e21e5e0f5}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsb4\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb4\-\_\-maximum\-\_\-size\-\_\-calculator}}
+\index{lsb4\-\_\-maximum\-\_\-size\-\_\-calculator@{lsb4\-\_\-maximum\-\_\-size\-\_\-calculator}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsb4\-\_\-maximum\-\_\-size\-\_\-calculator}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf lsb4\-\_\-maximum\-\_\-size\-\_\-calculator} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{img, }
+\item[{const char $\ast$}]{extension}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{stegobmp__write_8c_a567feef22a2d0bc6033e3c0e21e5e0f5}
+
+
+\-Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm \-L\-S\-B4. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file which would be embedded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the maximum length of the embeddable file content 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_aacb3a7c5a5265560eba7d7aa327cade8}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsbe\-\_\-crypt\-\_\-embed@{lsbe\-\_\-crypt\-\_\-embed}}
+\index{lsbe\-\_\-crypt\-\_\-embed@{lsbe\-\_\-crypt\-\_\-embed}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsbe\-\_\-crypt\-\_\-embed}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsbe\-\_\-crypt\-\_\-embed} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{const char $\ast$}]{extension, }
+\item[{\-F\-I\-L\-E $\ast$}]{out, }
+\item[{const char $\ast$}]{passwd, }
+\item[{const enum encrypt\-\_\-type}]{algo, }
+\item[{const enum encrypt\-\_\-block\-\_\-type}]{blk\-\_\-algo}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_aacb3a7c5a5265560eba7d7aa327cade8}
+
+
+\-Embed a file in a \-B\-M\-Pv3 image, encrypting it first, with algorithm \-L\-S\-B \-Enhanced. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em in} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file to embed \\
+\hline
+{\em out} & a file stream to the output image \\
+\hline
+{\em passwd} & the password used for encryption \\
+\hline
+{\em algo} & the cipher algorithm used for encryption \\
+\hline
+{\em blk\-\_\-algo} & the cipher chaining mode of operation used for encryption\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file could be successfully embedded, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a50a764882ea7620acfe4ec86691d7f45}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator@{lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}}
+\index{lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator@{lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf lsbe\-\_\-crypt\-\_\-maximum\-\_\-size\-\_\-calculator} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{img, }
+\item[{unsigned int}]{block\-\_\-size, }
+\item[{const char $\ast$}]{extension}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{stegobmp__write_8c_a50a764882ea7620acfe4ec86691d7f45}
+
+
+\-Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm \-L\-S\-B \-Enhanced. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a file stream to the file to embed \\
+\hline
+{\em block\-\_\-size} & the size of a crypted block \\
+\hline
+{\em extension} & the extension of the file which would be embedded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the maximum length of the embeddable file content 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a04a55d1385f23bd94d2b282c24fcc88f}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsbe\-\_\-embed@{lsbe\-\_\-embed}}
+\index{lsbe\-\_\-embed@{lsbe\-\_\-embed}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsbe\-\_\-embed}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsbe\-\_\-embed} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{const char $\ast$}]{extension, }
+\item[{\-F\-I\-L\-E $\ast$}]{out}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_a04a55d1385f23bd94d2b282c24fcc88f}
+
+
+\-Embed a file in a \-B\-M\-Pv3 image without encryption, with algorithm \-L\-S\-B \-Enhanced. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em in} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file to embed \\
+\hline
+{\em out} & a file stream to the output image\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file could be successfully embedded, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__write_8c_a8da52d1fe41bb0fca9a48ad16a59fbe4}{\index{stegobmp\-\_\-write.\-c@{stegobmp\-\_\-write.\-c}!lsbe\-\_\-maximum\-\_\-size\-\_\-calculator@{lsbe\-\_\-maximum\-\_\-size\-\_\-calculator}}
+\index{lsbe\-\_\-maximum\-\_\-size\-\_\-calculator@{lsbe\-\_\-maximum\-\_\-size\-\_\-calculator}!stegobmp_write.c@{stegobmp\-\_\-write.\-c}}
+\subsubsection[{lsbe\-\_\-maximum\-\_\-size\-\_\-calculator}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf lsbe\-\_\-maximum\-\_\-size\-\_\-calculator} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{img, }
+\item[{const char $\ast$}]{extension}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__write_8c_a8da52d1fe41bb0fca9a48ad16a59fbe4}
+
+
+\-Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm \-L\-S\-B \-Enhanced. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a file stream to the file to embed \\
+\hline
+{\em extension} & the extension of the file which would be embedded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the maximum length of the embeddable file content 
+\end{DoxyReturn}

@@ -1,0 +1,128 @@
+\hypertarget{crypt_8c}{\section{src/crypt.c \-File \-Reference}
+\label{crypt_8c}\index{src/crypt.\-c@{src/crypt.\-c}}
+}
+
+
+\-Provide function for encryption and decryption.  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$string.\-h$>$}\*
+{\ttfamily \#include $<$openssl/evp.\-h$>$}\*
+{\ttfamily \#include \char`\"{}crypt.\-h\char`\"{}}\*
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{crypt_8c_a03c535841d2e072e3c8fe03b59a7461b}{get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher} (enum encrypt\-\_\-type enc, enum encrypt\-\_\-block\-\_\-type blk)
+\begin{DoxyCompactList}\small\item\em \-Give the block size (in bytes) used for a given cipher. \end{DoxyCompactList}\item 
+int \hyperlink{crypt_8c_a11a1b4e398acc316c178cb11ca75a515}{decrypt} (const unsigned char $\ast$in, const unsigned int in\-\_\-length, const unsigned char $\ast$passwd, enum encrypt\-\_\-type enc, enum encrypt\-\_\-block\-\_\-type blk, unsigned char $\ast$out, unsigned int $\ast$out\-\_\-length)
+\begin{DoxyCompactList}\small\item\em \-Decrypts a chunk of data. \end{DoxyCompactList}\item 
+int \hyperlink{crypt_8c_aa622ed5abdde2541cb8285ccae818fb1}{crypt} (const unsigned char $\ast$in, const unsigned int in\-\_\-length, const unsigned char $\ast$passwd, enum encrypt\-\_\-type enc, enum encrypt\-\_\-block\-\_\-type blk, unsigned char $\ast$out, unsigned int $\ast$encrypted\-\_\-size)
+\begin{DoxyCompactList}\small\item\em \-Encrypts a chunk of data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provide function for encryption and decryption. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{crypt_8c_aa622ed5abdde2541cb8285ccae818fb1}{\index{crypt.\-c@{crypt.\-c}!crypt@{crypt}}
+\index{crypt@{crypt}!crypt.c@{crypt.\-c}}
+\subsubsection[{crypt}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf crypt} (
+\begin{DoxyParamCaption}
+\item[{const unsigned char $\ast$}]{in, }
+\item[{const unsigned int}]{in\-\_\-length, }
+\item[{const unsigned char $\ast$}]{passwd, }
+\item[{enum encrypt\-\_\-type}]{enc, }
+\item[{enum encrypt\-\_\-block\-\_\-type}]{blk, }
+\item[{unsigned char $\ast$}]{out, }
+\item[{unsigned int $\ast$}]{encrypted\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{crypt_8c_aa622ed5abdde2541cb8285ccae818fb1}
+
+
+\-Encrypts a chunk of data. 
+
+\-This functions receives a chunk of data and a correctly allocated buffer to put the corresponding encrypted chunk. \-It also returns the exact encrypted length.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em in} & the buffer containing the data to be encrypted \\
+\hline
+{\em in\-\_\-length} & the length (in bytes) of the input data \\
+\hline
+{\em passwd} & the password from which the key and the \-I\-V must be derived \\
+\hline
+{\em enc} & the cipher algorithm to be used \\
+\hline
+{\em blk} & the cipher mode of operation to be used \\
+\hline
+{\em out} & the buffer to which the encrypted data must be written \\
+\hline
+{\em encrypted\-\_\-size} & a pointer in which the encrypted size is written\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if {\itshape in\/} could be successfully encrypted and -\/1 if an error occured 
+\end{DoxyReturn}
+\hypertarget{crypt_8c_a11a1b4e398acc316c178cb11ca75a515}{\index{crypt.\-c@{crypt.\-c}!decrypt@{decrypt}}
+\index{decrypt@{decrypt}!crypt.c@{crypt.\-c}}
+\subsubsection[{decrypt}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf decrypt} (
+\begin{DoxyParamCaption}
+\item[{const unsigned char $\ast$}]{in, }
+\item[{const unsigned int}]{in\-\_\-length, }
+\item[{const unsigned char $\ast$}]{passwd, }
+\item[{enum encrypt\-\_\-type}]{enc, }
+\item[{enum encrypt\-\_\-block\-\_\-type}]{blk, }
+\item[{unsigned char $\ast$}]{out, }
+\item[{unsigned int $\ast$}]{decrypted\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{crypt_8c_a11a1b4e398acc316c178cb11ca75a515}
+
+
+\-Decrypts a chunk of data. 
+
+\-This functions receives a chunk of data and a correctly allocated buffer to put the corresponding decrypted chunk. \-It also returns the exact decrypted length.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em in} & the buffer containing the data to be decrypted \\
+\hline
+{\em in\-\_\-length} & the length (in bytes) of the input data \\
+\hline
+{\em passwd} & the password from which the key and the \-I\-V must be derived \\
+\hline
+{\em enc} & the cipher algorithm to be used \\
+\hline
+{\em blk} & the cipher mode of operation to be used \\
+\hline
+{\em out} & the buffer to which the decrypted data must be written \\
+\hline
+{\em decrypted\-\_\-size} & a pointer in which the decrypted size is written\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if {\itshape in\/} could be successfully decrypted and -\/1 if an error occured 
+\end{DoxyReturn}
+\hypertarget{crypt_8c_a03c535841d2e072e3c8fe03b59a7461b}{\index{crypt.\-c@{crypt.\-c}!get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher@{get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher}}
+\index{get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher@{get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher}!crypt.c@{crypt.\-c}}
+\subsubsection[{get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-\_\-block\-\_\-size\-\_\-for\-\_\-cipher} (
+\begin{DoxyParamCaption}
+\item[{enum encrypt\-\_\-type}]{enc, }
+\item[{enum encrypt\-\_\-block\-\_\-type}]{blk}
+\end{DoxyParamCaption}
+)}}\label{crypt_8c_a03c535841d2e072e3c8fe03b59a7461b}
+
+
+\-Give the block size (in bytes) used for a given cipher. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em enc} & the cipher algorithm \\
+\hline
+{\em blk} & the cipher mode of operation\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the block size or -\/1 if the cipher is not supported 
+\end{DoxyReturn}

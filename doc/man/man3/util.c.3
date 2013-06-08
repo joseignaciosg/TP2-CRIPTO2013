@@ -1,0 +1,110 @@
+.TH "src/util.c" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/util.c \- 
+.PP
+Provide utilitary functions for checking and file manipulation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include 'util\&.h'\fP
+.br
+\fC#include 'bmp\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "const char * \fBget_filename_ext\fP (const char *filename)"
+.br
+.RI "\fIextracts the extension from a filename \fP"
+.ti -1c
+.RI "int \fBget_file_size\fP (FILE *file)"
+.br
+.RI "\fIretrieves a file size \fP"
+.ti -1c
+.RI "int \fBcheck_version\fP (const struct \fBbmp_type\fP *img)"
+.br
+.RI "\fIchecks that the version of a BMP is supported \fP"
+.ti -1c
+.RI "int \fBcheck_compression\fP (const struct \fBbmp_type\fP *img)"
+.br
+.RI "\fIchecks whether a BMP is compressed or not \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Provide utilitary functions for checking and file manipulation\&. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int \fBcheck_compression\fP (const struct \fBbmp_type\fP *img)"
+.PP
+checks whether a BMP is compressed or not \fBParameters:\fP
+.RS 4
+\fIimg\fP a \fBbmp_type\fP with a loaded header
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file is compressed, 1 otherwise 
+.RE
+.PP
+
+.SS "int \fBcheck_version\fP (const struct \fBbmp_type\fP *img)"
+.PP
+checks that the version of a BMP is supported \fBParameters:\fP
+.RS 4
+\fIimg\fP a \fBbmp_type\fP with a loaded header
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the version is not supported, >0 otherwise 
+.RE
+.PP
+
+.SS "int \fBget_file_size\fP (FILE *file)"
+.PP
+retrieves a file size This functions saves the internal pointer of the file stream and restore it at the end\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfile\fP an open file stream
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the file size, in bytes 
+.RE
+.PP
+
+.SS "const char* \fBget_filename_ext\fP (const char *filename)"
+.PP
+extracts the extension from a filename The returned pointer points to a location inside filename, possibly the final '\\0' if the filename has no extension\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP the name of the file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a constant pointer to the extension 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

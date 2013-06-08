@@ -87,44 +87,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00006"></a>00006 <span class="preprocessor">#include &quot;stegobmp.h&quot;</span>
 <a name="l00007"></a>00007 
 <a name="l00008"></a>00008 <span class="comment">/* Embed a file into .bmp image using LSB1 */</span>
-<a name="l00009"></a>00009 <span class="keywordtype">int</span> lsb1_embed(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out);
-<a name="l00010"></a>00010 <span class="keywordtype">int</span> lsb1_crypt_embed(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out, <span class="keyword">const</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_type algo, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_block_type blk_algo);
-<a name="l00011"></a>00011 
-<a name="l00012"></a>00012 <span class="keywordtype">int</span> lsb4_embed(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out);
-<a name="l00013"></a>00013 <span class="keywordtype">int</span> lsb4_crypt_embed(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out, <span class="keyword">const</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_type algo, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_block_type blk_algo);
-<a name="l00014"></a>00014 
-<a name="l00015"></a>00015 <span class="keywordtype">int</span> lsbe_embed(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out);
-<a name="l00016"></a>00016 <span class="keywordtype">int</span> lsbe_crypt_embed(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out, <span class="keyword">const</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_type algo, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_block_type blk_algo);
-<a name="l00017"></a>00017 
-<a name="l00018"></a>00018 
-<a name="l00019"></a>00019 <span class="comment">/* Write a sequence of bytes into a file using lsb1 */</span>
-<a name="l00020"></a>00020 <span class="keywordtype">int</span> lsb1_write_bytes(<span class="keyword">const</span> <span class="keywordtype">void</span>* in, <span class="keyword">const</span> <span class="keywordtype">int</span> size, <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *start_offset);
-<a name="l00021"></a>00021 
-<a name="l00022"></a>00022 <span class="keywordtype">int</span> lsb4_write_bytes(<span class="keyword">const</span> <span class="keywordtype">void</span>* in, <span class="keyword">const</span> <span class="keywordtype">int</span> size, <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *start_offset);
-<a name="l00023"></a>00023 
-<a name="l00024"></a>00024 <span class="keywordtype">int</span> lsbe_write_bytes(<span class="keyword">const</span> <span class="keywordtype">void</span>* in, <span class="keyword">const</span> <span class="keywordtype">int</span> size, <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* out, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *start_offset);
-<a name="l00025"></a>00025 
-<a name="l00026"></a>00026 
-<a name="l00027"></a>00027 <span class="comment">/* Calculate the maximum length that can be embedded in a file */</span>
-<a name="l00028"></a>00028 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lsb1_maximum_size_calculator(FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
-<a name="l00029"></a>00029 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lsb1_crypt_maximum_size_calculator(FILE* in, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> block_size, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
-<a name="l00030"></a>00030 
-<a name="l00031"></a>00031 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lsb4_maximum_size_calculator(FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
-<a name="l00032"></a>00032 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lsb4_crypt_maximum_size_calculator(FILE* in, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> block_size, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
-<a name="l00033"></a>00033 
-<a name="l00034"></a>00034 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lsbe_maximum_size_calculator(FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
-<a name="l00035"></a>00035 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lsbe_crypt_maximum_size_calculator(FILE* in, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> block_size, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037 
-<a name="l00038"></a>00038 <span class="comment">/* Verification functions */</span>
-<a name="l00039"></a>00039 <span class="keywordtype">int</span> check_image_size(<span class="keyword">const</span> <span class="keywordtype">int</span> requested_size, <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
-<a name="l00040"></a>00040 
-<a name="l00041"></a>00041 <span class="keywordtype">int</span> check_compression(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keywordtype">int</span> check_version(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
-<a name="l00044"></a>00044 
-<a name="l00045"></a>00045 <span class="preprocessor">#endif</span>
-<a name="l00046"></a>00046 <span class="preprocessor"></span>
+<a name="l00019"></a>00019 <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a5689bceac06d36b5427ef4c7948b5c81" title="Embed a file in a BMPv3 image without encryption, with algorithm LSB1.">lsb1_embed</a>(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out);
+<a name="l00033"></a>00033 <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a44d1c895be5287ac82ee532a15d0c04a" title="Embed a file in a BMPv3 image, encrypting it first, with algorithm LSB1.">lsb1_crypt_embed</a>(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out, <span class="keyword">const</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_type algo, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_block_type blk_algo);
+<a name="l00034"></a>00034 
+<a name="l00045"></a>00045 <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a347ff4187f7497728fe450d5661509cd" title="Embed a file in a BMPv3 image without encryption, with algorithm LSB4.">lsb4_embed</a>(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out);
+<a name="l00059"></a>00059 <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a795e197b3e264159b11b8fb9b24c07ce" title="Embed a file in a BMPv3 image, encrypting it first, with algorithm LSB4.">lsb4_crypt_embed</a>(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out, <span class="keyword">const</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_type algo, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_block_type blk_algo);
+<a name="l00060"></a>00060 
+<a name="l00071"></a>00071 <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a04a55d1385f23bd94d2b282c24fcc88f" title="Embed a file in a BMPv3 image without encryption, with algorithm LSB Enhanced.">lsbe_embed</a>(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out);
+<a name="l00085"></a>00085 <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#aacb3a7c5a5265560eba7d7aa327cade8" title="Embed a file in a BMPv3 image, encrypting it first, with algorithm LSB Enhanced.">lsbe_crypt_embed</a>(FILE* image, FILE* in, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension, FILE* out, <span class="keyword">const</span> <span class="keywordtype">char</span>* passwd, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_type algo, <span class="keyword">const</span> <span class="keyword">enum</span> encrypt_block_type blk_algo);
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 
+<a name="l00097"></a>00097 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a7f07ccc56908052840872853ab48fc31" title="Calculate the maximum number of bytes that can be embedded into an image, without encryption...">lsb1_maximum_size_calculator</a>(FILE* img, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
+<a name="l00108"></a>00108 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a954f81c761811a130e8e895f68055543" title="Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB1.">lsb1_crypt_maximum_size_calculator</a>(FILE* img, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> block_size, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
+<a name="l00109"></a>00109 
+<a name="l00119"></a>00119 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a567feef22a2d0bc6033e3c0e21e5e0f5" title="Calculate the maximum number of bytes that can be embedded into an image, without encryption...">lsb4_maximum_size_calculator</a>(FILE* img, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
+<a name="l00130"></a>00130 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a13a3e6a7c4c770f2d1bc87a88de43590" title="Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB4.">lsb4_crypt_maximum_size_calculator</a>(FILE* img, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> block_size, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
+<a name="l00131"></a>00131 
+<a name="l00141"></a>00141 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a8da52d1fe41bb0fca9a48ad16a59fbe4" title="Calculate the maximum number of bytes that can be embedded into an image, without encryption...">lsbe_maximum_size_calculator</a>(FILE* img, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
+<a name="l00152"></a>00152 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="stegobmp__write_8c.html#a50a764882ea7620acfe4ec86691d7f45" title="Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB Enhanced.">lsbe_crypt_maximum_size_calculator</a>(FILE* img, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> block_size, <span class="keyword">const</span> <span class="keywordtype">char</span>* extension);
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 <span class="preprocessor">#endif</span>
+<a name="l00155"></a>00155 <span class="preprocessor"></span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -143,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 8 2013 17:47:39 for Esteganografía by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 8 2013 19:29:17 for Esteganografía by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
