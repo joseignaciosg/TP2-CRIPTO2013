@@ -9,14 +9,14 @@ Estraction Usage:
 --extract                : to extract hidden message
 -p bitmapfile            : root of the image with the hidden message
 --out outfile            : name of the extracted hidden message
--steg  <LSB1|LSB4|LSBE>  : mode of extraction
+--steg  <LSB1|LSB4|LSBE>  : mode of extraction
 
 Embedding Usage:
 --embed                  : to embed hidden message
 -p bitmapfile            : root of the image whehe the message should be embedded
 --out outfile            : name of the resulting image
 --in outfile             : message to hide
--steg  <LSB1|LSB4|LSBE>  : mode of embedding
+--steg  <LSB1|LSB4|LSBE>  : mode of embedding
 
 Optional Parameters for encryption/decryption
 -a <aes128|aes192|aes256|des> : encryption mode
