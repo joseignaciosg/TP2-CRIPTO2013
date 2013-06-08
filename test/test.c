@@ -23,9 +23,9 @@
 void print_usage() {
     printf("Estraction Usage: \n");
     printf("\t --extract                : to extract hidden message\n");
-    printf("\t -p bitmapfile            : root of the image with the hidden messahe\n");
+    printf("\t -p bitmapfile            : root of the image with the hidden message\n");
     printf("\t --out outfile            : name of the extracted hidden message\n");
-    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of estraction\n");
+    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of extraction\n");
     printf("\n");
     printf("Embedding Usage: \n");
     printf("\t --embed                  : to embed hidden message\n");
@@ -33,6 +33,12 @@ void print_usage() {
     printf("\t --out outfile            : name of the resulting image\n");
     printf("\t --in outfile             : message to hide\n");
     printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of embedding\n");
+    printf("\n");
+    printf(" Optional Parameters for encryption/decryption\n");
+    printf("\t -a <aes128|aes192|aes256|des> : encryption mode\n");
+    printf("\t -m <ecb|cfb|ofb|cbc>          : encryption block mode\n");
+    printf("\t -pass password                : password\n");
+    
 }
 
 
@@ -91,7 +97,6 @@ int main(int argc, char **argv)
     		break;		
 		case IN: 
 			if (optarg){
-                printf("here\n");
 				in = malloc(strlen(optarg) * sizeof(char));
 				strcpy(in,optarg);
 			}
@@ -177,23 +182,22 @@ int main(int argc, char **argv)
                  exit(EXIT_FAILURE);
         }
     }
-    if (optind < argc) {
-        printf ("non-option ARGV-elements: ");
-        while (optind < argc)
-            printf ("%s ", argv[optind++]);
-        printf ("\n");
-    }
-    
+  
     /*params validations*/
+    if (bitmap == NULL){
+        printf("ERROR: A bitmap file should be specified < -p bitmapfile > \n");
+        print_usage(); 
+        exit(EXIT_FAILURE);
+    }
+
     if (in == NULL && mode == EMBED){
-        printf("%s\n", in);
         printf("ERROR: In emded mode a message to hide should be specified (--in msgToHide)\n");
         print_usage(); 
         exit(EXIT_FAILURE);
     }
 
     if ( out == NULL ){
-        printf("ERROR: An --out file should be specified \n");
+        printf("ERROR: A --out file should be specified \n");
         print_usage(); 
         exit(EXIT_FAILURE);
     }
@@ -259,17 +263,37 @@ int main(int argc, char **argv)
     	fclose(msg_f);
     	fclose(bitmap_f);
     	fclose(in_f);
+
    	/*----- Extraction -------*/
     }else if (mode == EXTRACT){
     	msg_f = NULL;
     	bitmap_f = fopen(bitmap,"rb");
     	if (steg == LSB1){
-    		lsb1_extract(bitmap_f, &msg_f, out);
+            if (crypt_flag){      
+                printf("Extracting cyphered message with password: %s\n",passwd);
+                lsb1_crypt_extract(bitmap_f, &msg_f, out, passwd, encrypt_t, encrypt_block_t);  
+            }else{
+                printf("%s\n","Extracting non cyphered message" );
+                lsb1_extract(bitmap_f, &msg_f, out);
+            }
     	}else if (steg == LSB4){
-    		lsb4_extract(bitmap_f, &msg_f, out);
+            if (crypt_flag){      
+                printf("Extracting cyphered message with password: %s\n",passwd);
+                lsb4_crypt_extract(bitmap_f, &msg_f, out, passwd, encrypt_t, encrypt_block_t);  
+            }else{
+                printf("%s\n","Extracting non cyphered message" );
+                lsb4_extract(bitmap_f, &msg_f, out);
+            }
     	}else if (steg == LSBE){
-    		lsbe_extract(bitmap_f, &msg_f, out);
+            if (crypt_flag){      
+                printf("Extracting cyphered message with password: %s\n",passwd);
+                lsbe_crypt_extract(bitmap_f, &msg_f, out, passwd, encrypt_t, encrypt_block_t);  
+            }else{
+                printf("%s\n","Extracting non cyphered message" );
+                lsbe_extract(bitmap_f, &msg_f, out);
+            }
     	}else{
+            printf("ERROR: A steganography mode should be specified <LSB1|LSB4|LSBE>\n");
     		print_usage(); 
 			exit(EXIT_FAILURE);
     	}
