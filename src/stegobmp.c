@@ -1,14 +1,18 @@
-#include <unistd.h>
-#include <stdlib.h>
+/**
+ * \file stegobmp.c
+ *
+ * Entry point of the Stegobmp program
+ */
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <unistd.h>
+#include <getopt.h>
 #include "stegobmp.h"
 #include "stegobmp_write.h"
+#include "stegobmp_read.h"
 #include "crypt.h"
-
 
 
 void print_usage() {

@@ -1,0 +1,46 @@
+.TH "bmp_type" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+bmp_type \- 
+.PP
+describes a BMPv3 file  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <bmp\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBcompressed\fP"
+.br
+.ti -1c
+.RI "int32_t \fBversion\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBusable_size\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBheader\fP [BMP_FILE_HEADER_SIZE]"
+.br
+.ti -1c
+.RI "uint8_t * \fBmatrix\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+describes a BMPv3 file 
+.SH "Field Documentation"
+.PP 
+.SS "uint32_t \fBcompressed\fP"indicates if the content is compressed (offset 0x001e in the file) 
+.SS "uint8_t \fBheader\fP[BMP_FILE_HEADER_SIZE]"the complete header (54 first bytes) 
+.SS "uint8_t* \fBmatrix\fP"a pointer to the pixels matrix (from offset [0x000a] in the file) 
+.SS "uint32_t \fBusable_size\fP"indicates the size of the pixels matrix (in bytes) (offset 0x0022 in the file) 
+.SS "int32_t \fBversion\fP"indicates the version (3: BMPv3, -1: unsupported version) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

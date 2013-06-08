@@ -1,3 +1,8 @@
+/**
+ * \file stegobmp_write.c
+ *
+ * Provide functions to embed plain or encrypted files to BMP images
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

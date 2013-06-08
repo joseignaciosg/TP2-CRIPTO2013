@@ -1,3 +1,9 @@
+/** 
+ *  \file bmp.c
+ *  \brief Provide functions to read and manipulate BMPv3 images
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -7,7 +13,6 @@
 #include <sys/types.h>
 #include "bmp.h"
 #include "stegobmp_write.h"
-
 
 int load_img_header(FILE* in, struct bmp_type* img)
 {

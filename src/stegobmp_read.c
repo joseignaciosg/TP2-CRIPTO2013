@@ -1,3 +1,9 @@
+/**
+ * \file stegobmp_read.c
+ *
+ * Provide functions to read occulted files from BMP images
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -12,7 +18,10 @@
 typedef int (byte_reader)(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset);
 typedef int (byte_counter)(const struct bmp_type *img, unsigned int start_offset);
 
-int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
+/*******************************************************************************/
+/*                           Reading functions                                 */
+/*******************************************************************************/
+static int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
     unsigned int i;
     int j;
@@ -38,7 +47,7 @@ int lsb1_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     return 0;
 }
 
-int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
+static int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
     unsigned int i;
     int j,k;
@@ -66,7 +75,7 @@ int lsb4_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     return 0;
 }
 
-int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
+static int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* in, unsigned int* start_offset)
 {
     unsigned int i;
     int j;
@@ -95,7 +104,10 @@ int lsbe_read_bytes(void* out, const unsigned int size, const struct bmp_type* i
     return 0;
 }
 
-int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+/*******************************************************************************/
+/*                     Looking-forward functions                               */
+/*******************************************************************************/
+static int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
     int j;
     unsigned int count = 0;
@@ -118,7 +130,7 @@ int lsb1_count_bytes(const struct bmp_type* in, unsigned int start_offset)
     return count;
 }
 
-int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+static int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
     int j,k;
     unsigned int count = 0;
@@ -143,7 +155,7 @@ int lsb4_count_bytes(const struct bmp_type* in, unsigned int start_offset)
     return count;
 }
 
-int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offset)
+static int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offset)
 {
     int j;
     unsigned int count = 0;
@@ -169,7 +181,10 @@ int lsbe_count_bytes(const struct bmp_type* in, unsigned int start_offset)
     return count;
 }
 
-int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reader, byte_counter* counter)
+/*******************************************************************************/
+/*                           Main functions                                    */
+/*******************************************************************************/
+static int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reader, byte_counter* counter)
 {
     char *msg, *extension;
     struct bmp_type img;
@@ -180,6 +195,10 @@ int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reade
 
     /* header loading */
     load_img_header(image, &img);
+    if (!check_version(&img) || !check_compression(&img)) {
+	fprintf(stderr, "Format not supported (either the file is not a BMPv3 or it uses compression. Exiting.\n");
+	return -1;
+    }
 
     /* content loading */
     img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
@@ -235,7 +254,7 @@ int lsbX_extract(FILE* image, FILE** msg_f, const char* name, byte_reader* reade
     return 0;
 }
 
-int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *passwd, 
+static int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *passwd, 
 	const enum encrypt_type algo, const enum encrypt_block_type blk_algo,
 	byte_reader *reader)
 {
@@ -248,6 +267,10 @@ int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *
 
     /* header loading */
     load_img_header(image, &img);
+    if (!check_version(&img) || !check_compression(&img)) {
+	fprintf(stderr, "Format not supported (either the file is not a BMPv3 or it uses compression. Exiting.\n");
+	return -1;
+    }
 
     /* content loading */
     img.matrix = malloc(sizeof(uint8_t)*img.usable_size);
@@ -282,7 +305,8 @@ int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *
     free(img.matrix);
 
     /* decrypting */
-    decrypt(encrypted_content, encrypted_size, (unsigned char*) passwd, algo, blk_algo, decrypted_content, &decrypted_size);
+    if (decrypt(encrypted_content, encrypted_size, (unsigned char*) passwd, algo, blk_algo, decrypted_content, &decrypted_size) != 0)
+	return -1;
 
     /* reading the actual data size */
     memcpy(&msg_size, decrypted_content, sizeof(uint32_t));
@@ -314,6 +338,9 @@ int lsbX_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char *
     return 0;
 }
 
+/*******************************************************************************/
+/*                      Extraction of plain data                               */
+/*******************************************************************************/
 int lsb1_extract(FILE* image, FILE** msg_f, const char* name)
 {
     return lsbX_extract(image, msg_f, name, lsb1_read_bytes, lsb1_count_bytes);
@@ -330,20 +357,23 @@ int lsbe_extract(FILE* image, FILE** msg_f, const char* name)
 }
 
 
+/*******************************************************************************/
+/*                    Extraction of encrypted data                             */
+/*******************************************************************************/
 int lsb1_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* passwd,
-	const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+                       const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
 {
     return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsb1_read_bytes);
 }
 
 int lsb4_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* passwd,
-	const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+                       const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
 {
     return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsb4_read_bytes);
 }
 
 int lsbe_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* passwd,
-	const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
+                       const enum encrypt_type algo, const enum encrypt_block_type blk_algo)
 {
     return lsbX_crypt_extract(image, msg_f, name, passwd, algo, blk_algo, lsbe_read_bytes);
 }

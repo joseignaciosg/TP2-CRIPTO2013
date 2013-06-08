@@ -1,3 +1,9 @@
+/**
+ * \file crypt.c
+ *
+ * Provide function for encryption and decryption
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,31 +65,35 @@ static int init_key_iv(unsigned char* k, unsigned char* iv, const unsigned char*
     return !EVP_BytesToKey(cipher, EVP_md5(), NULL, passwd, strlen((char*)passwd), 1, k, iv);
 }
 
-static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* encrypted_size, int mode)
+static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* out_length, int mode)
 {
     unsigned char* k;
     unsigned char* iv;
-    int out_length, out_final_length;
-    const EVP_CIPHER* cipher =  derive_cipher(enc, blk);
+    int out_partial_length, out_final_length;
     EVP_CIPHER_CTX ctx;
+    const EVP_CIPHER* cipher =  derive_cipher(enc, blk);
 
     if (cipher == NULL) {
-	fprintf(stderr,"Unsupported cipherblock type");
+	fprintf(stderr,"Unsupported cipherblock type\n");
 	return -1;
     }
 
     allocate_key_iv(&k,&iv,cipher);
     init_key_iv(k,iv,passwd,cipher);
 
-    /*encrypt*/
+    /* encrypt or decrypt */
     EVP_CIPHER_CTX_init(&ctx);
     EVP_CipherInit_ex(&ctx, cipher, NULL, k, iv, mode);
-    EVP_CipherUpdate(&ctx, out, &out_length, in, in_length);
-    EVP_CipherFinal_ex(&ctx, out+out_length, &out_final_length);
+    EVP_CipherUpdate(&ctx, out, &out_partial_length, in, in_length);
+    EVP_CipherFinal_ex(&ctx, out+out_partial_length, &out_final_length);
 
-    *encrypted_size = out_length + out_final_length;
+    *out_length = out_partial_length + out_final_length;
 
-    memset(k,0,EVP_CIPHER_key_length(cipher));
+    /* wiping key from memory (paranoid mode enabled) 
+     * and cleaning up 
+     * (TODO: this function should replace key bytes with random bytes
+     * instead of a known sequence) */
+    memcpy(k,out,EVP_CIPHER_key_length(cipher));
     free(k);
     free(iv);
 
@@ -92,9 +102,13 @@ static int crypt_decrypt(const unsigned char* in, const unsigned int in_length, 
     return 0;
 }
 
+/********************************************************************************/
+/*                          Interface functions                                 */
+/********************************************************************************/
 int get_block_size_for_cipher(enum encrypt_type enc, enum encrypt_block_type blk)
 {
-    return EVP_CIPHER_block_size(derive_cipher(enc, blk));
+    const EVP_CIPHER* cipher = derive_cipher(enc, blk);
+    return cipher ? EVP_CIPHER_block_size(cipher) : -1 ;
 }
 
 int decrypt(const unsigned char* in, const unsigned int in_length, const unsigned char* passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char* out, unsigned int* out_length)
