@@ -1,0 +1,51 @@
+\hypertarget{structbmp__type}{\section{bmp\-\_\-type \-Struct \-Reference}
+\label{structbmp__type}\index{bmp\-\_\-type@{bmp\-\_\-type}}
+}
+
+
+describes a \-B\-M\-Pv3 file  
+
+
+
+
+{\ttfamily \#include $<$bmp.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{structbmp__type_ab001ea0e77561ed8d03a29079550a720}{compressed}
+\item 
+int32\-\_\-t \hyperlink{structbmp__type_a67fae7dd1de9edce3656ed214d20377f}{version}
+\item 
+uint32\-\_\-t \hyperlink{structbmp__type_aadfd1cc69862b81f6c5a3722504fda3c}{usable\-\_\-size}
+\item 
+uint8\-\_\-t \hyperlink{structbmp__type_a503e04ba6bcc7286467e069ddebd5332}{header} \mbox{[}\-B\-M\-P\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{structbmp__type_a16aac5379a86abf69c6ac771af178866}{matrix}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+describes a \-B\-M\-Pv3 file 
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structbmp__type_ab001ea0e77561ed8d03a29079550a720}{\index{bmp\-\_\-type@{bmp\-\_\-type}!compressed@{compressed}}
+\index{compressed@{compressed}!bmp_type@{bmp\-\_\-type}}
+\subsubsection[{compressed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf compressed}}}\label{structbmp__type_ab001ea0e77561ed8d03a29079550a720}
+indicates if the content is compressed (offset 0x001e in the file) \hypertarget{structbmp__type_a503e04ba6bcc7286467e069ddebd5332}{\index{bmp\-\_\-type@{bmp\-\_\-type}!header@{header}}
+\index{header@{header}!bmp_type@{bmp\-\_\-type}}
+\subsubsection[{header}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf header}\mbox{[}\-B\-M\-P\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{structbmp__type_a503e04ba6bcc7286467e069ddebd5332}
+the complete header (54 first bytes) \hypertarget{structbmp__type_a16aac5379a86abf69c6ac771af178866}{\index{bmp\-\_\-type@{bmp\-\_\-type}!matrix@{matrix}}
+\index{matrix@{matrix}!bmp_type@{bmp\-\_\-type}}
+\subsubsection[{matrix}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf matrix}}}\label{structbmp__type_a16aac5379a86abf69c6ac771af178866}
+a pointer to the pixels matrix (from offset \mbox{[}0x000a\mbox{]} in the file) \hypertarget{structbmp__type_aadfd1cc69862b81f6c5a3722504fda3c}{\index{bmp\-\_\-type@{bmp\-\_\-type}!usable\-\_\-size@{usable\-\_\-size}}
+\index{usable\-\_\-size@{usable\-\_\-size}!bmp_type@{bmp\-\_\-type}}
+\subsubsection[{usable\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf usable\-\_\-size}}}\label{structbmp__type_aadfd1cc69862b81f6c5a3722504fda3c}
+indicates the size of the pixels matrix (in bytes) (offset 0x0022 in the file) \hypertarget{structbmp__type_a67fae7dd1de9edce3656ed214d20377f}{\index{bmp\-\_\-type@{bmp\-\_\-type}!version@{version}}
+\index{version@{version}!bmp_type@{bmp\-\_\-type}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf version}}}\label{structbmp__type_a67fae7dd1de9edce3656ed214d20377f}
+indicates the version (3\-: \-B\-M\-Pv3, -\/1\-: unsupported version) 
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/bmp.\-h\end{DoxyCompactItemize}

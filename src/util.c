@@ -1,3 +1,8 @@
+/**
+ * \file util.h
+ *
+ * \brief Provide utilitary functions for checking and file manipulation
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -13,19 +18,6 @@ const char *get_filename_ext(const char *filename) {
     return dot + 1;
 }
 
-/*********************************************************************************/
-/*			    Checking functions					 */
-/*********************************************************************************/
-int check_version(const struct bmp_type* img)
-{
-    return img->version != -1;
-}
-
-int check_compression(const struct bmp_type* img)
-{
-    return img->compressed == 0;
-}
-
 /* 
  * Fetches file size. The internal pointer of the stream is restored to its position.
  */
@@ -37,5 +29,18 @@ int get_file_size(FILE* file)
     size = ftell(file);
     fseek(file, current_position, SEEK_SET);
     return size;
+}
+
+/*********************************************************************************/
+/*			    Checking functions					 */
+/*********************************************************************************/
+int check_version(const struct bmp_type* img)
+{
+    return img->version != -1;
+}
+
+int check_compression(const struct bmp_type* img)
+{
+    return img->compressed == 0;
 }
 

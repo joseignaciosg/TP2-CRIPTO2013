@@ -1,3 +1,9 @@
+/**
+ * \file crypt.c
+ *
+ * Provide function for encryption and decryption
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

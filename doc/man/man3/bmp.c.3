@@ -1,0 +1,97 @@
+.TH "src/bmp.c" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/bmp.c \- 
+.PP
+Provide functions to read and manipulate BMPv3 images\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <error\&.h>\fP
+.br
+\fC#include <errno\&.h>\fP
+.br
+\fC#include <sys/types\&.h>\fP
+.br
+\fC#include 'bmp\&.h'\fP
+.br
+\fC#include 'stegobmp_write\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBload_img_header\fP (FILE *in, struct \fBbmp_type\fP *img)"
+.br
+.RI "\fILoad an BMPv3 header from a file stream into a \fBbmp_type\fP struct\&. \fP"
+.ti -1c
+.RI "int \fBload_img_matrix\fP (FILE *in, struct \fBbmp_type\fP *img)"
+.br
+.RI "\fILoad the matrix of pixels from a BMPv3 file into a \fBbmp_type\fP struct\&. \fP"
+.ti -1c
+.RI "int \fBwrite_img\fP (FILE *out, struct \fBbmp_type\fP *img)"
+.br
+.RI "\fIWrite down a BMP to a file\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Provide functions to read and manipulate BMPv3 images\&. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int \fBload_img_header\fP (FILE *in, struct \fBbmp_type\fP *img)"
+.PP
+Load an BMPv3 header from a file stream into a \fBbmp_type\fP struct\&. This function receives a correctly allocated \fBbmp_type\fP \fIimg\fP and sets its fields with the information from the first 54 bytes readable from \fIin\fP\&. It left the field \fIimg->matrix\fP untouched (so it doesn't have to be allocated)\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIin\fP the file stream corresponding to an open BMPv3 file 
+.br
+\fIimg\fP an allocated \fI\fBbmp_type\fP\fP structure 
+.RE
+.PP
+
+.SS "int \fBload_img_matrix\fP (FILE *in, struct \fBbmp_type\fP *img)"
+.PP
+Load the matrix of pixels from a BMPv3 file into a \fBbmp_type\fP struct\&. This functions receives a correctly allocated \fBbmp_type\fP \fIimg\fP with an allocated \fIimg->matrix\fP field and loads the byte corresponding to the image content from the file stream \fIin\fP to \fIimg\fP\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIin\fP the file stream corresponding to an open BMPv3 file 
+.br
+\fIimg\fP an allocated \fI\fBbmp_type\fP\fP structure with an allocated matrix field
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+This function doesn't make any checking on \fIin\fP\&. It's the respon- sability of the programmer to load first the header in \fIimg\fP and performs the appropriate checking\&. 
+.RE
+.PP
+
+.SS "int \fBwrite_img\fP (FILE *out, struct \fBbmp_type\fP *img)"
+.PP
+Write down a BMP to a file\&. This function receives a \fIimg\fP containing both a header and a matrix of pixels and write down to the file stream \fIout\fP\&. The output file is previously truncated\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIout\fP the output file stream which must be opened in writing mode 
+.br
+\fIimg\fP a \fBbmp_type\fP containing both a loaded header and a loaded matrix of pixels 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

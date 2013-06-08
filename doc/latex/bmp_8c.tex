@@ -1,0 +1,98 @@
+\hypertarget{bmp_8c}{\section{src/bmp.c \-File \-Reference}
+\label{bmp_8c}\index{src/bmp.\-c@{src/bmp.\-c}}
+}
+
+
+\-Provide functions to read and manipulate \-B\-M\-Pv3 images.  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$unistd.\-h$>$}\*
+{\ttfamily \#include $<$string.\-h$>$}\*
+{\ttfamily \#include $<$error.\-h$>$}\*
+{\ttfamily \#include $<$errno.\-h$>$}\*
+{\ttfamily \#include $<$sys/types.\-h$>$}\*
+{\ttfamily \#include \char`\"{}bmp.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}stegobmp\-\_\-write.\-h\char`\"{}}\*
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{bmp_8c_ae100a2b072727ee918915a18584a62e1}{load\-\_\-img\-\_\-header} (\-F\-I\-L\-E $\ast$in, struct \hyperlink{structbmp__type}{bmp\-\_\-type} $\ast$img)
+\begin{DoxyCompactList}\small\item\em \-Load an \-B\-M\-Pv3 header from a file stream into a \hyperlink{structbmp__type}{bmp\-\_\-type} struct. \end{DoxyCompactList}\item 
+int \hyperlink{bmp_8c_a5fbcafc813fe74dc138a8d1819068a41}{load\-\_\-img\-\_\-matrix} (\-F\-I\-L\-E $\ast$in, struct \hyperlink{structbmp__type}{bmp\-\_\-type} $\ast$img)
+\begin{DoxyCompactList}\small\item\em \-Load the matrix of pixels from a \-B\-M\-Pv3 file into a \hyperlink{structbmp__type}{bmp\-\_\-type} struct. \end{DoxyCompactList}\item 
+int \hyperlink{bmp_8c_a13cff3cfdafd214b3f42b5cb8d3be956}{write\-\_\-img} (\-F\-I\-L\-E $\ast$out, struct \hyperlink{structbmp__type}{bmp\-\_\-type} $\ast$img)
+\begin{DoxyCompactList}\small\item\em \-Write down a \-B\-M\-P to a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provide functions to read and manipulate \-B\-M\-Pv3 images. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{bmp_8c_ae100a2b072727ee918915a18584a62e1}{\index{bmp.\-c@{bmp.\-c}!load\-\_\-img\-\_\-header@{load\-\_\-img\-\_\-header}}
+\index{load\-\_\-img\-\_\-header@{load\-\_\-img\-\_\-header}!bmp.c@{bmp.\-c}}
+\subsubsection[{load\-\_\-img\-\_\-header}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf load\-\_\-img\-\_\-header} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{struct {\bf bmp\-\_\-type} $\ast$}]{img}
+\end{DoxyParamCaption}
+)}}\label{bmp_8c_ae100a2b072727ee918915a18584a62e1}
+
+
+\-Load an \-B\-M\-Pv3 header from a file stream into a \hyperlink{structbmp__type}{bmp\-\_\-type} struct. 
+
+\-This function receives a correctly allocated \hyperlink{structbmp__type}{bmp\-\_\-type} {\itshape img\/} and sets its fields with the information from the first 54 bytes readable from {\itshape in\/}. \-It left the field {\itshape img-\/$>$matrix\/} untouched (so it doesn't have to be allocated).
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em in} & the file stream corresponding to an open \-B\-M\-Pv3 file \\
+\hline
+{\em img} & an allocated {\itshape \hyperlink{structbmp__type}{bmp\-\_\-type}\/} structure \\
+\hline
+\end{DoxyParams}
+\hypertarget{bmp_8c_a5fbcafc813fe74dc138a8d1819068a41}{\index{bmp.\-c@{bmp.\-c}!load\-\_\-img\-\_\-matrix@{load\-\_\-img\-\_\-matrix}}
+\index{load\-\_\-img\-\_\-matrix@{load\-\_\-img\-\_\-matrix}!bmp.c@{bmp.\-c}}
+\subsubsection[{load\-\_\-img\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf load\-\_\-img\-\_\-matrix} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{in, }
+\item[{struct {\bf bmp\-\_\-type} $\ast$}]{img}
+\end{DoxyParamCaption}
+)}}\label{bmp_8c_a5fbcafc813fe74dc138a8d1819068a41}
+
+
+\-Load the matrix of pixels from a \-B\-M\-Pv3 file into a \hyperlink{structbmp__type}{bmp\-\_\-type} struct. 
+
+\-This functions receives a correctly allocated \hyperlink{structbmp__type}{bmp\-\_\-type} {\itshape img\/} with an allocated {\itshape img-\/$>$matrix\/} field and loads the byte corresponding to the image content from the file stream {\itshape in\/} to {\itshape img\/}.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em in} & the file stream corresponding to an open \-B\-M\-Pv3 file \\
+\hline
+{\em img} & an allocated {\itshape \hyperlink{structbmp__type}{bmp\-\_\-type}\/} structure with an allocated matrix field\\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{\-Warning}
+\-This function doesn't make any checking on {\itshape in\/}. \-It's the respon-\/ sability of the programmer to load first the header in {\itshape img\/} and performs the appropriate checking. 
+\end{DoxyWarning}
+\hypertarget{bmp_8c_a13cff3cfdafd214b3f42b5cb8d3be956}{\index{bmp.\-c@{bmp.\-c}!write\-\_\-img@{write\-\_\-img}}
+\index{write\-\_\-img@{write\-\_\-img}!bmp.c@{bmp.\-c}}
+\subsubsection[{write\-\_\-img}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf write\-\_\-img} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{out, }
+\item[{struct {\bf bmp\-\_\-type} $\ast$}]{img}
+\end{DoxyParamCaption}
+)}}\label{bmp_8c_a13cff3cfdafd214b3f42b5cb8d3be956}
+
+
+\-Write down a \-B\-M\-P to a file. 
+
+\-This function receives a {\itshape img\/} containing both a header and a matrix of pixels and write down to the file stream {\itshape out\/}. \-The output file is previously truncated.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em out} & the output file stream which must be opened in writing mode \\
+\hline
+{\em img} & a \hyperlink{structbmp__type}{bmp\-\_\-type} containing both a loaded header and a loaded matrix of pixels \\
+\hline
+\end{DoxyParams}

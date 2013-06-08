@@ -1,3 +1,9 @@
+/**
+ * \file stegobmp_read.c
+ *
+ * Provide functions to read occulted files from BMP images
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
