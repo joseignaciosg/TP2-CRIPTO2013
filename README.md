@@ -22,10 +22,10 @@ Optional Parameters for encryption/decryption<br>
 --pass password               : password<br>
 <br><br>
 #Ejemplo de extracción<br>
-./test --extract -p ../files/example/sherlock1.bmp --out out --steg LSB1<br>
+./stegobmp --extract -p ../files/example/sherlock1.bmp --out out --steg LSB1<br>
 <br>
 #Ejemplo de embebimiento<br>
-./test --embed -p test.bmp --out out.bmp --in 1 --steg LSB1<br>
+./stegobmp --embed -p test.bmp --out out.bmp --in 1 --steg LSB1<br>
 <br>
 <br>
 #Para encontrar la solución a la enigma:<br>
