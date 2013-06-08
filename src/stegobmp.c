@@ -200,14 +200,12 @@ int main(int argc, char **argv)
 
     if ( crypt_flag  ) {
         if (encrypt_t == -1){
-            printf("ERROR: An encription type should be specified\n");
-            print_usage();
-            exit(EXIT_FAILURE);
+            printf("INFO: Using defualt encryption type AES128 \n");
+       		encrypt_t = AES_128;
         }
         if (encrypt_block_t  == -1){
-            printf("ERROR: An encription block type should be specified\n");
-            print_usage();
-            exit(EXIT_FAILURE);
+			printf("INFO: Using defualt encryption block type CBC \n");
+			encrypt_block_t = CBC;
         }
         if (passwd == NULL){
             printf("ERROR: A password should be specified\n");
