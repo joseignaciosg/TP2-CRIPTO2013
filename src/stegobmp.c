@@ -20,7 +20,7 @@ void print_usage() {
     printf("\t --extract                : to extract hidden message\n");
     printf("\t -p bitmapfile            : root of the image with the hidden message\n");
     printf("\t --out outfile            : name of the extracted hidden message\n");
-    printf("\t --steg  <LSB1|LSB4|LSBE>  : mode of extraction\n");
+    printf("\t --steg  <LSB1|LSB4|LSBE> : mode of extraction\n");
     printf("\n");
     printf("Embedding Usage: \n");
     printf("\t --embed                  : to embed hidden message\n");
