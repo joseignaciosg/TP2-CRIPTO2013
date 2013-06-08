@@ -22,14 +22,14 @@ void print_usage() {
     printf("\t --extract                : to extract hidden message\n");
     printf("\t -p bitmapfile            : root of the image with the hidden message\n");
     printf("\t --out outfile            : name of the extracted hidden message\n");
-    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of extraction\n");
+    printf("\t --steg  <LSB1|LSB4|LSBE>  : mode of extraction\n");
     printf("\n");
     printf("Embedding Usage: \n");
     printf("\t --embed                  : to embed hidden message\n");
     printf("\t -p bitmapfile            : root of the image whehe the message should be embedded\n");
     printf("\t --out outfile            : name of the resulting image\n");
     printf("\t --in outfile             : message to hide\n");
-    printf("\t -steg  <LSB1|LSB4|LSBE>  : mode of embedding\n");
+    printf("\t --steg  <LSB1|LSB4|LSBE>  : mode of embedding\n");
     printf("\n");
     printf(" Optional Parameters for encryption/decryption\n");
     printf("\t -a <aes128|aes192|aes256|des> : encryption mode\n");
@@ -81,101 +81,102 @@ int main(int argc, char **argv)
 
 
     while ((c = getopt_long(argc, argv, "p:a:m:", long_options, &option_index)) != -1) {
-	switch (c) {
-	    case EXTRACT:
-		mode = EXTRACT;
-		break;
-	    case EMBED:
-		mode = EMBED;
-		break;		
-	    case IN: 
-		if (optarg){
-		    in = malloc(strlen(optarg) * sizeof(char));
-		    strcpy(in,optarg);
-		}
-		break;
-	    case OUT: 
-		if (optarg){
-		    out = malloc(strlen(optarg) * sizeof(char));
-		    strcpy(out,optarg);
-		}
-		break;
-	    case STEG:
-		if (optarg){
-		    if (strcmp("LSB1",optarg) == 0){
-			steg = LSB1;
-		    }else if (strcmp("LSB4",optarg) == 0){
-			steg = LSB4;
-		    }else if (strcmp("LSBE",optarg) == 0){
-			steg = LSBE;
-		    }else{
-			print_usage(); 
-			exit(EXIT_FAILURE);
-		    }
-		}
-		else{
-		    printf("You must specify and steganography method \n");
-		    print_usage(); 
-		    exit(EXIT_FAILURE);
-		}
-		break;
-	    case 'a':
-		/*encrypt_type <aes128|aes192|aes256|des>*/
-		if (optarg){
-		    crypt_flag = 1;
-		    if (strcmp("aes128",optarg) == 0){
-			encrypt_t = AES_128;
-		    }else if (strcmp("aes192",optarg) == 0){
-			encrypt_t = AES_192;
-		    }else if (strcmp("aes256",optarg) == 0){
-			encrypt_t = AES_256;
-		    }else if (strcmp("des",optarg) == 0){
-			encrypt_t = DES;
-		    }else{
-			print_usage(); 
-			exit(EXIT_FAILURE);
-		    }
-		}
-		break; 
-	    case 'm':
-		/*encrypt_block_type <ecb|cfb|ofb|cbc>*/
-		if (optarg){
-		    crypt_flag = 1;
-		    if (strcmp("ecb",optarg) == 0){
-			encrypt_block_t = ECB;
-		    }else if (strcmp("cfb",optarg) == 0){
-			encrypt_block_t = CFB;
-		    }else if (strcmp("ofb",optarg) == 0){
-			encrypt_block_t = OFB;
-		    }else if (strcmp("cbc",optarg) == 0){
-			encrypt_block_t = CBC;
-		    }else{
-			print_usage(); 
-			exit(EXIT_FAILURE);
-		    }
-		}
-		break;
-	    case PASS:
-		if (optarg){
-		    crypt_flag = 1;
-		    passwd = malloc(strlen(optarg) * sizeof(char));
-		    strcpy(passwd,optarg);
-		}
-		break;
-	    case 'p':
-		if (optarg){
-		    bitmap = malloc(strlen(optarg) * sizeof(char));
-		    strcpy(bitmap,optarg);
-		}else{
-		    print_usage(); 
-		    exit(EXIT_FAILURE);
-		}
-		break;
-	    case '?':
-		break;
-	    default: print_usage(); 
-		     exit(EXIT_FAILURE);
-	}
+        switch (c) {
+        case EXTRACT:
+    		mode = EXTRACT;
+    		break;
+    	case EMBED:
+    		mode = EMBED;
+    		break;		
+		case IN: 
+			if (optarg){
+				in = malloc(strlen(optarg) * sizeof(char));
+				strcpy(in,optarg);
+			}
+			break;
+		case OUT: 
+			if (optarg){
+				out = malloc(strlen(optarg) * sizeof(char));
+				strcpy(out,optarg);
+			}
+			break;
+		case STEG:
+			if (optarg){
+				if (strcmp("LSB1",optarg) == 0){
+					steg = LSB1;
+				}else if (strcmp("LSB4",optarg) == 0){
+					steg = LSB4;
+				}else if (strcmp("LSBE",optarg) == 0){
+					steg = LSBE;
+				}else{
+					print_usage(); 
+					exit(EXIT_FAILURE);
+				}
+			}
+			else{
+				printf("You must specify a steganography method \n");
+				print_usage(); 
+				exit(EXIT_FAILURE);
+			}
+			break;
+        case 'a':
+        	/*encrypt_type <aes128|aes192|aes256|des>*/
+            if (optarg){
+                crypt_flag = 1;
+				if (strcmp("aes128",optarg) == 0){
+				    encrypt_t = AES_128;
+				}else if (strcmp("aes192",optarg) == 0){
+					encrypt_t = AES_192;
+				}else if (strcmp("aes256",optarg) == 0){
+					encrypt_t = AES_256;
+				}else if (strcmp("des",optarg) == 0){
+					encrypt_t = DES;
+				}else{
+					print_usage(); 
+					exit(EXIT_FAILURE);
+				}
+            }
+            break; 
+        case 'm':
+         	/*encrypt_block_type <ecb|cfb|ofb|cbc>*/
+            if (optarg){
+                crypt_flag = 1;
+				if (strcmp("ecb",optarg) == 0){
+				    encrypt_block_t = ECB;
+				}else if (strcmp("cfb",optarg) == 0){
+					encrypt_block_t = CFB;
+				}else if (strcmp("ofb",optarg) == 0){
+					encrypt_block_t = OFB;
+				}else if (strcmp("cbc",optarg) == 0){
+					encrypt_block_t = CBC;
+				}else{
+					printf("ERROR: Invalid encryption block algorithm\n");
+					print_usage(); 
+					exit(EXIT_FAILURE);
+				}
+			}
+            break;
+        case PASS:
+            if (optarg){
+                crypt_flag = 1;
+                passwd = malloc(strlen(optarg) * sizeof(char));
+                strcpy(passwd,optarg);
+            }
+            break;
+        case 'p':
+        	if (optarg){
+				bitmap = malloc(strlen(optarg) * sizeof(char));
+				strcpy(bitmap,optarg);
+			}else{
+				print_usage(); 
+				exit(EXIT_FAILURE);
+			}
+			break;
+        case '?':
+            break;
+       	default: print_usage(); 
+                 exit(EXIT_FAILURE);
+        }
     }
 
     /*params validations*/
