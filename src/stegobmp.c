@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 					exit(EXIT_FAILURE);
 				}
             }
-            break;
+            break; 
         case 'm':
          	/*encrypt_block_type <ecb|cfb|ofb|cbc>*/
             if (optarg){
@@ -194,7 +194,6 @@ int main(int argc, char **argv)
     FILE* in_f;
     FILE* bitmap_f;
 
-
     if ( crypt_flag  ) {
         if (encrypt_t == -1){
             printf("ERROR: An encription type should be specified\n");
@@ -213,35 +212,47 @@ int main(int argc, char **argv)
         } 
     }
 
+
+    char * extension = NULL;
+    char * aux = NULL;
     /*----- Embedding -------*/
     if (mode == EMBED){
+    	aux = strrchr(in, '.');
     	bitmap_f = fopen(bitmap,"rb");
     	in_f = fopen(in,"rb");
 		msg_f = fopen(out,"wb");
-        /*TODO poner la extensión correcta*/
+		if ( aux == NULL){
+			extension = malloc(strlen(".txt")* sizeof(char));
+			strcpy(extension,".txt"); 
+		}else{
+			extension = malloc(strlen(aux)* sizeof(char));
+			strcpy(extension,aux); 
+		}
+		printf("extension: %s\n", extension);
+        
     	if (steg == LSB1){
             if (crypt_flag){      
                 printf("Embeding cyphered message with password: %s\n",passwd);
-                lsb1_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);          
+                lsb1_crypt_embed(bitmap_f, in_f, extension ,msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
                 printf("%s\n","Embeding non cyphered message" );
-                lsb1_embed(bitmap_f, in_f,".txt",msg_f); 
+                lsb1_embed(bitmap_f, in_f, extension ,msg_f); 
             }
     	}else if (steg == LSB4){
             if (crypt_flag){      
                 printf("Embeding cyphered message with password: %s\n",passwd);
-                lsb4_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);          
+                lsb4_crypt_embed(bitmap_f, in_f, extension ,msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
                 printf("%s\n","Embeding non cyphered message" );
-                lsb4_embed(bitmap_f, in_f, ".txt",msg_f); 
+                lsb4_embed(bitmap_f, in_f,  extension ,msg_f); 
             }		
     	}else if (steg == LSBE){
             if (crypt_flag){      
                 printf("Embeding cyphered message with password: %s\n",passwd);
-                lsbe_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);          
+                lsbe_crypt_embed(bitmap_f, in_f, extension ,msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
                 printf("%s\n","Embeding non cyphered message" );
-                lsbe_embed(bitmap_f, in_f, ".txt",msg_f); 
+                lsbe_embed(bitmap_f, in_f,  extension ,msg_f); 
             }   
     	}else{
             printf("ERROR: A steganography mode should be specified <LSB1|LSB4|LSBE>\n");
@@ -251,7 +262,6 @@ int main(int argc, char **argv)
     	fclose(msg_f);
     	fclose(bitmap_f);
     	fclose(in_f);
-
    	/*----- Extraction -------*/
     }else if (mode == EXTRACT){
     	msg_f = NULL;
