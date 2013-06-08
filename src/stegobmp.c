@@ -1,7 +1,7 @@
 /**
  * \file stegobmp.c
  *
- * Entry point of the Stegobmp program
+ * \brief Entry point of the Stegobmp program
  */
 
 #include <stdio.h>
@@ -15,8 +15,11 @@
 #include "crypt.h"
 
 
+/**
+ * \brief Print a quick help to use the program
+ */
 void print_usage() {
-    printf("Estraction Usage: \n");
+    printf("Extraction Usage: \n");
     printf("\t --extract                : to extract hidden message\n");
     printf("\t -p bitmapfile            : root of the image with the hidden message\n");
     printf("\t --out outfile            : name of the extracted hidden message\n");
@@ -36,6 +39,17 @@ void print_usage() {
     
 }
 
+/**
+ * \brief entry point
+ *
+ * Parses the arguments and calls the appropriate high-level function.
+ *
+ * \param argc the number of arguments
+ * \param argv the arguments
+ *
+ * \return the high-level called function returned value, i.e. 0 if ut was successfull,
+ * !=0 if an error occured
+ */
 int main(int argc, char **argv)
 {
 
