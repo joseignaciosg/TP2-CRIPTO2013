@@ -5,7 +5,7 @@ ESTEGANOGRAFÍA
 
 Para compilar, situarse en el directorio src y hacer make stegobmp.
 
-Extraction Usage:
+Extraction Usage:\n
 --extract                : to extract hidden message
 -p bitmapfile            : root of the image with the hidden message
 --out outfile            : name of the extracted hidden message
