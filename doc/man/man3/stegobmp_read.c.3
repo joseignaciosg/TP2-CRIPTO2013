@@ -1,0 +1,190 @@
+.TH "src/stegobmp_read.c" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/stegobmp_read.c \- 
+.PP
+Provide functions to read occulted files from BMP images\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <netinet/in\&.h>\fP
+.br
+\fC#include 'bmp\&.h'\fP
+.br
+\fC#include 'util\&.h'\fP
+.br
+\fC#include 'crypt\&.h'\fP
+.br
+\fC#include 'stegobmp\&.h'\fP
+.br
+\fC#include 'stegobmp_read\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBlsb1_extract\fP (FILE *image, FILE **msg_f, const char *name)"
+.br
+.RI "\fIExtract a hidden file from a BMP file using LSB1 algorithm\&. \fP"
+.ti -1c
+.RI "int \fBlsb4_extract\fP (FILE *image, FILE **msg_f, const char *name)"
+.br
+.RI "\fIExtract a hidden file from a BMP file using LSB4 algorithm\&. \fP"
+.ti -1c
+.RI "int \fBlsbe_extract\fP (FILE *image, FILE **msg_f, const char *name)"
+.br
+.RI "\fIExtract a hidden file from a BMP file using LSB Enhanced algorithm\&. \fP"
+.ti -1c
+.RI "int \fBlsb1_crypt_extract\fP (FILE *image, FILE **msg_f, const char *name, const char *passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo)"
+.br
+.RI "\fIExtract a hidden encrypted file from a BMP file using LSB1 algorithm\&. \fP"
+.ti -1c
+.RI "int \fBlsb4_crypt_extract\fP (FILE *image, FILE **msg_f, const char *name, const char *passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo)"
+.br
+.RI "\fIExtract a hidden encrypted file from a BMP file using LSB4 algorithm\&. \fP"
+.ti -1c
+.RI "int \fBlsbe_crypt_extract\fP (FILE *image, FILE **msg_f, const char *name, const char *passwd, const enum encrypt_type algo, const enum encrypt_block_type blk_algo)"
+.br
+.RI "\fIExtract a hidden encrypted file from a BMP file using LSB Enhanced algorithm\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Provide functions to read occulted files from BMP images\&. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int \fBlsb1_crypt_extract\fP (FILE *image, FILE **msg_f, const char *name, const char *passwd, const enum encrypt_typealgo, const enum encrypt_block_typeblk_algo)"
+.PP
+Extract a hidden encrypted file from a BMP file using LSB1 algorithm\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fImsg_f\fP a pointer to a file stream that is not open yet for the output 
+.br
+\fIname\fP a pointer to a string containing the base name of the output file 
+.br
+\fIpasswd\fP the password to be used to decrypt the extracted file 
+.br
+\fIalgo\fP the cipher algorithm to be used to decrypt the extracted file 
+.br
+\fIblk_algo\fP the cipher chaining mode of operation to be used to decrypt the extracted file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if a file could be succesfully extracted, -1 otherwise 
+.RE
+.PP
+
+.SS "int \fBlsb1_extract\fP (FILE *image, FILE **msg, const char *name)"
+.PP
+Extract a hidden file from a BMP file using LSB1 algorithm\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fImsg\fP a pointer to a file stream that is not open yet for the output 
+.br
+\fIname\fP a pointer to a string containing the base name of the output file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if a file could be succesfully extracted, -1 otherwise 
+.RE
+.PP
+
+.SS "int \fBlsb4_crypt_extract\fP (FILE *image, FILE **msg_f, const char *name, const char *passwd, const enum encrypt_typealgo, const enum encrypt_block_typeblk_algo)"
+.PP
+Extract a hidden encrypted file from a BMP file using LSB4 algorithm\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fImsg_f\fP a pointer to a file stream that is not open yet for the output 
+.br
+\fIname\fP a pointer to a string containing the base name of the output file 
+.br
+\fIpasswd\fP the password to be used to decrypt the extracted file 
+.br
+\fIalgo\fP the cipher algorithm to be used to decrypt the extracted file 
+.br
+\fIblk_algo\fP the cipher chaining mode of operation to be used to decrypt the extracted file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if a file could be succesfully extracted, -1 otherwise 
+.RE
+.PP
+
+.SS "int \fBlsb4_extract\fP (FILE *image, FILE **msg, const char *name)"
+.PP
+Extract a hidden file from a BMP file using LSB4 algorithm\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fImsg\fP a pointer to a file stream that is not open yet for the output 
+.br
+\fIname\fP a pointer to a string containing the base name of the output file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if a file could be succesfully extracted, -1 otherwise 
+.RE
+.PP
+
+.SS "int \fBlsbe_crypt_extract\fP (FILE *image, FILE **msg_f, const char *name, const char *passwd, const enum encrypt_typealgo, const enum encrypt_block_typeblk_algo)"
+.PP
+Extract a hidden encrypted file from a BMP file using LSB Enhanced algorithm\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fImsg_f\fP a pointer to a file stream that is not open yet for the output 
+.br
+\fIname\fP a pointer to a string containing the base name of the output file 
+.br
+\fIpasswd\fP the password to be used to decrypt the extracted file 
+.br
+\fIalgo\fP the cipher algorithm to be used to decrypt the extracted file 
+.br
+\fIblk_algo\fP the cipher chaining mode of operation to be used to decrypt the extracted file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if a file could be succesfully extracted, -1 otherwise 
+.RE
+.PP
+
+.SS "int \fBlsbe_extract\fP (FILE *image, FILE **msg, const char *name)"
+.PP
+Extract a hidden file from a BMP file using LSB Enhanced algorithm\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fImsg\fP a pointer to a file stream that is not open yet for the output 
+.br
+\fIname\fP a pointer to a string containing the base name of the output file
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if a file could be succesfully extracted, -1 otherwise 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

@@ -1,0 +1,322 @@
+.TH "src/stegobmp_write.c" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/stegobmp_write.c \- 
+.PP
+Provide functions to embed plain or encrypted files to BMP images\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <netinet/in\&.h>\fP
+.br
+\fC#include 'bmp\&.h'\fP
+.br
+\fC#include 'util\&.h'\fP
+.br
+\fC#include 'crypt\&.h'\fP
+.br
+\fC#include 'stegobmp\&.h'\fP
+.br
+\fC#include 'stegobmp_write\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned int \fBlsb1_maximum_size_calculator\fP (FILE *img, const char *extension)"
+.br
+.RI "\fICalculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm LSB1\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlsb1_crypt_maximum_size_calculator\fP (FILE *img, unsigned int block_size, const char *extension)"
+.br
+.RI "\fICalculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB1\&. \fP"
+.ti -1c
+.RI "int \fBlsb1_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out)"
+.br
+.RI "\fIEmbed a file in a BMPv3 image without encryption, with algorithm LSB1\&. \fP"
+.ti -1c
+.RI "int \fBlsb1_crypt_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out, const char *passwd, const enum encrypt_type enc, const enum encrypt_block_type blk)"
+.br
+.RI "\fIEmbed a file in a BMPv3 image, encrypting it first, with algorithm LSB1\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlsb4_maximum_size_calculator\fP (FILE *img, const char *extension)"
+.br
+.RI "\fICalculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm LSB4\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlsb4_crypt_maximum_size_calculator\fP (FILE *img, unsigned int block_size, const char *extension)"
+.br
+.RI "\fICalculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB4\&. \fP"
+.ti -1c
+.RI "int \fBlsb4_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out)"
+.br
+.RI "\fIEmbed a file in a BMPv3 image without encryption, with algorithm LSB4\&. \fP"
+.ti -1c
+.RI "int \fBlsb4_crypt_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out, const char *passwd, const enum encrypt_type enc, const enum encrypt_block_type blk)"
+.br
+.RI "\fIEmbed a file in a BMPv3 image, encrypting it first, with algorithm LSB4\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlsbe_maximum_size_calculator\fP (FILE *img, const char *extension)"
+.br
+.RI "\fICalculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm LSB Enhanced\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlsbe_crypt_maximum_size_calculator\fP (FILE *img, unsigned int block_size, const char *extension)"
+.br
+.RI "\fICalculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB Enhanced\&. \fP"
+.ti -1c
+.RI "int \fBlsbe_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out)"
+.br
+.RI "\fIEmbed a file in a BMPv3 image without encryption, with algorithm LSB Enhanced\&. \fP"
+.ti -1c
+.RI "int \fBlsbe_crypt_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out, const char *passwd, const enum encrypt_type enc, const enum encrypt_block_type blk)"
+.br
+.RI "\fIEmbed a file in a BMPv3 image, encrypting it first, with algorithm LSB Enhanced\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Provide functions to embed plain or encrypted files to BMP images\&. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int \fBlsb1_crypt_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out, const char *passwd, const enum encrypt_typealgo, const enum encrypt_block_typeblk_algo)"
+.PP
+Embed a file in a BMPv3 image, encrypting it first, with algorithm LSB1\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fIin\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file to embed 
+.br
+\fIout\fP a file stream to the output image 
+.br
+\fIpasswd\fP the password used for encryption 
+.br
+\fIalgo\fP the cipher algorithm used for encryption 
+.br
+\fIblk_algo\fP the cipher chaining mode of operation used for encryption
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file could be successfully embedded, -1 otherwise 
+.RE
+.PP
+
+.SS "unsigned int \fBlsb1_crypt_maximum_size_calculator\fP (FILE *img, unsigned intblock_size, const char *extension)\fC [inline]\fP"
+.PP
+Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB1\&. \fBParameters:\fP
+.RS 4
+\fIimg\fP a file stream to the file to embed 
+.br
+\fIblock_size\fP the size of a crypted block 
+.br
+\fIextension\fP the extension of the file which would be embedded
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the maximum length of the embeddable file content 
+.RE
+.PP
+
+.SS "int \fBlsb1_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out)"
+.PP
+Embed a file in a BMPv3 image without encryption, with algorithm LSB1\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fIin\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file to embed 
+.br
+\fIout\fP a file stream to the output image
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file could be successfully embedded, -1 otherwise 
+.RE
+.PP
+
+.SS "unsigned int \fBlsb1_maximum_size_calculator\fP (FILE *img, const char *extension)\fC [inline]\fP"
+.PP
+Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm LSB1\&. \fBParameters:\fP
+.RS 4
+\fIimg\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file which would be embedded
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the maximum length of the embeddable file content 
+.RE
+.PP
+
+.SS "int \fBlsb4_crypt_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out, const char *passwd, const enum encrypt_typealgo, const enum encrypt_block_typeblk_algo)"
+.PP
+Embed a file in a BMPv3 image, encrypting it first, with algorithm LSB4\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fIin\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file to embed 
+.br
+\fIout\fP a file stream to the output image 
+.br
+\fIpasswd\fP the password used for encryption 
+.br
+\fIalgo\fP the cipher algorithm used for encryption 
+.br
+\fIblk_algo\fP the cipher chaining mode of operation used for encryption
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file could be successfully embedded, -1 otherwise 
+.RE
+.PP
+
+.SS "unsigned int \fBlsb4_crypt_maximum_size_calculator\fP (FILE *img, unsigned intblock_size, const char *extension)\fC [inline]\fP"
+.PP
+Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB4\&. \fBParameters:\fP
+.RS 4
+\fIimg\fP a file stream to the file to embed 
+.br
+\fIblock_size\fP the size of a crypted block 
+.br
+\fIextension\fP the extension of the file which would be embedded
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the maximum length of the embeddable file content 
+.RE
+.PP
+
+.SS "int \fBlsb4_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out)"
+.PP
+Embed a file in a BMPv3 image without encryption, with algorithm LSB4\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fIin\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file to embed 
+.br
+\fIout\fP a file stream to the output image
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file could be successfully embedded, -1 otherwise 
+.RE
+.PP
+
+.SS "unsigned int \fBlsb4_maximum_size_calculator\fP (FILE *img, const char *extension)\fC [inline]\fP"
+.PP
+Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm LSB4\&. \fBParameters:\fP
+.RS 4
+\fIimg\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file which would be embedded
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the maximum length of the embeddable file content 
+.RE
+.PP
+
+.SS "int \fBlsbe_crypt_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out, const char *passwd, const enum encrypt_typealgo, const enum encrypt_block_typeblk_algo)"
+.PP
+Embed a file in a BMPv3 image, encrypting it first, with algorithm LSB Enhanced\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fIin\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file to embed 
+.br
+\fIout\fP a file stream to the output image 
+.br
+\fIpasswd\fP the password used for encryption 
+.br
+\fIalgo\fP the cipher algorithm used for encryption 
+.br
+\fIblk_algo\fP the cipher chaining mode of operation used for encryption
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file could be successfully embedded, -1 otherwise 
+.RE
+.PP
+
+.SS "unsigned int \fBlsbe_crypt_maximum_size_calculator\fP (FILE *img, unsigned intblock_size, const char *extension)\fC [inline]\fP"
+.PP
+Calculate the maximum number of bytes that can be embedded into an image, using encryption, with algorithm LSB Enhanced\&. \fBParameters:\fP
+.RS 4
+\fIimg\fP a file stream to the file to embed 
+.br
+\fIblock_size\fP the size of a crypted block 
+.br
+\fIextension\fP the extension of the file which would be embedded
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the maximum length of the embeddable file content 
+.RE
+.PP
+
+.SS "int \fBlsbe_embed\fP (FILE *image, FILE *in, const char *extension, FILE *out)"
+.PP
+Embed a file in a BMPv3 image without encryption, with algorithm LSB Enhanced\&. \fBParameters:\fP
+.RS 4
+\fIimage\fP a file stream to a BMPv3 file 
+.br
+\fIin\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file to embed 
+.br
+\fIout\fP a file stream to the output image
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the file could be successfully embedded, -1 otherwise 
+.RE
+.PP
+
+.SS "unsigned int \fBlsbe_maximum_size_calculator\fP (FILE *img, const char *extension)"
+.PP
+Calculate the maximum number of bytes that can be embedded into an image, without encryption, with algorithm LSB Enhanced\&. \fBParameters:\fP
+.RS 4
+\fIimg\fP a file stream to the file to embed 
+.br
+\fIextension\fP the extension of the file which would be embedded
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the maximum length of the embeddable file content 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

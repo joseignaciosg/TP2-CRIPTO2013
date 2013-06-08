@@ -1,7 +1,7 @@
 /**
  * \file crypt.c
  *
- * Provide function for encryption and decryption
+ * \brief Provide function for encryption and decryption
  */
 
 #include <stdio.h>

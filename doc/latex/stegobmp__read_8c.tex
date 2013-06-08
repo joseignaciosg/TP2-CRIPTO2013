@@ -1,0 +1,216 @@
+\hypertarget{stegobmp__read_8c}{\section{src/stegobmp\-\_\-read.c \-File \-Reference}
+\label{stegobmp__read_8c}\index{src/stegobmp\-\_\-read.\-c@{src/stegobmp\-\_\-read.\-c}}
+}
+
+
+\-Provide functions to read occulted files from \-B\-M\-P images.  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$stdint.\-h$>$}\*
+{\ttfamily \#include $<$string.\-h$>$}\*
+{\ttfamily \#include $<$netinet/in.\-h$>$}\*
+{\ttfamily \#include \char`\"{}bmp.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}util.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}crypt.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}stegobmp.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}stegobmp\-\_\-read.\-h\char`\"{}}\*
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{stegobmp__read_8c_a3175c7ff6f12755b8c553dacae446558}{lsb1\-\_\-extract} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$$\ast$msg\-\_\-f, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em \-Extract a hidden file from a \-B\-M\-P file using \-L\-S\-B1 algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__read_8c_a5840b9e7b3d3201715d8773d3d55aa01}{lsb4\-\_\-extract} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$$\ast$msg\-\_\-f, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em \-Extract a hidden file from a \-B\-M\-P file using \-L\-S\-B4 algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__read_8c_ac6d5e09887d617fa3706595c1c406dba}{lsbe\-\_\-extract} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$$\ast$msg\-\_\-f, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em \-Extract a hidden file from a \-B\-M\-P file using \-L\-S\-B \-Enhanced algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__read_8c_a5bc57d5719ef2da747325a2fc31fc31b}{lsb1\-\_\-crypt\-\_\-extract} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$$\ast$msg\-\_\-f, const char $\ast$name, const char $\ast$passwd, const enum encrypt\-\_\-type algo, const enum encrypt\-\_\-block\-\_\-type blk\-\_\-algo)
+\begin{DoxyCompactList}\small\item\em \-Extract a hidden encrypted file from a \-B\-M\-P file using \-L\-S\-B1 algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__read_8c_ac9d51ca6ced433817164e1e610005921}{lsb4\-\_\-crypt\-\_\-extract} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$$\ast$msg\-\_\-f, const char $\ast$name, const char $\ast$passwd, const enum encrypt\-\_\-type algo, const enum encrypt\-\_\-block\-\_\-type blk\-\_\-algo)
+\begin{DoxyCompactList}\small\item\em \-Extract a hidden encrypted file from a \-B\-M\-P file using \-L\-S\-B4 algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{stegobmp__read_8c_a1e20d04eacf3a7891ef1852364ba4791}{lsbe\-\_\-crypt\-\_\-extract} (\-F\-I\-L\-E $\ast$image, \-F\-I\-L\-E $\ast$$\ast$msg\-\_\-f, const char $\ast$name, const char $\ast$passwd, const enum encrypt\-\_\-type algo, const enum encrypt\-\_\-block\-\_\-type blk\-\_\-algo)
+\begin{DoxyCompactList}\small\item\em \-Extract a hidden encrypted file from a \-B\-M\-P file using \-L\-S\-B \-Enhanced algorithm. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provide functions to read occulted files from \-B\-M\-P images. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{stegobmp__read_8c_a5bc57d5719ef2da747325a2fc31fc31b}{\index{stegobmp\-\_\-read.\-c@{stegobmp\-\_\-read.\-c}!lsb1\-\_\-crypt\-\_\-extract@{lsb1\-\_\-crypt\-\_\-extract}}
+\index{lsb1\-\_\-crypt\-\_\-extract@{lsb1\-\_\-crypt\-\_\-extract}!stegobmp_read.c@{stegobmp\-\_\-read.\-c}}
+\subsubsection[{lsb1\-\_\-crypt\-\_\-extract}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb1\-\_\-crypt\-\_\-extract} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$$\ast$}]{msg\-\_\-f, }
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{passwd, }
+\item[{const enum encrypt\-\_\-type}]{algo, }
+\item[{const enum encrypt\-\_\-block\-\_\-type}]{blk\-\_\-algo}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__read_8c_a5bc57d5719ef2da747325a2fc31fc31b}
+
+
+\-Extract a hidden encrypted file from a \-B\-M\-P file using \-L\-S\-B1 algorithm. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em msg\-\_\-f} & a pointer to a file stream that is not open yet for the output \\
+\hline
+{\em name} & a pointer to a string containing the base name of the output file \\
+\hline
+{\em passwd} & the password to be used to decrypt the extracted file \\
+\hline
+{\em algo} & the cipher algorithm to be used to decrypt the extracted file \\
+\hline
+{\em blk\-\_\-algo} & the cipher chaining mode of operation to be used to decrypt the extracted file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if a file could be succesfully extracted, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__read_8c_a3175c7ff6f12755b8c553dacae446558}{\index{stegobmp\-\_\-read.\-c@{stegobmp\-\_\-read.\-c}!lsb1\-\_\-extract@{lsb1\-\_\-extract}}
+\index{lsb1\-\_\-extract@{lsb1\-\_\-extract}!stegobmp_read.c@{stegobmp\-\_\-read.\-c}}
+\subsubsection[{lsb1\-\_\-extract}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb1\-\_\-extract} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$$\ast$}]{msg, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__read_8c_a3175c7ff6f12755b8c553dacae446558}
+
+
+\-Extract a hidden file from a \-B\-M\-P file using \-L\-S\-B1 algorithm. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em msg} & a pointer to a file stream that is not open yet for the output \\
+\hline
+{\em name} & a pointer to a string containing the base name of the output file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if a file could be succesfully extracted, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__read_8c_ac9d51ca6ced433817164e1e610005921}{\index{stegobmp\-\_\-read.\-c@{stegobmp\-\_\-read.\-c}!lsb4\-\_\-crypt\-\_\-extract@{lsb4\-\_\-crypt\-\_\-extract}}
+\index{lsb4\-\_\-crypt\-\_\-extract@{lsb4\-\_\-crypt\-\_\-extract}!stegobmp_read.c@{stegobmp\-\_\-read.\-c}}
+\subsubsection[{lsb4\-\_\-crypt\-\_\-extract}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb4\-\_\-crypt\-\_\-extract} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$$\ast$}]{msg\-\_\-f, }
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{passwd, }
+\item[{const enum encrypt\-\_\-type}]{algo, }
+\item[{const enum encrypt\-\_\-block\-\_\-type}]{blk\-\_\-algo}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__read_8c_ac9d51ca6ced433817164e1e610005921}
+
+
+\-Extract a hidden encrypted file from a \-B\-M\-P file using \-L\-S\-B4 algorithm. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em msg\-\_\-f} & a pointer to a file stream that is not open yet for the output \\
+\hline
+{\em name} & a pointer to a string containing the base name of the output file \\
+\hline
+{\em passwd} & the password to be used to decrypt the extracted file \\
+\hline
+{\em algo} & the cipher algorithm to be used to decrypt the extracted file \\
+\hline
+{\em blk\-\_\-algo} & the cipher chaining mode of operation to be used to decrypt the extracted file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if a file could be succesfully extracted, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__read_8c_a5840b9e7b3d3201715d8773d3d55aa01}{\index{stegobmp\-\_\-read.\-c@{stegobmp\-\_\-read.\-c}!lsb4\-\_\-extract@{lsb4\-\_\-extract}}
+\index{lsb4\-\_\-extract@{lsb4\-\_\-extract}!stegobmp_read.c@{stegobmp\-\_\-read.\-c}}
+\subsubsection[{lsb4\-\_\-extract}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsb4\-\_\-extract} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$$\ast$}]{msg, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__read_8c_a5840b9e7b3d3201715d8773d3d55aa01}
+
+
+\-Extract a hidden file from a \-B\-M\-P file using \-L\-S\-B4 algorithm. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em msg} & a pointer to a file stream that is not open yet for the output \\
+\hline
+{\em name} & a pointer to a string containing the base name of the output file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if a file could be succesfully extracted, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__read_8c_a1e20d04eacf3a7891ef1852364ba4791}{\index{stegobmp\-\_\-read.\-c@{stegobmp\-\_\-read.\-c}!lsbe\-\_\-crypt\-\_\-extract@{lsbe\-\_\-crypt\-\_\-extract}}
+\index{lsbe\-\_\-crypt\-\_\-extract@{lsbe\-\_\-crypt\-\_\-extract}!stegobmp_read.c@{stegobmp\-\_\-read.\-c}}
+\subsubsection[{lsbe\-\_\-crypt\-\_\-extract}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsbe\-\_\-crypt\-\_\-extract} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$$\ast$}]{msg\-\_\-f, }
+\item[{const char $\ast$}]{name, }
+\item[{const char $\ast$}]{passwd, }
+\item[{const enum encrypt\-\_\-type}]{algo, }
+\item[{const enum encrypt\-\_\-block\-\_\-type}]{blk\-\_\-algo}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__read_8c_a1e20d04eacf3a7891ef1852364ba4791}
+
+
+\-Extract a hidden encrypted file from a \-B\-M\-P file using \-L\-S\-B \-Enhanced algorithm. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em msg\-\_\-f} & a pointer to a file stream that is not open yet for the output \\
+\hline
+{\em name} & a pointer to a string containing the base name of the output file \\
+\hline
+{\em passwd} & the password to be used to decrypt the extracted file \\
+\hline
+{\em algo} & the cipher algorithm to be used to decrypt the extracted file \\
+\hline
+{\em blk\-\_\-algo} & the cipher chaining mode of operation to be used to decrypt the extracted file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if a file could be succesfully extracted, -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{stegobmp__read_8c_ac6d5e09887d617fa3706595c1c406dba}{\index{stegobmp\-\_\-read.\-c@{stegobmp\-\_\-read.\-c}!lsbe\-\_\-extract@{lsbe\-\_\-extract}}
+\index{lsbe\-\_\-extract@{lsbe\-\_\-extract}!stegobmp_read.c@{stegobmp\-\_\-read.\-c}}
+\subsubsection[{lsbe\-\_\-extract}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lsbe\-\_\-extract} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{image, }
+\item[{\-F\-I\-L\-E $\ast$$\ast$}]{msg, }
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{stegobmp__read_8c_ac6d5e09887d617fa3706595c1c406dba}
+
+
+\-Extract a hidden file from a \-B\-M\-P file using \-L\-S\-B \-Enhanced algorithm. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em image} & a file stream to a \-B\-M\-Pv3 file \\
+\hline
+{\em msg} & a pointer to a file stream that is not open yet for the output \\
+\hline
+{\em name} & a pointer to a string containing the base name of the output file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if a file could be succesfully extracted, -\/1 otherwise 
+\end{DoxyReturn}

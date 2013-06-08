@@ -46,7 +46,7 @@ int lsbe_extract(FILE* image, FILE** msg, const char* name);
  * \brief Extract a hidden encrypted file from a BMP file using LSB1 algorithm
  *
  * \param image a file stream to a BMPv3 file
- * \param msg a pointer to a file stream that is not open yet for
+ * \param msg_f a pointer to a file stream that is not open yet for
  *  the output
  * \param name a pointer to a string containing the base name of the output file
  * \param passwd the password to be used to decrypt the extracted file
@@ -62,7 +62,7 @@ int lsb1_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* 
  * \brief Extract a hidden encrypted file from a BMP file using LSB4 algorithm
  *
  * \param image a file stream to a BMPv3 file
- * \param msg a pointer to a file stream that is not open yet for
+ * \param msg_f a pointer to a file stream that is not open yet for
  *  the output
  * \param name a pointer to a string containing the base name of the output file
  * \param passwd the password to be used to decrypt the extracted file
@@ -78,7 +78,7 @@ int lsb4_crypt_extract(FILE* image, FILE** msg_f, const char* name, const char* 
  * \brief Extract a hidden encrypted file from a BMP file using LSB Enhanced algorithm
  *
  * \param image a file stream to a BMPv3 file
- * \param msg a pointer to a file stream that is not open yet for
+ * \param msg_f a pointer to a file stream that is not open yet for
  *  the output
  * \param name a pointer to a string containing the base name of the output file
  * \param passwd the password to be used to decrypt the extracted file

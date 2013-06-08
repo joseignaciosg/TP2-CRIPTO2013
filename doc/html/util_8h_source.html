@@ -84,14 +84,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00003"></a>00003 <span class="preprocessor"></span>
 <a name="l00004"></a>00004 <span class="preprocessor">#include &quot;bmp.h&quot;</span>
 <a name="l00005"></a>00005 
-<a name="l00006"></a>00006 <span class="keyword">const</span> <span class="keywordtype">char</span> *get_filename_ext(<span class="keyword">const</span> <span class="keywordtype">char</span> *filename);
-<a name="l00007"></a>00007 <span class="keywordtype">int</span> check_version(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
-<a name="l00008"></a>00008 <span class="keywordtype">int</span> check_compression(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
-<a name="l00009"></a>00009 <span class="keywordtype">int</span> get_file_size(FILE* file);
-<a name="l00010"></a>00010 
-<a name="l00011"></a>00011 
-<a name="l00012"></a>00012 <span class="preprocessor">#endif</span>
-<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00016"></a>00016 <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="util_8c.html#a06a7e80f6a756ec12b2ac12ea3d5f206" title="extracts the extension from a filename">get_filename_ext</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *filename);
+<a name="l00017"></a>00017 
+<a name="l00025"></a>00025 <span class="keywordtype">int</span> <a class="code" href="util_8c.html#a5cf8b9439d0c0cbb8b140340f3f2485a" title="checks that the version of a BMP is supported">check_version</a>(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
+<a name="l00026"></a>00026 
+<a name="l00034"></a>00034 <span class="keywordtype">int</span> <a class="code" href="util_8c.html#a0d12b2c9b16a0ad18e374a865ac4bbfb" title="checks whether a BMP is compressed or not">check_compression</a>(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="structbmp__type.html" title="describes a BMPv3 file">bmp_type</a>* img);
+<a name="l00035"></a>00035 
+<a name="l00046"></a>00046 <span class="keywordtype">int</span> <a class="code" href="util_8c.html#a6e097f8fa25a9aab765b539fda337746" title="retrieves a file size">get_file_size</a>(FILE* file);
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -110,7 +113,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jun 8 2013 17:47:39 for Esteganografía by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 8 2013 19:29:17 for Esteganografía by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

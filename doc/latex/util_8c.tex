@@ -1,0 +1,111 @@
+\hypertarget{util_8c}{\section{src/util.c \-File \-Reference}
+\label{util_8c}\index{src/util.\-c@{src/util.\-c}}
+}
+
+
+\-Provide utilitary functions for checking and file manipulation.  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$stdint.\-h$>$}\*
+{\ttfamily \#include $<$string.\-h$>$}\*
+{\ttfamily \#include \char`\"{}util.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}bmp.\-h\char`\"{}}\*
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{util_8c_a06a7e80f6a756ec12b2ac12ea3d5f206}{get\-\_\-filename\-\_\-ext} (const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em extracts the extension from a filename \end{DoxyCompactList}\item 
+int \hyperlink{util_8c_a6e097f8fa25a9aab765b539fda337746}{get\-\_\-file\-\_\-size} (\-F\-I\-L\-E $\ast$file)
+\begin{DoxyCompactList}\small\item\em retrieves a file size \end{DoxyCompactList}\item 
+int \hyperlink{util_8c_a5cf8b9439d0c0cbb8b140340f3f2485a}{check\-\_\-version} (const struct \hyperlink{structbmp__type}{bmp\-\_\-type} $\ast$img)
+\begin{DoxyCompactList}\small\item\em checks that the version of a \-B\-M\-P is supported \end{DoxyCompactList}\item 
+int \hyperlink{util_8c_a0d12b2c9b16a0ad18e374a865ac4bbfb}{check\-\_\-compression} (const struct \hyperlink{structbmp__type}{bmp\-\_\-type} $\ast$img)
+\begin{DoxyCompactList}\small\item\em checks whether a \-B\-M\-P is compressed or not \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provide utilitary functions for checking and file manipulation. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{util_8c_a0d12b2c9b16a0ad18e374a865ac4bbfb}{\index{util.\-c@{util.\-c}!check\-\_\-compression@{check\-\_\-compression}}
+\index{check\-\_\-compression@{check\-\_\-compression}!util.c@{util.\-c}}
+\subsubsection[{check\-\_\-compression}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf check\-\_\-compression} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf bmp\-\_\-type} $\ast$}]{img}
+\end{DoxyParamCaption}
+)}}\label{util_8c_a0d12b2c9b16a0ad18e374a865ac4bbfb}
+
+
+checks whether a \-B\-M\-P is compressed or not 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a \hyperlink{structbmp__type}{bmp\-\_\-type} with a loaded header\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the file is compressed, 1 otherwise 
+\end{DoxyReturn}
+\hypertarget{util_8c_a5cf8b9439d0c0cbb8b140340f3f2485a}{\index{util.\-c@{util.\-c}!check\-\_\-version@{check\-\_\-version}}
+\index{check\-\_\-version@{check\-\_\-version}!util.c@{util.\-c}}
+\subsubsection[{check\-\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf check\-\_\-version} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf bmp\-\_\-type} $\ast$}]{img}
+\end{DoxyParamCaption}
+)}}\label{util_8c_a5cf8b9439d0c0cbb8b140340f3f2485a}
+
+
+checks that the version of a \-B\-M\-P is supported 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em img} & a \hyperlink{structbmp__type}{bmp\-\_\-type} with a loaded header\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the version is not supported, $>$0 otherwise 
+\end{DoxyReturn}
+\hypertarget{util_8c_a6e097f8fa25a9aab765b539fda337746}{\index{util.\-c@{util.\-c}!get\-\_\-file\-\_\-size@{get\-\_\-file\-\_\-size}}
+\index{get\-\_\-file\-\_\-size@{get\-\_\-file\-\_\-size}!util.c@{util.\-c}}
+\subsubsection[{get\-\_\-file\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-\_\-file\-\_\-size} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E $\ast$}]{file}
+\end{DoxyParamCaption}
+)}}\label{util_8c_a6e097f8fa25a9aab765b539fda337746}
+
+
+retrieves a file size 
+
+\-This functions saves the internal pointer of the file stream and restore it at the end.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em file} & an open file stream\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the file size, in bytes 
+\end{DoxyReturn}
+\hypertarget{util_8c_a06a7e80f6a756ec12b2ac12ea3d5f206}{\index{util.\-c@{util.\-c}!get\-\_\-filename\-\_\-ext@{get\-\_\-filename\-\_\-ext}}
+\index{get\-\_\-filename\-\_\-ext@{get\-\_\-filename\-\_\-ext}!util.c@{util.\-c}}
+\subsubsection[{get\-\_\-filename\-\_\-ext}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf get\-\_\-filename\-\_\-ext} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}\label{util_8c_a06a7e80f6a756ec12b2ac12ea3d5f206}
+
+
+extracts the extension from a filename 
+
+\-The returned pointer points to a location inside filename, possibly the final '$\backslash$0' if the filename has no extension.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em filename} & the name of the file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+a constant pointer to the extension 
+\end{DoxyReturn}

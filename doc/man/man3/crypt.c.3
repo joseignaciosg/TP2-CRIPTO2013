@@ -1,0 +1,117 @@
+.TH "src/crypt.c" 3 "Sat Jun 8 2013" "Version 1.0" "Esteganografía" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/crypt.c \- 
+.PP
+Provide function for encryption and decryption\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <openssl/evp\&.h>\fP
+.br
+\fC#include 'crypt\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBget_block_size_for_cipher\fP (enum encrypt_type enc, enum encrypt_block_type blk)"
+.br
+.RI "\fIGive the block size (in bytes) used for a given cipher\&. \fP"
+.ti -1c
+.RI "int \fBdecrypt\fP (const unsigned char *in, const unsigned int in_length, const unsigned char *passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char *out, unsigned int *out_length)"
+.br
+.RI "\fIDecrypts a chunk of data\&. \fP"
+.ti -1c
+.RI "int \fBcrypt\fP (const unsigned char *in, const unsigned int in_length, const unsigned char *passwd, enum encrypt_type enc, enum encrypt_block_type blk, unsigned char *out, unsigned int *encrypted_size)"
+.br
+.RI "\fIEncrypts a chunk of data\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Provide function for encryption and decryption\&. 
+
+
+.SH "Function Documentation"
+.PP 
+.SS "int \fBcrypt\fP (const unsigned char *in, const unsigned intin_length, const unsigned char *passwd, enum encrypt_typeenc, enum encrypt_block_typeblk, unsigned char *out, unsigned int *encrypted_size)"
+.PP
+Encrypts a chunk of data\&. This functions receives a chunk of data and a correctly allocated buffer to put the corresponding encrypted chunk\&. It also returns the exact encrypted length\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIin\fP the buffer containing the data to be encrypted 
+.br
+\fIin_length\fP the length (in bytes) of the input data 
+.br
+\fIpasswd\fP the password from which the key and the IV must be derived 
+.br
+\fIenc\fP the cipher algorithm to be used 
+.br
+\fIblk\fP the cipher mode of operation to be used 
+.br
+\fIout\fP the buffer to which the encrypted data must be written 
+.br
+\fIencrypted_size\fP a pointer in which the encrypted size is written
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if \fIin\fP could be successfully encrypted and -1 if an error occured 
+.RE
+.PP
+
+.SS "int \fBdecrypt\fP (const unsigned char *in, const unsigned intin_length, const unsigned char *passwd, enum encrypt_typeenc, enum encrypt_block_typeblk, unsigned char *out, unsigned int *decrypted_size)"
+.PP
+Decrypts a chunk of data\&. This functions receives a chunk of data and a correctly allocated buffer to put the corresponding decrypted chunk\&. It also returns the exact decrypted length\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIin\fP the buffer containing the data to be decrypted 
+.br
+\fIin_length\fP the length (in bytes) of the input data 
+.br
+\fIpasswd\fP the password from which the key and the IV must be derived 
+.br
+\fIenc\fP the cipher algorithm to be used 
+.br
+\fIblk\fP the cipher mode of operation to be used 
+.br
+\fIout\fP the buffer to which the decrypted data must be written 
+.br
+\fIdecrypted_size\fP a pointer in which the decrypted size is written
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if \fIin\fP could be successfully decrypted and -1 if an error occured 
+.RE
+.PP
+
+.SS "int \fBget_block_size_for_cipher\fP (enum encrypt_typeenc, enum encrypt_block_typeblk)"
+.PP
+Give the block size (in bytes) used for a given cipher\&. \fBParameters:\fP
+.RS 4
+\fIenc\fP the cipher algorithm 
+.br
+\fIblk\fP the cipher mode of operation
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the block size or -1 if the cipher is not supported 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Esteganografía from the source code\&.

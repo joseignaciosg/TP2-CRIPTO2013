@@ -1,5 +1,23 @@
 var searchData=
 [
   ['load_5fimg_5fheader',['load_img_header',['../bmp_8c.html#ae100a2b072727ee918915a18584a62e1',1,'bmp.c']]],
-  ['load_5fimg_5fmatrix',['load_img_matrix',['../bmp_8c.html#a5fbcafc813fe74dc138a8d1819068a41',1,'bmp.c']]]
+  ['load_5fimg_5fmatrix',['load_img_matrix',['../bmp_8c.html#a5fbcafc813fe74dc138a8d1819068a41',1,'bmp.c']]],
+  ['lsb1_5fcrypt_5fembed',['lsb1_crypt_embed',['../stegobmp__write_8c.html#a44d1c895be5287ac82ee532a15d0c04a',1,'stegobmp_write.c']]],
+  ['lsb1_5fcrypt_5fextract',['lsb1_crypt_extract',['../stegobmp__read_8c.html#a5bc57d5719ef2da747325a2fc31fc31b',1,'stegobmp_read.c']]],
+  ['lsb1_5fcrypt_5fmaximum_5fsize_5fcalculator',['lsb1_crypt_maximum_size_calculator',['../stegobmp__write_8c.html#a954f81c761811a130e8e895f68055543',1,'stegobmp_write.c']]],
+  ['lsb1_5fembed',['lsb1_embed',['../stegobmp__write_8c.html#a5689bceac06d36b5427ef4c7948b5c81',1,'stegobmp_write.c']]],
+  ['lsb1_5fextract',['lsb1_extract',['../stegobmp__read_8c.html#a3175c7ff6f12755b8c553dacae446558',1,'stegobmp_read.c']]],
+  ['lsb1_5fmaximum_5fsize_5fcalculator',['lsb1_maximum_size_calculator',['../stegobmp__write_8c.html#a7f07ccc56908052840872853ab48fc31',1,'stegobmp_write.c']]],
+  ['lsb4_5fcrypt_5fembed',['lsb4_crypt_embed',['../stegobmp__write_8c.html#a795e197b3e264159b11b8fb9b24c07ce',1,'stegobmp_write.c']]],
+  ['lsb4_5fcrypt_5fextract',['lsb4_crypt_extract',['../stegobmp__read_8c.html#ac9d51ca6ced433817164e1e610005921',1,'stegobmp_read.c']]],
+  ['lsb4_5fcrypt_5fmaximum_5fsize_5fcalculator',['lsb4_crypt_maximum_size_calculator',['../stegobmp__write_8c.html#a13a3e6a7c4c770f2d1bc87a88de43590',1,'stegobmp_write.c']]],
+  ['lsb4_5fembed',['lsb4_embed',['../stegobmp__write_8c.html#a347ff4187f7497728fe450d5661509cd',1,'stegobmp_write.c']]],
+  ['lsb4_5fextract',['lsb4_extract',['../stegobmp__read_8c.html#a5840b9e7b3d3201715d8773d3d55aa01',1,'stegobmp_read.c']]],
+  ['lsb4_5fmaximum_5fsize_5fcalculator',['lsb4_maximum_size_calculator',['../stegobmp__write_8c.html#a567feef22a2d0bc6033e3c0e21e5e0f5',1,'stegobmp_write.c']]],
+  ['lsbe_5fcrypt_5fembed',['lsbe_crypt_embed',['../stegobmp__write_8c.html#aacb3a7c5a5265560eba7d7aa327cade8',1,'stegobmp_write.c']]],
+  ['lsbe_5fcrypt_5fextract',['lsbe_crypt_extract',['../stegobmp__read_8c.html#a1e20d04eacf3a7891ef1852364ba4791',1,'stegobmp_read.c']]],
+  ['lsbe_5fcrypt_5fmaximum_5fsize_5fcalculator',['lsbe_crypt_maximum_size_calculator',['../stegobmp__write_8c.html#a50a764882ea7620acfe4ec86691d7f45',1,'stegobmp_write.c']]],
+  ['lsbe_5fembed',['lsbe_embed',['../stegobmp__write_8c.html#a04a55d1385f23bd94d2b282c24fcc88f',1,'stegobmp_write.c']]],
+  ['lsbe_5fextract',['lsbe_extract',['../stegobmp__read_8c.html#ac6d5e09887d617fa3706595c1c406dba',1,'stegobmp_read.c']]],
+  ['lsbe_5fmaximum_5fsize_5fcalculator',['lsbe_maximum_size_calculator',['../stegobmp__write_8c.html#a8da52d1fe41bb0fca9a48ad16a59fbe4',1,'stegobmp_write.c']]]
 ];

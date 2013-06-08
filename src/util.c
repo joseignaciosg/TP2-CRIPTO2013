@@ -1,5 +1,5 @@
 /**
- * \file util.h
+ * \file util.c
  *
  * \brief Provide utilitary functions for checking and file manipulation
  */
