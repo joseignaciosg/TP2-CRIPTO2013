@@ -64,12 +64,18 @@ int main(int argc, char **argv)
 
     int option_index = 0;
 
-    /*MODE*/
+    /*MODES*/
     int mode = -1;
     int steg = -1;
+
+
+
+    enum encrypt_type encrypt_t = -1;
+    enum encrypt_block_type encrypt_block_t = -1;
     char * in;
     char * out;
     char * bitmap;
+    char * passwd;
 
 
     while ((c = getopt_long(argc, argv, "p:a:m:",
@@ -121,40 +127,49 @@ int main(int argc, char **argv)
 				exit(EXIT_FAILURE);
 			}
 			break;
-		case PASS:
-			if (optarg)
-				printf (" with arg %s", optarg);
-			break;
         case 'a':
-        	//<aes128|aes192|aes256|des>
-            if (optarg)
+        	//encrypt_type <aes128|aes192|aes256|des>
+            if (optarg){
 				if (strcmp("aes128",optarg) == 0){
-					printf("aes128\n");
+                    encrypt_t = AES_128;
 				}else if (strcmp("aes192",optarg) == 0){
-					printf("aes192");
+					encrypt_t = AES_192;
 				}else if (strcmp("aes256",optarg) == 0){
-					printf("aes256");
+					encrypt_t = AES_256;
 				}else{
 					print_usage(); 
 					exit(EXIT_FAILURE);
 				}
+            }
             break;
         case 'm':
-         	//<ecb|cfb|ofb|cbc>
+         	//encrypt_block_type <ecb|cfb|ofb|cbc>
             if (optarg){
 				if (strcmp("ecb",optarg) == 0){
-					printf("ecb\n");
+                    encrypt_block_t = ECB;
 				}else if (strcmp("cfb",optarg) == 0){
-					printf("cfb");
+					encrypt_block_t = CFB;
 				}else if (strcmp("ofb",optarg) == 0){
-					printf("ofb");
+					encrypt_block_t = OFB;
 				}else if (strcmp("cbc",optarg) == 0){
-					printf("cbc");
+					encrypt_block_t = CBC;
 				}else{
 					print_usage(); 
 					exit(EXIT_FAILURE);
 				}
 			}
+            break;
+        case PASS:
+            if (encrypt_block_t && encrypt_t){
+                if (optarg){
+                    passwd = malloc(strlen(optarg) * sizeof(char));
+                    strcpy(bitmap,optarg);
+                }else{
+                    printf("%s\n", "A password should be specified");
+                    print_usage(); 
+                    exit(EXIT_FAILURE);
+                }  
+            }
             break;
         case 'p':
         	if (optarg){
@@ -185,9 +200,15 @@ int main(int argc, char **argv)
     if (mode == EMBED){
     	bitmap_f = fopen(bitmap,"rb");
     	in_f = fopen(in,"rb");
-		msg_f = fopen("out.bmp","wb");
+		msg_f = fopen(out,"wb");
+        /*TODO poner la extensión correcta*/
     	if (steg == LSB1){
-    		lsb1_embed(bitmap_f, in_f, ".txt",msg_f); 
+            if (encrypt_t != -1){
+                lsb1_embed(bitmap_f, in_f,".txt",msg_f);                 
+            }else{
+                printf("%s\n","llamando a crypt" );
+                lsb1_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);
+            }
     	}else if (steg == LSB4){
     		lsb4_embed(bitmap_f, in_f, ".txt",msg_f); 
     	}else if (steg == LSBE){
