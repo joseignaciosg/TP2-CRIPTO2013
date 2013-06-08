@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     
     static struct option long_options[] = {
         {"extract", 0, 0, EXTRACT},
-        {"embed", 0, 0, EMBED},
+        {"embed"  , 0, 0, EMBED},
         {"out"    , 1, 0, OUT},
         {"steg"   , 1, 0, STEG},
         {"pass"   , 1, 0, PASS},
@@ -72,10 +72,11 @@ int main(int argc, char **argv)
 
     enum encrypt_type encrypt_t = -1;
     enum encrypt_block_type encrypt_block_t = -1;
-    char * in;
-    char * out;
-    char * bitmap;
-    char * passwd;
+    char * in = NULL;
+    char * out = NULL;
+    char * bitmap = NULL;
+    char * passwd = NULL;
+    int crypt_flag = 0;
 
 
     while ((c = getopt_long(argc, argv, "p:a:m:",
@@ -90,22 +91,15 @@ int main(int argc, char **argv)
     		break;		
 		case IN: 
 			if (optarg){
+                printf("here\n");
 				in = malloc(strlen(optarg) * sizeof(char));
 				strcpy(in,optarg);
-			}else{
-				if (mode != EMBED){
-					print_usage(); 
-					exit(EXIT_FAILURE);
-				}
 			}
 			break;
 		case OUT: 
 			if (optarg){
 				out = malloc(strlen(optarg) * sizeof(char));
 				strcpy(out,optarg);
-			}else{
-				print_usage(); 
-				exit(EXIT_FAILURE);
 			}
 			break;
         case STEG:
@@ -130,6 +124,7 @@ int main(int argc, char **argv)
         case 'a':
         	//encrypt_type <aes128|aes192|aes256|des>
             if (optarg){
+                crypt_flag = 1;
 				if (strcmp("aes128",optarg) == 0){
                     encrypt_t = AES_128;
 				}else if (strcmp("aes192",optarg) == 0){
@@ -145,6 +140,7 @@ int main(int argc, char **argv)
         case 'm':
          	//encrypt_block_type <ecb|cfb|ofb|cbc>
             if (optarg){
+                crypt_flag = 1;
 				if (strcmp("ecb",optarg) == 0){
                     encrypt_block_t = ECB;
 				}else if (strcmp("cfb",optarg) == 0){
@@ -160,15 +156,10 @@ int main(int argc, char **argv)
 			}
             break;
         case PASS:
-            if (encrypt_block_t && encrypt_t){
-                if (optarg){
-                    passwd = malloc(strlen(optarg) * sizeof(char));
-                    strcpy(bitmap,optarg);
-                }else{
-                    printf("%s\n", "A password should be specified");
-                    print_usage(); 
-                    exit(EXIT_FAILURE);
-                }  
+            if (optarg){
+                crypt_flag = 1;
+                passwd = malloc(strlen(optarg) * sizeof(char));
+                strcpy(passwd,optarg);
             }
             break;
         case 'p':
@@ -193,9 +184,43 @@ int main(int argc, char **argv)
         printf ("\n");
     }
     
+    /*params validations*/
+    if (in == NULL && mode == EMBED){
+        printf("%s\n", in);
+        printf("ERROR: In emded mode a message to hide should be specified (--in msgToHide)\n");
+        print_usage(); 
+        exit(EXIT_FAILURE);
+    }
+
+    if ( out == NULL ){
+        printf("ERROR: An --out file should be specified \n");
+        print_usage(); 
+        exit(EXIT_FAILURE);
+    }
+
     FILE* msg_f;
     FILE* in_f;
     FILE* bitmap_f;
+
+
+    if ( crypt_flag  ) {
+        if (encrypt_t == -1){
+            printf("ERROR: An encription type should be specified\n");
+            print_usage();
+            exit(EXIT_FAILURE);
+        }
+        if (encrypt_block_t  == -1){
+            printf("ERROR: An encription block type should be specified\n");
+            print_usage();
+            exit(EXIT_FAILURE);
+        }
+        if (passwd == NULL){
+            printf("ERROR: A password should be specified\n");
+            print_usage();
+            exit(EXIT_FAILURE);
+        } 
+    }
+
     /*----- Embedding -------*/
     if (mode == EMBED){
     	bitmap_f = fopen(bitmap,"rb");
@@ -203,17 +228,31 @@ int main(int argc, char **argv)
 		msg_f = fopen(out,"wb");
         /*TODO poner la extensión correcta*/
     	if (steg == LSB1){
-            if (encrypt_t != -1){
-                lsb1_embed(bitmap_f, in_f,".txt",msg_f);                 
+            if (crypt_flag){      
+                printf("Embeding cyphered message with password: %s\n",passwd);
+                lsb1_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
-                printf("%s\n","llamando a crypt" );
-                lsb1_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);
+                printf("%s\n","Embeding non cyphered message" );
+                lsb1_embed(bitmap_f, in_f,".txt",msg_f); 
             }
     	}else if (steg == LSB4){
-    		lsb4_embed(bitmap_f, in_f, ".txt",msg_f); 
+            if (crypt_flag){      
+                printf("Embeding cyphered message with password: %s\n",passwd);
+                lsb4_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);          
+            }else{
+                printf("%s\n","Embeding non cyphered message" );
+                lsb4_embed(bitmap_f, in_f, ".txt",msg_f); 
+            }		
     	}else if (steg == LSBE){
-    		lsbe_embed(bitmap_f, in_f, ".txt",msg_f); 
+            if (crypt_flag){      
+                printf("Embeding cyphered message with password: %s\n",passwd);
+                lsbe_crypt_embed(bitmap_f, in_f,".txt",msg_f, passwd, encrypt_t, encrypt_block_t);          
+            }else{
+                printf("%s\n","Embeding non cyphered message" );
+                lsbe_embed(bitmap_f, in_f, ".txt",msg_f); 
+            }   
     	}else{
+            printf("ERROR: A steganography mode should be specified <LSB1|LSB4|LSBE>\n");
     		print_usage(); 
 			exit(EXIT_FAILURE);
     	}
@@ -236,6 +275,7 @@ int main(int argc, char **argv)
     	}
     	fclose(bitmap_f);
     }else{
+        printf("ERROR: A mode should be specified < --extract | --embed >\n");
     	print_usage(); 
 		exit(EXIT_FAILURE);
     }
