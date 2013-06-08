@@ -18,7 +18,8 @@ enum encrypt_type
     AES_128=0, /*!< AES 128 bits */
     AES_192,   /*!< AES 192 bits */
     AES_256,   /*!< AES 256 bits */
-    DES        /*!< DES */
+    DES,       /*!< DES */
+    ENC_INVALID    /*!< pseudo-value to handle invalid cases */
 };
 
 /**
@@ -33,7 +34,8 @@ enum encrypt_block_type
     ECB=0,   /*!< Electronic CodeBook */
     CFB,     /*!< Cipher FeedBack */
     OFB,     /*!< Output FeedBack */
-    CBC      /*!< Cipher-Block Chaining */
+    CBC,     /*!< Cipher-Block Chaining */
+    BLK_INVALID    /*!< pseudo-value to handle invalid cases */
 };
 
 /**

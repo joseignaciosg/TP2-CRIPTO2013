@@ -1,4 +1,4 @@
-CFLAGS= -W -Wall -pedantic
+CFLAGS= -W -Wall -pedantic -Wextra --std=c99
 LDFLAGS=-lssl -lcrypto -lm
 
 SRCS=$(wildcard *.c)
