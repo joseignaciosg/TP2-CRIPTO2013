@@ -14,5 +14,16 @@
 #define COMPRESSED_ERR 2
 #define TOO_SMALL_ERR 3
 
+/*values*/
+#define EXTRACT 1
+#define EMBED   2
+#define STEG    3
+#define OUT     4
+#define PASS    5
+#define IN      6
+#define LSB1    7
+#define LSB4    8
+#define LSBE    9
+
 #endif
 
