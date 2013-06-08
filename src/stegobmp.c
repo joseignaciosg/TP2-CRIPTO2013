@@ -28,7 +28,7 @@ void print_usage() {
     printf(" Optional Parameters for encryption/decryption\n");
     printf("\t -a <aes128|aes192|aes256|des> : encryption mode\n");
     printf("\t -m <ecb|cfb|ofb|cbc>          : encryption block mode\n");
-    printf("\t -pass password                : password\n");
+    printf("\t --pass password                : password\n");
     
 }
 
