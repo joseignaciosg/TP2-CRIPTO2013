@@ -36,7 +36,6 @@ cp out_hugo5.png out_hugo5.zip<br>
 unzip out_hugo5.zip<br>
 have a look at the file unzipped and the .png<br>
 xxd lifeofpi.bmp | tail -n 5<br>
-../../src/stegobmp --extract -p medianocheenparis1.bmp --out out_medianocheenparis1 --steg LSBE<br>
 ../../src/stegobmp --extract -p eclipse.bmp --out out --steg LSB1 --pass camaleon -m ecb -a des<br>
 <br>
 El archivo oculto se encuentra en forma de video en el archivo : out.wmv<br>
