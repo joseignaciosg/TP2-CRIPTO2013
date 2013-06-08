@@ -250,26 +250,26 @@ int main(int argc, char **argv)
         
     	if (steg == LSB1){
             if (crypt_flag){      
-                printf("Embeding cyphered message with password: %s\n",passwd);
+                printf("Embedding encrypted file with password: %s\n",passwd);
                 lsb1_crypt_embed(bitmap_f, in_f, extension ,msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
-                printf("%s\n","Embeding non cyphered message" );
+                printf("Embedding unencrypted file\n" );
                 lsb1_embed(bitmap_f, in_f, extension ,msg_f); 
             }
     	}else if (steg == LSB4){
             if (crypt_flag){      
-                printf("Embeding cyphered message with password: %s\n",passwd);
+                printf("Embedding encrypted file with password: %s\n",passwd);
                 lsb4_crypt_embed(bitmap_f, in_f, extension ,msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
-                printf("%s\n","Embeding non cyphered message" );
+                printf("Embedding unencrypted file\n" );
                 lsb4_embed(bitmap_f, in_f,  extension ,msg_f); 
             }		
     	}else if (steg == LSBE){
             if (crypt_flag){      
-                printf("Embeding cyphered message with password: %s\n",passwd);
+                printf("Embedding encrypted file with password: %s\n",passwd);
                 lsbe_crypt_embed(bitmap_f, in_f, extension ,msg_f, passwd, encrypt_t, encrypt_block_t);          
             }else{
-                printf("%s\n","Embeding non cyphered message" );
+                printf("%s\n","Embedding unencrypted file" );
                 lsbe_embed(bitmap_f, in_f,  extension ,msg_f); 
             }   
     	}else{
@@ -286,26 +286,26 @@ int main(int argc, char **argv)
     	bitmap_f = fopen(bitmap,"rb");
     	if (steg == LSB1){
             if (crypt_flag){      
-                printf("Extracting cyphered message with password: %s\n",passwd);
+                printf("Extracting encrypted with password: %s\n",passwd);
                 lsb1_crypt_extract(bitmap_f, &msg_f, out, passwd, encrypt_t, encrypt_block_t);  
             }else{
-                printf("%s\n","Extracting non cyphered message" );
+                printf("Extracting non cyphered message\n" );
                 lsb1_extract(bitmap_f, &msg_f, out);
             }
     	}else if (steg == LSB4){
             if (crypt_flag){      
-                printf("Extracting cyphered message with password: %s\n",passwd);
+                printf("Extracting encrypted with password: %s\n",passwd);
                 lsb4_crypt_extract(bitmap_f, &msg_f, out, passwd, encrypt_t, encrypt_block_t);  
             }else{
-                printf("%s\n","Extracting non cyphered message" );
+                printf("Extracting non cyphered message\n" );
                 lsb4_extract(bitmap_f, &msg_f, out);
             }
     	}else if (steg == LSBE){
             if (crypt_flag){      
-                printf("Extracting cyphered message with password: %s\n",passwd);
+                printf("Extracting encrypted with password: %s\n",passwd);
                 lsbe_crypt_extract(bitmap_f, &msg_f, out, passwd, encrypt_t, encrypt_block_t);  
             }else{
-                printf("%s\n","Extracting non cyphered message" );
+                printf("Extracting non cyphered message\n" );
                 lsbe_extract(bitmap_f, &msg_f, out);
             }
     	}else{
