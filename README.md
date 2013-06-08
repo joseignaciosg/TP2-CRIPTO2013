@@ -5,7 +5,7 @@ ESTEGANOGRAFÍA
 
 Para compilar, situarse en el directorio src y hacer make stegobmp.
 
-Estraction Usage:
+Extraction Usage:
 --extract                : to extract hidden message
 -p bitmapfile            : root of the image with the hidden message
 --out outfile            : name of the extracted hidden message
@@ -33,11 +33,14 @@ Ejemplo de embebimiento
 
 Para encontrar la solución a la enigma:
 cd test/grupo4
-../test --extract -p hugo5.bmp --out out_hugo5 --steg LSB4
-../test --extract -p medianocheenparis1.bmp --out out_medianocheenparis1 --steg LSBE
+../../src/stegobmp --extract -p hugo5.bmp --out out_hugo5 --steg LSB4
+../../src/stegobmp --extract -p medianocheenparis1.bmp --out out_medianocheenparis1 --steg LSBE
 cp out_hugo5.png out_hugo5.zip
 unzip out_hugo5.zip
 # have a look at the file unzipped and the .png
 xxd lifeofpi.bmp | tail -n 5
-../test2 eclipse.bmp
+../../src/stegobmp --extract -p medianocheenparis1.bmp --out out_medianocheenparis1 --steg LSBE
+../../src/stegobmp --extract -p eclipse.bmp --out out --steg LSB1 --pass camaleon -m ecb -a des
+
+El archivo oculto se encuentra en forma de video en el archivo : out.wmv
 
