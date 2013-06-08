@@ -26,6 +26,9 @@ int check_compression(const struct bmp_type* img)
     return img->compressed == 0;
 }
 
+/* 
+ * Fetches file size. The internal pointer of the stream is restored to its position.
+ */
 int get_file_size(FILE* file)
 {
     int size;
